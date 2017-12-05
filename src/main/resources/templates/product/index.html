@@ -31,9 +31,7 @@
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
-</div>
+<div th:replace="layout :: header"></div>
 
 <section class="container">
     <div class="row">
@@ -95,7 +93,7 @@
     });
 </script>
 
-<div th:replace="footer :: copy"></div>
+<div th:replace="layout :: footer"></div>
 
 </body>
 </html>
