@@ -24,7 +24,9 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <link rel="stylesheet" type="text/plain" href="/css/custom.css" />
+    <link href="/css/smart_cart.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/JS/jquery.smartCart.js"></script>
 </head>
 
 <body>
@@ -33,33 +35,65 @@
     <h1>Codecool Shop</h1>
 </div>
 
-<div class="container">
-    <div class="well well-sm">
-        <strong th:text="${category.name}">Category Title</strong>
-    </div>
+<section class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong th:text="${category.name}">Category Title</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row" >
+                        <!-- BEGIN PRODUCTS -->
+                        <div class="col-md-4 col-sm-6" th:each="prod,iterStat : ${products}">
+                            <div class="sc-product-item thumbnail">
+                                <img data-name="product_image" src="http://placehold.it/250x150/2aabd2/ffffff?text=Product+1" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="..."/>
+                                <div class="caption">
+                                    <h4 data-name="product_name" th:text="${prod.name}">Product name</h4>
+                                    <p data-name="product_desc" th:text="${prod.description}">Product details</p>
+                                    <hr class="line"/>
 
-    <div id="products" class="row list-group">
+                                    <div>
 
-        <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
-            <div class="thumbnail">
-                <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="" />
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading" th:text="${prod.name}">Product name</h4>
-                    <p class="group inner list-group-item-text" th:text="${prod.description}">Product description... </p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                                        <div class="form-group2">
+                                            <input class="sc-cart-item-qty" name="product_quantity" min="1" value="1" type="number"/>
+                                        </div>
+                                        <strong class="price pull-left" th:text="${prod.getPrice()}">$2,990.50</strong>
+
+                                        <input name="product_price" th:value="${prod.getPriceWithoutCurrency()}" type="hidden" />
+                                        <input name="product_id" th:value="${prod.getId()}" type="hidden" />
+                                        <button class="sc-add-to-cart btn btn-success btn-sm pull-right">Add to cart</button>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" href="#">Add to cart</a>
-                        </div>
+                        <!-- END PRODUCTS -->
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-</div>
+        </div>
+
+        <aside class="col-md-3">
+
+            <!-- Cart submit form -->
+            <form action="/checkout" method="POST">
+                <!-- SmartCart element -->
+                <div id="smartcart"></div>
+            </form>
+
+        </aside>
+    </div>
+</section>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#smartcart').smartCart();
+    });
+</script>
 
 <div th:replace="footer :: copy"></div>
 
