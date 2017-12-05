@@ -40,7 +40,9 @@ public class Main {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        CartDao cart = CartDaoMem.getInstance();
+
+        //create a new cart
+        CartDao cart = new CartDaoMem();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -58,11 +60,11 @@ public class Main {
         productDataStore.add(new Product("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
 
         //put products into the cart
-        cart.add(productDataStore.find(2));
         cart.add(productDataStore.find(1));
-        //cart.add(productDataStore.find(2));
-        System.out.println("cart: " + cart.find(2));
-
+        cart.add(productDataStore.find(2));
+        System.out.println("No. of items in cart: " + cart.getCart().size());
+        System.out.println(cart.getCart().get(0).product.getName());
+        System.out.println(cart.getCart().get(1).quantity);
     }
 
 
