@@ -61,6 +61,11 @@ public class Main {
 
         //put products into the cart
         cart.add(productDataStore.find(1));
+        cart.add(productDataStore.find(1));
+        cart.add(productDataStore.find(1));
+        cart.add(productDataStore.find(1));
+        cart.add(productDataStore.find(2));
+        cart.add(productDataStore.find(2));
         cart.add(productDataStore.find(2));
         System.out.println("No. of items in cart: " + cart.getCart().size());
         System.out.println(cart.getCart().get(0).product.getName());
