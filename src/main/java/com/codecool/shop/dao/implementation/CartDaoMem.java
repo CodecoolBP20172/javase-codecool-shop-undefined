@@ -9,6 +9,7 @@ import com.codecool.shop.model.ProductCategory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class CartDaoMem implements CartDao {
 
@@ -21,9 +22,7 @@ public class CartDaoMem implements CartDao {
             CART.add(item);
             return;
         } else {
-            for (int prod = 0; prod < CART.size(); prod++) {
-                checkQuantity(prod, item);
-            }
+            IntStream.range(0, CART.size()).forEach(prod -> checkQuantity(prod, item));
         }
         CART.add(item);
     }
