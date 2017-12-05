@@ -60,3 +60,10 @@
 {
     margin: 0 0 11px;
 }
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 0;
+}
+
