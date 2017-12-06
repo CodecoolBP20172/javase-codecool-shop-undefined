@@ -30,48 +30,46 @@
 <div th:replace="layout :: header"></div>
 
 
-<div>
-<form action="/checkout" method="post">
+<div class="checkoutform">
+<form action="/payment" method="post">
     <fieldset>
         <legend>Personal information:</legend>
-        First name:<br>
-        <input type="text" name="firstname" value="Mickey"><br>
-        Last name:<br>
-        <input type="text" name="lastname" value="Mouse"><br><br>
-        Phone number:<br>
-        <input type="text" name="phonenumber" value=""><br>
-        E-mail:<br>
-        <input type="text" name="email" value=""><br>
+        First name:<br/>
+        <input type="text" name="firstname" /><br/>
+        Last name:<br/>
+        <input type="text" name="lastname" /><br/>
+        Phone number:<br/>
+        <input type="text" name="phonenumber" /><br/>
+        E-mail:<br/>
+        <input type="text" name="email" /><br/><br/>
     </fieldset>
 
 
     <fieldset>
         <legend>Billing Address:</legend>
-        Country:<br>
-        <input type="text" name="country" value=""><br>
-        City:<br>
-        <input type="text" name="city" value=""><br><br>
-        Zipcode:<br>
-        <input type="text" name="zip" value=""><br><br>
-        Address:<br>
-        <input type="text" name="address" value=""><br><br>
+        Country:<br/>
+        <input type="text" name="country" /><br/>
+        City:<br/>
+        <input type="text" name="city" /><br/><br/>
+        Zipcode:<br/>
+        <input type="text" name="zip" /><br/><br/>
+        Address:<br/>
+        <input type="text" name="address" /><br/><br/>
     </fieldset>
 
 
     <fieldset>
         <legend>Shipping Address:</legend>
-        Country:<br>
-        <input type="text" name="country" value=""><br>
-        City:<br>
-        <input type="text" name="city" value=""><br><br>
-        Zipcode:<br>
-        <input type="text" name="zip" value=""><br>
-        Address:<br>
-        <input type="text" name="address" value=""><br><br>
-        <input type="submit" name="redirect" value="/payment">
+        Country:<br/>
+        <input type="text" name="country" /><br/>
+        City:<br/>
+        <input type="text" name="city" /><br/><br/>
+        Zipcode:<br/>
+        <input type="text" name="zip" /><br/>
+        Address:<br/>
+        <input type="text" name="address" /><br/><br/>
+        <input type="submit" name="redirect" value="Payment" />
     </fieldset>
-
-
 </form>
 </div>
 
