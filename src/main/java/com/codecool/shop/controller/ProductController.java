@@ -9,12 +9,15 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +37,15 @@ public class ProductController {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
         params.put("cart_list", cartList);
-        System.out.println(cartList);
+        System.out.println(parseJson(req));
         return new ModelAndView(params, "product/checkout");
+    }
+
+    public static Map<String, String> parseJson(Request request) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+
+        return gson.fromJson(request.params("cart_list"), type);
     }
 
 }
