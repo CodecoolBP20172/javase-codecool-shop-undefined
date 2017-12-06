@@ -30,7 +30,7 @@
 <div th:replace="layout :: header"></div>
 
 
-
+<div>
 <form action="/checkout" method="post">
     <fieldset>
         <legend>Personal information:</legend>
@@ -40,6 +40,8 @@
         <input type="text" name="lastname" value="Mouse"><br><br>
         Phone number:<br>
         <input type="text" name="phonenumber" value=""><br>
+        E-mail:<br>
+        <input type="text" name="email" value=""><br>
     </fieldset>
 
 
@@ -66,13 +68,12 @@
         <input type="text" name="zip" value=""><br>
         Address:<br>
         <input type="text" name="address" value=""><br><br>
-
-        <input type="submit" value="Submit">
+        <input type="submit" name="redirect" value="/payment">
     </fieldset>
 
 
 </form>
-
+</div>
 
 <div th:replace="layout :: footer"></div>
 </body>
