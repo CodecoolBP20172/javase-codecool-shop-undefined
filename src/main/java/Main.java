@@ -71,6 +71,4 @@ public class Main {
         System.out.println(cart.getCart().get(0).product.getName());
         System.out.println(cart.getCart().get(1).quantity);
     }
-
-
 }
