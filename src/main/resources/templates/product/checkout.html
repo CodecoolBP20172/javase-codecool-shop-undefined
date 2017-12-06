@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="author" content="Codecool" />
@@ -29,6 +29,15 @@
 <body>
 <div th:replace="layout :: header"></div>
 
+<section class="container" id="checkout-container">
+    <div class="row">
+        <div class="col-md-9">
+
+
+<div class="panel panel-default" id="panel-centered">
+<div class="panel-heading">
+    <strong>Checkout Form</strong>
+</div>
 
 <div class="checkoutform">
 <form action="/payment" method="post">
@@ -72,6 +81,10 @@
     </fieldset>
 </form>
 </div>
+</div>
+        </div>
+    </div>
+    </section>
 
 <div th:replace="layout :: footer"></div>
 
