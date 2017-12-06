@@ -9,16 +9,15 @@ import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
-
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductController {
@@ -33,19 +32,19 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-    public static ModelAndView renderCheckout(Request req, Response res) {
+    public static ModelAndView renderCheckout(Request req, Response res) throws IOException {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
-        params.put("cart_list", cartList);
-        System.out.println(parseJson(req));
+        params.put("cart_list", parseJson(cartList));
+        System.out.println(parseJson(cartList));
+        System.out.println(parseJson(cartList).get(0).get("product_id"));
+        System.out.println(parseJson(cartList).get(1).get("product_id"));
         return new ModelAndView(params, "product/checkout");
     }
 
-    public static Map<String, String> parseJson(Request request) {
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
-
-        return gson.fromJson(request.params("cart_list"), type);
+    private static List<Map<String, Object>> parseJson(String json) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, new TypeReference<List<Map<String, Object>>>(){});
     }
 
 }
