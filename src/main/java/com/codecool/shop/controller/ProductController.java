@@ -1,8 +1,10 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
@@ -39,7 +41,28 @@ public class ProductController {
         System.out.println(parseJson(cartList));
         System.out.println(parseJson(cartList).get(0).get("product_id"));
         System.out.println(parseJson(cartList).get(1).get("product_id"));
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+
+        //create cart
+        CartDao cart = new CartDaoMem();
+
+        addToCartFromJson(cart, productDataStore, cartList);
+
+        testPrints(cart);
+
         return new ModelAndView(params, "product/checkout");
+    }
+
+    private static void testPrints(CartDao cart) {
+        System.out.println("No. of items in cart: " + cart.getCart().size());
+    }
+
+    private static void addToCartFromJson(CartDao cart, ProductDao productDataStore, String cartList) throws IOException {
+        for (int i=0; i < parseJson(cartList).size(); i++) {
+            cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))));
+            System.out.println("Product: " + cart.getCart().get(i).product.getName());
+            System.out.println("Quantity: " + cart.getCart().get(i).quantity);
+        }
     }
 
     private static List<Map<String, Object>> parseJson(String json) throws IOException {
