@@ -33,6 +33,8 @@ public class Product extends BaseModel {
         this.defaultCurrency = defaultCurrency;
     }
 
+    public String getPriceWithoutCurrency() { return String.valueOf(this.defaultPrice);}
+
     public String getPrice() {
         return String.valueOf(this.defaultPrice) + " " + this.defaultCurrency.toString();
     }
