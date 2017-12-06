@@ -37,6 +37,10 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
         });
 
+        get("/confirmation", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
+        });
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
