@@ -66,14 +66,5 @@
     width: 100%;
     margin-bottom: 0;
 }
-.reveal-if-active {
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-}
-input[type="radio"]:checked ~ .reveal-if-active{
-    opacity: 1;
-    max-height: 100px; /* little bit of a magic number :( */
-    overflow: visible;
-}
+
 

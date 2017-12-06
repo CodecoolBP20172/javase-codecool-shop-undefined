@@ -38,4 +38,10 @@ public class ProductController {
         return new ModelAndView(params, "product/checkout");
     }
 
+    public static ModelAndView renderPayment(Request req, Response res) {
+        Map params = new HashMap<>();
+        params.put("cart_list", "payment");
+        return new ModelAndView(params, "product/payment");
+    }
+
 }

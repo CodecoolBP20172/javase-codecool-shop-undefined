@@ -10,6 +10,7 @@
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/JS/paymentPage.js"></script>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -39,22 +40,29 @@
     <div id="payment">
         <div class="payment-methods">
             <form>
-                <input type="radio" id="credit-card" name="credit-card" value="Credit Card">
-                <label for="credit-card">Credit Card</label>
-                <div class="reveal-if-active">
-                    Card Number:<br>
-                    <input type="text" name="card-number1" maxlength="4" size="4">-
-                    <input type="text" name="card-number2" maxlength="4" size="4">-
-                    <input type="text" name="card-number3" maxlength="4" size="4">-
-                    <input type="text" name="card-number4" maxlength="4" size="4"><br>
-                    Card holder:<br>
-                    <input type="text" name="card-holder" value="Full Name"><br>
-                    Card Expiration:<br>
-                    <input type="text" name="exp-date1" maxlength="2" size="2">/
-                    <input type="text" name="exp-date2" maxlength="2" size="2"><br>
+                <input type="radio" id="credit-card" name="payment" value="Credit Card" />
+                <label for="credit-card">Credit Card</label><br/>
+                <div id="credit_card_input" class="reveal-if-active">
+                    Card Number:<br/>
+                    <input type="text" name="card-number1" maxlength="4" size="4" />-
+                    <input type="text" name="card-number2" maxlength="4" size="4" />-
+                    <input type="text" name="card-number3" maxlength="4" size="4" />-
+                    <input type="text" name="card-number4" maxlength="4" size="4" /><br/>
+                    Card holder:<br/>
+                    <input type="text" name="card-holder" value="Full Name" /><br/>
+                    Card Expiration:<br/>
+                    <input type="text" name="exp-date1" maxlength="2" size="2" />/
+                    <input type="text" name="exp-date2" maxlength="2" size="2" /><br/>
                 </div>
 
-                <input type="radio" name="paypal" value="Paypal"> Paypal<br>
+                <input type="radio" id="paypal" name="payment" value="Paypal" />
+                <label for="paypal">Paypal</label>
+                <div id="paypal_input" class="reveal-if-active">
+                    Username:<br/>
+                    <input type="text" name="username" value="Username" /><br/>
+                    Password:<br/>
+                    <input type="password" name="password" value="Password" /><br/>
+                </div>
             </form>
         </div>
     </div>
