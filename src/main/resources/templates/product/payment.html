@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+
+<body>
+
+<div th:replace="layout :: header"></div>
+
+<div class="container">
+    <div class="well well-sm">
+        <strong>Payment</strong>
+    </div>
+
+    <div id="payment">
+        <div class="payment-methods">
+            <form>
+                <input type="radio" id="credit-card" name="credit-card" value="Credit Card">
+                <label for="credit-card">Credit Card</label>
+                <div class="reveal-if-active">
+                    Card Number:<br>
+                    <input type="text" name="card-number1" maxlength="4" size="4">-
+                    <input type="text" name="card-number2" maxlength="4" size="4">-
+                    <input type="text" name="card-number3" maxlength="4" size="4">-
+                    <input type="text" name="card-number4" maxlength="4" size="4"><br>
+                    Card holder:<br>
+                    <input type="text" name="card-holder" value="Full Name"><br>
+                    Card Expiration:<br>
+                    <input type="text" name="exp-date1" maxlength="2" size="2">/
+                    <input type="text" name="exp-date2" maxlength="2" size="2"><br>
+                </div>
+
+                <input type="radio" name="paypal" value="Paypal"> Paypal<br>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="layout :: footer"></div>
+
+</body>
+</html>
