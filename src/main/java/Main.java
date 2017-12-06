@@ -47,9 +47,6 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
-        //create a new cart
-        CartDao cart = new CartDaoMem();
-
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
         supplierDataStore.add(amazon);
@@ -67,17 +64,5 @@ public class Main {
         productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
         productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
         productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
-
-        //put products into the cart
-        cart.add(productDataStore.find(1));
-        cart.add(productDataStore.find(1));
-        cart.add(productDataStore.find(1));
-        cart.add(productDataStore.find(1));
-        cart.add(productDataStore.find(2));
-        cart.add(productDataStore.find(2));
-        cart.add(productDataStore.find(2));
-        System.out.println("No. of items in cart: " + cart.getCart().size());
-        System.out.println(cart.getCart().get(0).product.getName());
-        System.out.println(cart.getCart().get(1).quantity);
     }
 }

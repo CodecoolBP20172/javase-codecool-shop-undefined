@@ -4,7 +4,7 @@ import com.codecool.shop.model.Product;
 
 public class LineItem {
     public Product product;
-    public int quantity = 1;
+    public int quantity;
     public float price;
 
     LineItem(Product product) {
