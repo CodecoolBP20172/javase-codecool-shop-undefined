@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 public class BaseModel {
 
     protected int id;
+    //protected int cartId;
     protected String name;
     protected String description;
 
@@ -26,6 +27,14 @@ public class BaseModel {
     public void setId(int id) {
         this.id = id;
     }
+
+    /*public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }*/
 
     public String getName() {
         return name;
