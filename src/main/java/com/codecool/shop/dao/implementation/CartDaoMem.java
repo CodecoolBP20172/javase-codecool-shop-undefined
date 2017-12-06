@@ -16,14 +16,9 @@ public class CartDaoMem implements CartDao {
     private List<LineItem> CART = new ArrayList<>();
 
     @Override
-    public void add(Product product) {
+    public void add(Product product, int quantity) {
         LineItem item = new LineItem(product);
-        if (CART.size()==0) {
-            CART.add(item);
-            return;
-        } else {
-            IntStream.range(0, CART.size()).forEach(prod -> checkQuantity(prod, item));
-        }
+        item.quantity = quantity;
         CART.add(item);
     }
 
@@ -31,12 +26,4 @@ public class CartDaoMem implements CartDao {
     public List<LineItem> getCart() {
         return CART;
     }
-
-    private void checkQuantity(int prod, LineItem item) {
-        if (Objects.equals(CART.get(prod).product.getName(), item.product.getName())) {
-            CART.get(prod).quantity += 1;
-            return;
-        }
-    }
-
 }

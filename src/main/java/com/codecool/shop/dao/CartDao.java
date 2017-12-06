@@ -7,6 +7,6 @@ import com.codecool.shop.model.Supplier;
 import java.util.List;
 
 public interface CartDao {
-    void add(Product product);
+    void add(Product product, int quantity);
     List<LineItem> getCart();
 }

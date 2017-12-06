@@ -38,9 +38,8 @@ public class ProductController {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
         params.put("cart_list", parseJson(cartList));
-        System.out.println(parseJson(cartList));
-        System.out.println(parseJson(cartList).get(0).get("product_id"));
-        System.out.println(parseJson(cartList).get(1).get("product_id"));
+        //check cartList
+        //System.out.println(parseJson(cartList));
         ProductDao productDataStore = ProductDaoMem.getInstance();
 
         //create cart
@@ -48,20 +47,23 @@ public class ProductController {
 
         addToCartFromJson(cart, productDataStore, cartList);
 
-        testPrints(cart);
-
         return new ModelAndView(params, "product/checkout");
-    }
-
-    private static void testPrints(CartDao cart) {
-        System.out.println("No. of items in cart: " + cart.getCart().size());
     }
 
     private static void addToCartFromJson(CartDao cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
-            cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))));
+            cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
+            //test
             System.out.println("Product: " + cart.getCart().get(i).product.getName());
             System.out.println("Quantity: " + cart.getCart().get(i).quantity);
+        }
+    }
+
+    private static int quantity(int i, String cartList) throws IOException {
+        try {
+            return (int) parseJson(cartList).get(i).get("product_quantity");
+        } catch (Exception e) {
+            return 1;
         }
     }
 
