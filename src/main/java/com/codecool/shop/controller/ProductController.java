@@ -4,10 +4,8 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.CartDaoMem;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -44,7 +42,10 @@ public class ProductController {
         ProductDao productDataStore = ProductDaoMem.getInstance();
 
         //create cart
-        CartDao cart = new CartDaoMem();
+        /*this supposed to happen when you click proceed to payment,
+        * and can give the customer id as an argument to the cartdaomem constructor
+        * (now i passed in a '1')*/
+        CartDao cart = new CartDaoMem(1);
 
         addToCartFromJson(cart, productDataStore, cartList);
 
@@ -53,6 +54,25 @@ public class ProductController {
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
+        CustomerDaoMem customerInstance = CustomerDaoMem.getInstance();
+        Customer customer = new Customer(
+                req.queryParams("firstname"),
+                req.queryParams("lastname"),
+                req.queryParams("phonenumber"),
+                req.queryParams("email"),
+                req.queryParams("bcountry"),
+                req.queryParams("bcity"),
+                req.queryParams("bzip"),
+                req.queryParams("badress"),
+                req.queryParams("shcountry"),
+                req.queryParams("shcity"),
+                req.queryParams("shzip"),
+                req.queryParams("shadress")
+        );
+        customerInstance.add(customer);
+
+        System.out.println(customerInstance);
+        System.out.println(customer);
         params.put("cart_list", "payment");
         return new ModelAndView(params, "product/payment");
     }
@@ -62,6 +82,7 @@ public class ProductController {
             //test
             System.out.println("Product: " + cart.getCart().get(i).product.getName());
             System.out.println("Quantity: " + cart.getCart().get(i).quantity);
+            System.out.println("Price: " + cart.getCart().get(i).price);
         }
     }
 
