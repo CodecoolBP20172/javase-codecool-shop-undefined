@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.customer;
+package com.codecool.shop.model;
 
 public class Customer {
 

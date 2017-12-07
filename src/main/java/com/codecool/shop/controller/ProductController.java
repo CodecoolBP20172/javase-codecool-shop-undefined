@@ -4,10 +4,8 @@ import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.CartDaoMem;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -56,6 +54,25 @@ public class ProductController {
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
+        CustomerDaoMem customerInstance = CustomerDaoMem.getInstance();
+        Customer customer = new Customer(
+                req.queryParams("firstname"),
+                req.queryParams("lastname"),
+                req.queryParams("phonenumber"),
+                req.queryParams("email"),
+                req.queryParams("bcountry"),
+                req.queryParams("bcity"),
+                req.queryParams("bzip"),
+                req.queryParams("badress"),
+                req.queryParams("shcountry"),
+                req.queryParams("shcity"),
+                req.queryParams("shzip"),
+                req.queryParams("shadress")
+        );
+        customerInstance.add(customer);
+
+        System.out.println(customerInstance);
+        System.out.println(customer);
         params.put("cart_list", "payment");
         return new ModelAndView(params, "product/payment");
     }
