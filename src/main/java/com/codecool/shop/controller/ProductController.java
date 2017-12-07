@@ -5,7 +5,6 @@ import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
