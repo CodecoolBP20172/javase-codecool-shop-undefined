@@ -1,9 +1,6 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.dao.CartDao;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,14 +31,10 @@ public class ProductController {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
         params.put("cart_list", parseJson(cartList));
-        //check cartList
-        //System.out.println(parseJson(cartList));
+        
         ProductDao productDataStore = ProductDaoMem.getInstance();
 
         //create cart
-        /*this supposed to happen when you click proceed to payment,
-        * and can give the customer id as an argument to the cartdaomem constructor
-        * (now i passed in a '1')*/
         CartDao cartMem = CartDaoMem.getInstance();
         Cart cart = new Cart(1);
         cartMem.add(cart);
@@ -53,14 +46,23 @@ public class ProductController {
 
     public static ModelAndView renderConfirmation(Request req, Response res) {
 
+        CartDao cartMem = CartDaoMem.getInstance();
+        OrderDao orderMem = OrderDaoMem.getInstance();
+        CustomerDao customerMem = CustomerDaoMem.getInstance();
+
+        Order order = new Order(customerMem.getCUSTOMERS().get(0),cartMem.getCart().get(0));
+        orderMem.add(order);
         Map params = new HashMap<>();
-        params.put("cart", "HHHEEYYY");
+        params.put("sub_total", cartMem.getCart().get(0).getSubTotal());
+        params.put("customer", order.getCustomer());
+        System.out.println(orderMem.getAll().get(0));
+        params.put("cart_products", cartMem.getCart().get(0).getCART());
         return new ModelAndView(params, "product/confirmation");
     }
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
-        CustomerDaoMem customerInstance = CustomerDaoMem.getInstance();
+        CustomerDao customerMem = CustomerDaoMem.getInstance();
         Customer customer = new Customer(
                 req.queryParams("firstname"),
                 req.queryParams("lastname"),
@@ -73,11 +75,11 @@ public class ProductController {
                 req.queryParams("shcountry"),
                 req.queryParams("shcity"),
                 req.queryParams("shzip"),
-                req.queryParams("shadress")
+                req.queryParams("shaddress")
         );
-        customerInstance.add(customer);
+        customerMem.add(customer);
 
-        System.out.println(customerInstance);
+        System.out.println(customerMem);
         System.out.println(customer);
         params.put("cart_list", "payment");
         return new ModelAndView(params, "product/payment");

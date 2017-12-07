@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8"/>
     <meta charset="utf-8" />
@@ -34,6 +35,7 @@
                 <div class="notify successbox">
                     <h1>Transaction Successful!</h1><br />
                     <span class="alerticon"><img src="http://s22.postimg.org/i5iji9hv1/check.png" alt="checkmark" /></span><br /><br />
+                    <a class="btn btn-success" href="/index">Back to shopping</a>
                 </div>
                 <div class="row">
                     <p></p>
@@ -49,49 +51,25 @@
                             Review Order
                         </div>
                         <div class="panel-body">
-                            <div class="form-group">
+                            <div class="form-group" th:each="prod,iterStat : ${cart_products}">
                                 <div class="col-sm-3 col-xs-3">
                                     <img class="img-responsive" src="/img/product_1.jpg" />
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">Product name</div>
-                                    <div class="col-xs-12"><small>Quantity:<span>1</span></small></div>
+                                    <div class="col-xs-12" th:text="${prod.getProduct().getName()}">Product name</div>
+                                    <div class="col-xs-12"><small>Quantity:<span th:text="${prod.getQuantity()}">1</span></small></div>
                                 </div>
                                 <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6><span>$</span>25.00</h6>
+                                    <h6 ><span>$ </span><span th:text="${prod.getPrice()}">25.00</span></h6>
                                 </div>
+                                <div class="form-group"><hr /></div>
                             </div>
-                            <div class="form-group"><hr /></div>
-                            <div class="form-group">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="/img/product_2.jpg" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">Product name</div>
-                                    <div class="col-xs-12"><small>Quantity:<span>1</span></small></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6><span>$</span>25.00</h6>
-                                </div>
-                            </div>
-                            <div class="form-group"><hr /></div>
-                            <div class="form-group">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="/img/product_3.jpg" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">Product name</div>
-                                    <div class="col-xs-12"><small>Quantity:<span>2</span></small></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6><span>$</span>50.00</h6>
-                                </div>
-                            </div>
+
                             <div class="form-group"><hr /></div>
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <strong>Order Total</strong>
-                                    <div class="pull-right"><span>$</span><span>150.00</span></div>
+                                    <div class="pull-right" ><span>$ </span><span th:text="${sub_total}">150.00</span></div>
                                 </div>
                             </div>
                         </div>
@@ -101,47 +79,44 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                     <!--SHIPPING METHOD-->
                     <div class="panel panel-default">
-                        <div class="panel-heading">Personal information</div>
+                        <div class="panel-heading">Shipping information</div>
                         <div class="panel-body">
 
                             <div class="form-group">
                                 <div class="col-md-12"><strong>Country:</strong></div>
                                 <div class="col-md-12">
-                                    <p>Hungary</p>
+                                    <p th:text="${customer.getShipCountry()}">Hungary</p>
                                 </div>
                             </div>
                             <div class="col-md-6 col-xs-12">
                                 <strong>First Name:</strong>
-                                <p>Mate</p>
+                                <p th:text="${customer.getFirstName()}"></p>
                             </div>
                             <div class="span1"></div>
                             <div class="col-md-6 col-xs-12">
                                 <strong>Last Name:</strong>
-                                <p>Bedok</p>
+                                <p th:text="${customer.getLastName()}">Bedok</p>
                             </div>
+                            <div class="span1"></div>
                             <div class="col-md-12"><strong>Address:</strong></div>
                             <div class="col-md-12">
-                                <p>Hermina street 88.</p>
+                                <p th:text="${customer.getShipAddress()}">Hermina street 88.</p>
                             </div>
                             <div class="col-md-12"><strong>City:</strong></div>
                             <div class="col-md-12">
-                                <p>Budapest</p>
-                            </div>
-                            <div class="col-md-12"><strong>State:</strong></div>
-                            <div class="col-md-12">
-                                <p>Tungi</p>
+                                <p th:text="${customer.getShipCity()}">Budapest</p>
                             </div>
                             <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
                             <div class="col-md-12">
-                                <p>0666</p>
+                                <p th:text="${customer.getShipZip()}">0666</p>
                             </div>
                             <div class="col-md-12"><strong>Phone Number:</strong></div>
                             <div class="col-md-12">
-                                <p>+36 70 555 66 66</p>
+                                <p th:text="${customer.getPhoneNumber()}">+36 70 555 66 66</p>
                             </div>
                             <div class="col-md-12"><strong>Email Address:</strong></div>
                             <div class="col-md-12">
-                                <p>fontos@fontos.com</p>
+                                <p th:text="${customer.getEmail()}">fontos@fontos.com</p>
                             </div>
                         </div>
                     </div>

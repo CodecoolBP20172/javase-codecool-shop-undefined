@@ -34,4 +34,9 @@ public class CustomerDaoMem implements CustomerDao {
     public Customer find(int customerId) {
         return CUSTOMERS.stream().filter(t -> t.getId() == customerId).findFirst().orElse(null);
     }
+
+    @Override
+    public List<Customer> getCUSTOMERS() {
+        return CUSTOMERS;
+    }
 }

@@ -8,6 +8,7 @@ public class Cart {
     int id;
     int customerId;
 
+
     public Cart(int customerId) {
         this.customerId = customerId;
     }
@@ -22,6 +23,14 @@ public class Cart {
 
     public List<LineItem> getCART() {
         return CART;
+    }
+
+    public int getSubTotal() {
+        int subTotal= 0;
+        for (int i = 0; i < CART.size(); i++) {
+            subTotal += CART.get(0).getPrice();
+        }
+        return subTotal;
     }
 
     public void setCART(List<LineItem> CART) {
