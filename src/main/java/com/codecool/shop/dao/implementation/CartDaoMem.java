@@ -2,34 +2,36 @@ package com.codecool.shop.dao.implementation;
 
 
 import com.codecool.shop.dao.CartDao;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Cart;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class CartDaoMem implements CartDao {
 
-    private List<LineItem> CART = new ArrayList<>();
-    int customerId;
+    private List<Cart> CARTS = new ArrayList<>();
+    private static CartDaoMem instance = null;
 
-    public CartDaoMem(int customerId) {
-        this.customerId = customerId;
+    /* A private Constructor prevents any other class from instantiating.
+     */
+    public CartDaoMem() {
+    }
+
+    public static CartDaoMem getInstance() {
+        if (instance == null) {
+            instance = new CartDaoMem();
+        }
+        return instance;
     }
 
     @Override
-    public void add(Product product, int quantity) {
-        LineItem item = new LineItem(product);
-        item.quantity = quantity;
-        item.price *= quantity;
-        CART.add(item);
+    public void add(Cart cart) {
+        cart.setId(CARTS.size() + 1);
+        CARTS.add(cart);
     }
 
     @Override
-    public List<LineItem> getCart() {
-        return CART;
+    public List<Cart> getCart() {
+        return CARTS;
     }
 }
