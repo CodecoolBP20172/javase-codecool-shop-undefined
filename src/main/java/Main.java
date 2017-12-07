@@ -9,6 +9,12 @@ import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -31,6 +37,7 @@ public class Main {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
 
+
         post("/checkout", (Request req, Response res) -> {
             //String cartList = req.queryParams("cart_list");
             //System.out.println(cartList);
@@ -52,21 +59,27 @@ public class Main {
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
         //setting up a new supplier
-        Supplier amazon = new Supplier("Amazon", "Digital content and services");
-        supplierDataStore.add(amazon);
-        Supplier lenovo = new Supplier("Lenovo", "Computers");
-        supplierDataStore.add(lenovo);
+        Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
+        supplierDataStore.add(magicWandFactory);
+        Supplier magicSweets = new Supplier("Magic Sweets", "Tricky sweets for wizards");
+        supplierDataStore.add(magicSweets);
+        Supplier wizardTools = new Supplier("Wizard Tools", "Everyday tools for wizards");
+        supplierDataStore.add(wizardTools);
 
         //setting up a new product category
-        ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
-        productCategoryDataStore.add(tablet);
+        ProductCategory hogwarts = new ProductCategory("Hogwarts", "Magical items", "Items for wizards");
+        productCategoryDataStore.add(hogwarts);
 
         //setting up products and printing it
-        productDataStore.add(new Product("Amazon Fire", 49.9f, "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));
-        productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports.", tablet, lenovo));
-        productDataStore.add(new Product("Amazon Fire HD 8", 89, "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
-        productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
-        productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
-        productDataStore.add(new Product("Lenovo IdeaPad Miix 700", 479, "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
+        productDataStore.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
+        productDataStore.add(new Product("Magic Wand - model 2", 350, "USD", "High quality 36cm long wand for brave wizards", hogwarts, magicWandFactory));
+        productDataStore.add(new Product("Magic Wand - model 3", 390, "USD", "High quality 39.8cm long wand for evil wizards", hogwarts, magicWandFactory));
+        productDataStore.add(new Product("Time-Turner Necklace", 44, "USD", "The Time-Turner is centred with a working miniature hourglass.", hogwarts, wizardTools));
+        productDataStore.add(new Product("Marauder's Map", 30, "USD", "With this item you'll always know where your friends are.", hogwarts, wizardTools));
+        productDataStore.add(new Product("Wizard Chess Set", 100, "USD", "Simple chess game with an epic twist.", hogwarts, wizardTools));
+        productDataStore.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
+        productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
+        productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
     }
+
 }
