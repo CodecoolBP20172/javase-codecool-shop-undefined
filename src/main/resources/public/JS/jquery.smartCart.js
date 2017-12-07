@@ -101,6 +101,20 @@
         /* 
          * Set basic elements for the cart
          */
+
+        _saveToLocalStorage: function () {
+            console.log("LOCALSTORAGE");
+            localStorage.setItem('cart', JSON.stringify(this.cart));
+        },
+
+        _getLocalStorageData: function () {
+            var localStorageData = JSON.parse(localStorage.getItem('cart'));
+            if (localStorageData == null) {
+                return []
+            }
+            return localStorageData
+        },
+
         _setElements: function () {
             // The element store all cart data and submit with form
             var cartListElement = $('<input type="hidden" name="' + this.options.resultName + '" id="' + this.options.resultName + '" />');
@@ -169,6 +183,7 @@
                 e.preventDefault();
                 var p = mi._getProductDetails($(this));
                 p = mi._addToCart(p);
+                mi._saveToLocalStorage();
                 $(this).parents(mi.options.productContainerSelector).addClass('sc-added-item').attr('data-product-unique-key', p.unique_key);
             });
             
@@ -247,6 +262,7 @@
             }
 
             if(this.options.combineProducts){
+                console.log(this.cart);
                 var pf = $.grep(this.cart, function(n, i){
                     return mi._isObjectsEqual(n, p);
                 });

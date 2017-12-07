@@ -36,7 +36,7 @@ public class Main {
         get("/index", (Request req, Response res) -> {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
-        get("/payment", (Request req, Response res) -> {
+        post("/payment", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
         });
 
@@ -45,6 +45,10 @@ public class Main {
             //String cartList = req.queryParams("cart_list");
             //System.out.println(cartList);
             return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
+        });
+
+        get("/confirmation", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
         });
 
         // Add this line to your project to enable the debug screen
