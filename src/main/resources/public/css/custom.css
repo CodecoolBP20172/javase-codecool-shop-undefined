@@ -58,8 +58,8 @@
     margin: 0 0 11px;
 }
 
-.footer {
-    position: absolute;
+.footer{
+    position: relative;
     bottom: 0;
     width: 100%;
     margin-bottom: 0;
@@ -74,5 +74,11 @@
 #payment_info {
     margin-bottom: 2%;
 }
+
+.checkoutform, #panel-centered {
+    position: relative;
+    text-align: center;
+}
+
 
 

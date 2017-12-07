@@ -34,6 +34,7 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
+
     public static ModelAndView renderCheckout(Request req, Response res) throws IOException {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
