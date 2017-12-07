@@ -1,4 +1,4 @@
-package com.codecool.shop.dao.implementation;
+package com.codecool.shop.model;
 
 import com.codecool.shop.model.Product;
 

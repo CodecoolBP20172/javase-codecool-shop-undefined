@@ -45,7 +45,7 @@ public class ProductController {
         /*this supposed to happen when you click proceed to payment,
         * and can give the customer id as an argument to the cartdaomem constructor
         * (now i passed in a '1')*/
-        CartDao cart = new CartDaoMem(1);
+        CartDao cart = new CartDaoMem();
 
         addToCartFromJson(cart, productDataStore, cartList);
 
