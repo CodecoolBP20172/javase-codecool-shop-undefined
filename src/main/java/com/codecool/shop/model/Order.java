@@ -4,11 +4,11 @@ public class Order {
 
     private int id;
     private Customer customer;
-    //private Cart cart;
+    private Cart cart;
 
-    public Order(Customer customer) {
+    public Order(Customer customer, Cart cart) {
         this.customer = customer;
-        //this.cart = cart;
+        this.cart = cart;
     }
 
     public int getId() {
@@ -27,5 +27,11 @@ public class Order {
         this.customer = customer;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
 
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }
