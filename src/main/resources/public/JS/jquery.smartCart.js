@@ -14,7 +14,26 @@
     "use strict";
     // Default options
     var defaults = {
-            cart: [], // initial products on cart
+            cart: [{product_desc:
+    "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.",
+    product_id
+        :
+        "4",
+    product_image
+        :
+        "/img/product_4.jpg",
+    product_name
+        :
+        "Lenovo IdeaPad Miix 700",
+    product_price
+        :
+        "479.0",
+    product_quantity
+        :
+        "1",
+    unique_key
+        :
+        1512593220122}], // initial products on cart
             resultName: 'cart_list', // Submit name of the cart parameter
             theme: 'default', // theme for the cart, related css need to include for other than default theme
             combineProducts: true, // combine similar products on cart
@@ -101,6 +120,12 @@
         /* 
          * Set basic elements for the cart
          */
+
+        _saveToLocalStorage: function () {
+            console.log("LOCALSTORAGE");
+            localStorage.setItem('cart', JSON.stringify(this.cart));
+        },
+
         _setElements: function () {
             // The element store all cart data and submit with form
             var cartListElement = $('<input type="hidden" name="' + this.options.resultName + '" id="' + this.options.resultName + '" />');
@@ -169,6 +194,7 @@
                 e.preventDefault();
                 var p = mi._getProductDetails($(this));
                 p = mi._addToCart(p);
+                mi._saveToLocalStorage();
                 $(this).parents(mi.options.productContainerSelector).addClass('sc-added-item').attr('data-product-unique-key', p.unique_key);
             });
             
@@ -247,6 +273,7 @@
             }
 
             if(this.options.combineProducts){
+                console.log(this.cart);
                 var pf = $.grep(this.cart, function(n, i){
                     return mi._isObjectsEqual(n, p);
                 });
