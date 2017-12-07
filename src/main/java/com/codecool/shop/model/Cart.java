@@ -8,7 +8,7 @@ public class Cart {
     int id;
     int customerId;
 
-    Cart(int customerId) {
+    public Cart(int customerId) {
         this.customerId = customerId;
     }
 
