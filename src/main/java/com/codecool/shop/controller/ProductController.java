@@ -5,10 +5,7 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.model.Customer;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,9 +42,11 @@ public class ProductController {
         /*this supposed to happen when you click proceed to payment,
         * and can give the customer id as an argument to the cartdaomem constructor
         * (now i passed in a '1')*/
-        CartDao cart = new CartDaoMem(1);
+        CartDao cartMem = CartDaoMem.getInstance();
+        Cart cart = new Cart(1);
+        cartMem.add(cart);
 
-        addToCartFromJson(cart, productDataStore, cartList);
+        addToCartFromJson(cartMem, cart, productDataStore, cartList);
 
         return new ModelAndView(params, "product/checkout");
     }
@@ -84,13 +83,14 @@ public class ProductController {
         return new ModelAndView(params, "product/payment");
     }
 
-    private static void addToCartFromJson(CartDao cart, ProductDao productDataStore, String cartList) throws IOException {
+    private static void addToCartFromJson(CartDao cartMem, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
             cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
             //test
-            System.out.println("Product: " + cart.getCart().get(i).product.getName());
-            System.out.println("Quantity: " + cart.getCart().get(i).quantity);
-            System.out.println("Price: " + cart.getCart().get(i).price);
+            System.out.println("Product: " + cartMem.getCart().get(0).getCART().get(i).getProduct().getName());
+            System.out.println("Quantity: " + cart.getCART().get(i).quantity);
+            System.out.println("Price: " + cart.getCART().get(i).price);
+            System.out.println("memory cart:" + cartMem.getCart().get(0).getCART().get(i));
         }
     }
 
