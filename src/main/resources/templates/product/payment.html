@@ -40,7 +40,7 @@
 
         <div id="payment" class="panel-body">
             <div id="payment_info">
-                <strong>Total amount: </strong><p>00000</p>
+                <strong>Total amount: </strong><p th:text="'$ ' + ${sub_total}">00000</p>
 
                 <strong>Please, choose a payment method!</strong>
             </div>
@@ -69,7 +69,7 @@
                     <input type="password" name="password" placeholder="Password" /><br/>
                 </div><br/>
             </form>
-            <button id="pay_order_button" class="btn btn-info sc-cart-checkout" draggable="true">Pay order</button>
+            <a id="pay_order_button" class="btn btn-info sc-cart-checkout" draggable="true" href="/confirmation">Pay order</a>
         </div>
     </div>
 </div>
