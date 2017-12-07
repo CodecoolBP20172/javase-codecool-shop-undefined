@@ -14,26 +14,7 @@
     "use strict";
     // Default options
     var defaults = {
-            cart: [{product_desc:
-    "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.",
-    product_id
-        :
-        "4",
-    product_image
-        :
-        "/img/product_4.jpg",
-    product_name
-        :
-        "Lenovo IdeaPad Miix 700",
-    product_price
-        :
-        "479.0",
-    product_quantity
-        :
-        "1",
-    unique_key
-        :
-        1512593220122}], // initial products on cart
+            cart: [], // initial products on cart
             resultName: 'cart_list', // Submit name of the cart parameter
             theme: 'default', // theme for the cart, related css need to include for other than default theme
             combineProducts: true, // combine similar products on cart
@@ -124,6 +105,14 @@
         _saveToLocalStorage: function () {
             console.log("LOCALSTORAGE");
             localStorage.setItem('cart', JSON.stringify(this.cart));
+        },
+
+        _getLocalStorageData: function () {
+            var localStorageData = JSON.parse(localStorage.getItem('cart'));
+            if (localStorageData == null) {
+                return []
+            }
+            return localStorageData
         },
 
         _setElements: function () {
