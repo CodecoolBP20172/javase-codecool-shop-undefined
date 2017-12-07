@@ -44,7 +44,10 @@ public class ProductController {
         ProductDao productDataStore = ProductDaoMem.getInstance();
 
         //create cart
-        CartDao cart = new CartDaoMem();
+        /*this supposed to happen when you click proceed to payment,
+        * and can give the customer id as an argument to the cartdaomem constructor
+        * (now i passed in a '1')*/
+        CartDao cart = new CartDaoMem(1);
 
         addToCartFromJson(cart, productDataStore, cartList);
 
@@ -57,6 +60,7 @@ public class ProductController {
             //test
             System.out.println("Product: " + cart.getCart().get(i).product.getName());
             System.out.println("Quantity: " + cart.getCart().get(i).quantity);
+            System.out.println("Price: " + cart.getCart().get(i).price);
         }
     }
 
