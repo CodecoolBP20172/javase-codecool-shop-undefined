@@ -5,7 +5,6 @@ import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -84,6 +83,12 @@ public class ProductController {
         System.out.println(customer);
         params.put("sub_total", cartMem.getCart().get(0).getSubTotal());
         return new ModelAndView(params, "product/payment");
+    }
+
+    public static ModelAndView renderError(Request req, Response res) {
+        Map params = new HashMap<>();
+        params.put("error", 404);
+        return new ModelAndView(params, "product/error");
     }
 
     private static void addToCartFromJson(CartDao cartMem, Cart cart, ProductDao productDataStore, String cartList) throws IOException {

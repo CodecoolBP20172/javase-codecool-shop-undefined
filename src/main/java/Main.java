@@ -40,10 +40,7 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
         });
 
-
         post("/checkout", (Request req, Response res) -> {
-            //String cartList = req.queryParams("cart_list");
-            //System.out.println(cartList);
             return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
         });
 
@@ -51,11 +48,15 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
         });
 
+        get("*", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderError(req, res) );
+        });
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }
 
-    public static void populateData() {
+    private static void populateData() {
 
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();

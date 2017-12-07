@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Cart {
     private List<LineItem> CART = new ArrayList<>();
-    int id;
-    int customerId;
+    private int id;
+    private int customerId;
 
 
     public Cart(int customerId) {
