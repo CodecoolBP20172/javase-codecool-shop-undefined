@@ -291,6 +291,9 @@ hr{
 .form-control {
     border-radius: 1px;
 }
+.notify {
+    text-align: center;
+}
 
 @media only screen and (max-width: 486px){
     .col-xss-12{
