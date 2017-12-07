@@ -36,6 +36,9 @@ public class Main {
         get("/index", (Request req, Response res) -> {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
+        post("/payment", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
+        });
 
 
         post("/checkout", (Request req, Response res) -> {

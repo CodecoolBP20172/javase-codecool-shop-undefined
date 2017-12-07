@@ -14,11 +14,17 @@ import java.util.stream.IntStream;
 public class CartDaoMem implements CartDao {
 
     private List<LineItem> CART = new ArrayList<>();
+    int customerId;
+
+    public CartDaoMem(int customerId) {
+        this.customerId = customerId;
+    }
 
     @Override
     public void add(Product product, int quantity) {
         LineItem item = new LineItem(product);
         item.quantity = quantity;
+        item.price *= quantity;
         CART.add(item);
     }
 
