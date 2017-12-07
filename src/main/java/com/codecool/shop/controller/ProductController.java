@@ -62,6 +62,7 @@ public class ProductController {
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
+        CartDao cartMem = CartDaoMem.getInstance();
         CustomerDao customerMem = CustomerDaoMem.getInstance();
         Customer customer = new Customer(
                 req.queryParams("firstname"),
@@ -81,7 +82,7 @@ public class ProductController {
 
         System.out.println(customerMem);
         System.out.println(customer);
-        params.put("cart_list", "payment");
+        params.put("sub_total", cartMem.getCart().get(0).getSubTotal());
         return new ModelAndView(params, "product/payment");
     }
 

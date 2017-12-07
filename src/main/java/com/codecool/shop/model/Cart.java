@@ -28,7 +28,7 @@ public class Cart {
     public int getSubTotal() {
         int subTotal= 0;
         for (int i = 0; i < CART.size(); i++) {
-            subTotal += CART.get(0).getPrice();
+            subTotal += CART.get(i).getPrice();
         }
         return subTotal;
     }
