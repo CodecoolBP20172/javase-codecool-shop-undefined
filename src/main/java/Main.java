@@ -48,6 +48,10 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
         });
 
+        get("*", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( ProductController.renderError(req, res) );
+        });
+
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
     }

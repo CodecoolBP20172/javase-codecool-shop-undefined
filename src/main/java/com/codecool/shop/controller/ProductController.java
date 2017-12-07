@@ -84,6 +84,12 @@ public class ProductController {
         return new ModelAndView(params, "product/payment");
     }
 
+    public static ModelAndView renderError(Request req, Response res) {
+        Map params = new HashMap<>();
+        params.put("error", 404);
+        return new ModelAndView(params, "product/error");
+    }
+
     private static void addToCartFromJson(CartDao cartMem, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
             cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
