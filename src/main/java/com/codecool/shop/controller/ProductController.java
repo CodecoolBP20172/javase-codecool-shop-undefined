@@ -54,6 +54,11 @@ public class ProductController {
         return new ModelAndView(params, "product/checkout");
     }
 
+    public static ModelAndView renderPayment(Request req, Response res) {
+        Map params = new HashMap<>();
+        params.put("cart_list", "payment");
+        return new ModelAndView(params, "product/payment");
+    }
     private static void addToCartFromJson(CartDao cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
             cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
@@ -76,6 +81,4 @@ public class ProductController {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(json, new TypeReference<List<Map<String, Object>>>(){});
     }
-
-
 }

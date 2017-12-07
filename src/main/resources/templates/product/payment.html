@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/JS/paymentPage.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+
+<body>
+
+<div th:replace="layout :: header"></div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class=" panel-heading">
+            <strong>Payment</strong>
+        </div>
+
+        <div id="payment" class="panel-body">
+            <div id="payment_info">
+                <strong>Total amount: </strong><p>00000</p>
+
+                <strong>Please, choose a payment method!</strong>
+            </div>
+            <form>
+                <input type="radio" id="credit_card" name="payment" value="Credit Card" />
+                <label for="credit_card">Credit Card</label><br/>
+                <div id="credit_card_input" class="reveal-if-active">
+                    Card Number:<br/>
+                    <input type="text" name="card-number1" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" name="card-number2" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" name="card-number3" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" name="card-number4" maxlength="4" size="4" placeholder="xxxx" /><br/>
+                    Card holder:<br/>
+                    <input type="text" name="card-holder" placeholder="Full Name" /><br/>
+                    Card Expiration:<br/>
+                    <input type="text" name="exp-date1" maxlength="2" size="2" placeholder="mm" />/
+                    <input type="text" name="exp-date2" maxlength="2" size="2" placeholder="yy" /><br/>
+                </div>
+                <hr/>
+                <input type="radio" id="paypal" name="payment" value="Paypal" />
+                <label for="paypal">Paypal</label>
+                <div id="paypal_input" class="reveal-if-active">
+                    Username:<br/>
+                    <input type="text" name="username" placeholder="Username" /><br/>
+                    Password:<br/>
+                    <input type="password" name="password" placeholder="Password" /><br/>
+                </div><br/>
+            </form>
+            <button id="pay_order_button" draggable="true">Pay order</button>
+        </div>
+    </div>
+</div>
+
+<div th:replace="layout :: footer"></div>
+
+</body>
+</html>
