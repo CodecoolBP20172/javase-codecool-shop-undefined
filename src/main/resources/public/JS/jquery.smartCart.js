@@ -9,6 +9,9 @@
  * Licensed under the terms of the MIT License
  * https://github.com/techlab/SmartCart/blob/master/LICENSE
  */
+$(document).ready(function(){
+    $('#smartcart').smartCart();
+})
 
 ;(function ($, window, document, undefined) {
     "use strict";
