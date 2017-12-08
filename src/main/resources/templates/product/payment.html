@@ -49,15 +49,15 @@
                 <label for="credit_card">Credit Card</label><br/>
                 <div id="credit_card_input" class="reveal-if-active">
                     Card Number:<br/>
-                    <input type="text" name="card-number1" maxlength="4" size="4" placeholder="xxxx" /> -
-                    <input type="text" name="card-number2" maxlength="4" size="4" placeholder="xxxx" /> -
-                    <input type="text" name="card-number3" maxlength="4" size="4" placeholder="xxxx" /> -
-                    <input type="text" name="card-number4" maxlength="4" size="4" placeholder="xxxx" /><br/>
+                    <input type="text" class="number_input" name="card-number1" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" class="number_input" name="card-number2" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" class="number_input" name="card-number3" maxlength="4" size="4" placeholder="xxxx" /> -
+                    <input type="text" class="number_input" name="card-number4" maxlength="4" size="4" placeholder="xxxx" /><br/>
                     Card holder:<br/>
                     <input type="text" name="card-holder" placeholder="Full Name" /><br/>
                     Card Expiration:<br/>
-                    <input type="text" name="exp-date1" maxlength="2" size="2" placeholder="mm" />/
-                    <input type="text" name="exp-date2" maxlength="2" size="2" placeholder="yy" /><br/>
+                    <input type="text" class="number_input" name="exp-date1" maxlength="2" size="2" placeholder="mm" />/
+                    <input type="text" class="number_input" name="exp-date2" maxlength="2" size="2" placeholder="yy" /><br/>
                 </div>
                 <hr/>
                 <input type="radio" id="paypal" name="payment" value="Paypal" />
@@ -68,7 +68,7 @@
                     Password:<br/>
                     <input type="password" name="password" placeholder="Password" /><br/>
                 </div><br/>
-                <button type="submit" id="pay_order_button" class="btn btn-info sc-cart-checkout" draggable="true">Pay order</button>
+                <button type="submit" id="pay_order_button" class="btn btn-info sc-cart-checkout">Pay order</button>
             </form>
 
         </div>

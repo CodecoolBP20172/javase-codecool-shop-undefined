@@ -1,5 +1,5 @@
 
-function addRadioEventListeners() {
+function addEventListeners() {
     $('#credit_card_input').hide();
     $('#paypal_input').hide();
 
@@ -14,4 +14,4 @@ function addRadioEventListeners() {
     });
 }
 
-window.addEventListener('load', addRadioEventListeners);
+window.addEventListener('load', addEventListeners);
