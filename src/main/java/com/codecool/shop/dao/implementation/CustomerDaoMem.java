@@ -2,7 +2,6 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.model.Customer;
-import com.codecool.shop.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +32,10 @@ public class CustomerDaoMem implements CustomerDao {
     @Override
     public Customer find(int customerId) {
         return CUSTOMERS.stream().filter(t -> t.getId() == customerId).findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Customer> getCUSTOMERS() {
+        return CUSTOMERS;
     }
 }

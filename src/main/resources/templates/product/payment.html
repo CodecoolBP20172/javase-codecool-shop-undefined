@@ -40,11 +40,11 @@
 
         <div id="payment" class="panel-body">
             <div id="payment_info">
-                <strong>Total amount: </strong><p>00000</p>
+                <strong>Total amount: </strong><p th:text="'$ ' + ${sub_total}">00000</p>
 
                 <strong>Please, choose a payment method!</strong>
             </div>
-            <form>
+            <form action="/confirmation" method="post">
                 <input type="radio" id="credit_card" name="payment" value="Credit Card" />
                 <label for="credit_card">Credit Card</label><br/>
                 <div id="credit_card_input" class="reveal-if-active">
@@ -68,8 +68,9 @@
                     Password:<br/>
                     <input type="password" name="password" placeholder="Password" /><br/>
                 </div><br/>
+                <button type="submit" id="pay_order_button" class="btn btn-info sc-cart-checkout" draggable="true">Pay order</button>
             </form>
-            <button id="pay_order_button" draggable="true">Pay order</button>
+
         </div>
     </div>
 </div>

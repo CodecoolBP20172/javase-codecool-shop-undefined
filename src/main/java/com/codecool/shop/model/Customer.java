@@ -3,20 +3,20 @@ package com.codecool.shop.model;
 public class Customer {
 
     protected int id;
-    protected String firstName;
-    protected String lastName;
-    protected String phoneNumber;
-    protected String email;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
 
-    protected String billCountry;
-    protected String billCity;
-    protected String billZip;
-    protected String billAddress;
+    private String billCountry;
+    private String billCity;
+    private String billZip;
+    private String billAddress;
 
-    protected String shipCountry;
-    protected String shipCity;
-    protected String shipZip;
-    protected String shipAddress;
+    private String shipCountry;
+    private String shipCity;
+    private String shipZip;
+    private String shipAddress;
 
     public Customer(
             String firstName,
