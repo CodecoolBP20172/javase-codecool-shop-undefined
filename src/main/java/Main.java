@@ -44,7 +44,7 @@ public class Main {
             return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
         });
 
-        get("/confirmation", (Request req, Response res) -> {
+        post("/confirmation", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
         });
 
