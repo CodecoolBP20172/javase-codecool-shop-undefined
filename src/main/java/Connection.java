@@ -11,7 +11,7 @@ public class Connection {
 
         try {
 
-            input = new FileInputStream("connection.properties");
+            input = new FileInputStream("connection.txt");
 
             // load a properties file
             prop.load(input);
