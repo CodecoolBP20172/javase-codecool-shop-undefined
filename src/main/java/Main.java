@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Main {
 
@@ -84,6 +86,21 @@ public class Main {
         productDataStore.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
         productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
+
+
+        //for database test purposes
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO supplier (name, description) VALUES(?,?);");
+            ps.setString(1, "Magic Factory");
+            ps.setString(2, "Fascinating undefined things");
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
+
+
 
 }

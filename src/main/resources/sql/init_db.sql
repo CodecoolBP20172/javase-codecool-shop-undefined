@@ -1,61 +1,61 @@
-DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS products CASCADE;
 CREATE TABLE products
 (
-id SERIAL PRIMARY KEY NOT NULL,
-name varchar(40),
-default_price FLOAT,
-default_currency CHAR,
-supplier_id INT NOT NULL ,
-product_category_id INT NOT NULL
+  id SERIAL PRIMARY KEY NOT NULL,
+  name varchar(40),
+  default_price FLOAT,
+  default_currency varchar(40),
+  supplier_id INT NOT NULL ,
+  product_category_id INT NOT NULL
 );
 
-DROP TABLE IF EXISTS product_category;
+DROP TABLE IF EXISTS product_category CASCADE;
 CREATE TABLE product_category (
-id SERIAL PRIMARY KEY NOT NULL,
-name varchar(40),
-department CHAR,
-description CHAR
+  id SERIAL PRIMARY KEY NOT NULL,
+  name varchar(40),
+  department varchar(40),
+  description varchar(40)
 );
 
 
-DROP TABLE IF EXISTS supplier;
+DROP TABLE IF EXISTS supplier CASCADE;
 CREATE TABLE supplier
 (
-id SERIAL PRIMARY KEY NOT NULL,
-name varchar(40),
-decription CHAR
+  id SERIAL PRIMARY KEY NOT NULL,
+  name varchar(40),
+  description varchar(40)
 );
 
 
-DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS orders CASCADE;
 CREATE TABLE orders
 (
-id SERIAL PRIMARY KEY NOT NULL,
-customer_id INT NOT NULL,
-subtotal FLOAT
+  id SERIAL PRIMARY KEY NOT NULL,
+  customer_id INT NOT NULL,
+  subtotal FLOAT
 );
 
 
-DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS customer CASCADE;
 CREATE TABLE customer
 (
   id SERIAL PRIMARY KEY NOT NULL,
   first_name varchar(40),
   last_name varchar(40),
-  phone_number CHAR,
-  email CHAR,
-  bill_country CHAR,
-  bill_city CHAR,
+  phone_number varchar(40),
+  email varchar(40),
+  bill_country varchar(40),
+  bill_city varchar(40),
   bill_zip INT,
-  bill_address CHAR,
-  ship_country CHAR,
-  ship_city CHAR,
+  bill_address varchar(40),
+  ship_country varchar(40),
+  ship_city varchar(40),
   ship_zip INT,
-  ship_address CHAR
+  ship_address varchar(40)
 );
 
 
-DROP TABLE IF EXISTS line_item;
+DROP TABLE IF EXISTS line_item CASCADE;
 CREATE TABLE line_item
 (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -67,16 +67,17 @@ CREATE TABLE line_item
 
 
 ALTER TABLE ONLY products
-ADD CONSTRAINT fk_product_category_id FOREIGN KEY (product_category_id) REFERENCES product_category(id);
+  ADD CONSTRAINT fk_product_category_id FOREIGN KEY (product_category_id) REFERENCES product_category(id);
 
 ALTER TABLE ONLY products
-ADD CONSTRAINT fk_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id);
+  ADD CONSTRAINT fk_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id);
 
 ALTER TABLE ONLY orders
-ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);
+  ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);
 
 ALTER TABLE ONLY line_item
-ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id);
+  ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id);
 
 ALTER TABLE ONLY line_item
-ADD CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id);
+  ADD CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id);
+
