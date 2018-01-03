@@ -49,12 +49,20 @@ public class ProductController {
         OrderDao orderMem = OrderDaoMem.getInstance();
         CustomerDao customerMem = CustomerDaoMem.getInstance();
 
+        //test
+        OrderDao orderJdbc = OrderDaoJdbc.getInstance();
+
         Order order = new Order(customerMem.getCUSTOMERS().get(customerMem.getCUSTOMERS().size()-1),cartMem.getCart().get(cartMem.getCart().size()-1));
         orderMem.add(order);
+        //test
+        orderJdbc.add(order);
+        System.out.println("test find: " + orderJdbc.find(2));
+
+
         Map params = new HashMap<>();
         params.put("sub_total", cartMem.getCart().get(cartMem.getCart().size()-1).getSubTotal());
         params.put("customer", order.getCustomer());
-        System.out.println(orderMem.getAll().get(0));
+        //System.out.println(orderMem.getAll().get(0));
         params.put("cart_products", cartMem.getCart().get(cartMem.getCart().size()-1).getCART());
         return new ModelAndView(params, "product/confirmation");
     }
