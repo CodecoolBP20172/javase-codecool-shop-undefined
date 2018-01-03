@@ -35,12 +35,12 @@ public class ProductDaoJdbc implements ProductDao {
     @Override
     public void add(Product product) {
         try {
-            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO products (name, default_price, default_currency, supplier_name, product_category_name, description) VALUES(?,?,?,?,?,?);");
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO products (name, default_price, default_currency, supplier_id, product_category_id, description) VALUES(?,?,?,?,?,?);");
             ps.setString(1, product.getName());
             ps.setDouble(2, Double.parseDouble(product.getPriceWithoutCurrency()));
             ps.setString(3, String.valueOf(product.getDefaultCurrency()));
-            ps.setString(4, product.getSupplier().getName());
-            ps.setString(5, product.getProductCategory().getName());
+            ps.setInt(4, product.getSupplier().getId());
+            ps.setInt(5, product.getProductCategory().getId());
             ps.setString(6, product.getDescription());
             ps.execute();
         } catch (SQLException e) {

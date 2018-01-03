@@ -5,15 +5,15 @@ CREATE TABLE products
   name varchar(40),
   default_price FLOAT,
   default_currency varchar(40),
-  supplier_name varchar(40) NOT NULL,
-  product_category_name varchar(40) NOT NULL,
+  supplier_id INT NOT NULL,
+  product_category_id INT NOT NULL,
   description varchar(400)
 );
 
 DROP TABLE IF EXISTS product_category CASCADE;
 CREATE TABLE product_category (
   id SERIAL PRIMARY KEY NOT NULL,
-  name varchar(40) UNIQUE,
+  name varchar(40),
   department varchar(40),
   description varchar(40)
 );
@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS supplier CASCADE;
 CREATE TABLE supplier
 (
   id SERIAL PRIMARY KEY NOT NULL,
-  name varchar(40) UNIQUE,
+  name varchar(40),
   description varchar(40)
 );
 
@@ -68,10 +68,10 @@ CREATE TABLE line_item
 
 
 ALTER TABLE ONLY products
-  ADD CONSTRAINT fk_product_category_name FOREIGN KEY (product_category_name) REFERENCES product_category(name);
+  ADD CONSTRAINT fk_product_category_id FOREIGN KEY (product_category_id) REFERENCES product_category(id);
 
 ALTER TABLE ONLY products
-  ADD CONSTRAINT fk_supplier_name FOREIGN KEY (supplier_name) REFERENCES supplier(name);
+  ADD CONSTRAINT fk_supplier_id FOREIGN KEY (supplier_id) REFERENCES supplier(id);
 
 ALTER TABLE ONLY orders
   ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);
