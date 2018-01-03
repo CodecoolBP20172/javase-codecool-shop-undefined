@@ -76,16 +76,16 @@ public class Main {
         supplierDataStore.add(wizardTools);
 
         //setting up a new supplier (jdbc)
-        supplierDataStoreJdbc.add(magicWandFactory);
+        /*supplierDataStoreJdbc.add(magicWandFactory);
         supplierDataStoreJdbc.add(magicSweets);
-        supplierDataStoreJdbc.add(wizardTools);
+        supplierDataStoreJdbc.add(wizardTools);*/
 
         //setting up a new product category (memory)
         ProductCategory hogwarts = new ProductCategory("Hogwarts", "Magical items", "Items for wizards");
         productCategoryDataStore.add(hogwarts);
 
         //setting up a new product category (jdbc)
-        productCategoryDataStoreJdbc.add(hogwarts);
+        /*productCategoryDataStoreJdbc.add(hogwarts);*/
 
         //setting up products and printing it (memory)
         productDataStore.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
@@ -99,7 +99,7 @@ public class Main {
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
 
         //setting up products and printing it (jdbc)
-        productDataStoreJdbc.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
+        /*productDataStoreJdbc.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
         productDataStoreJdbc.add(new Product("Magic Wand - model 2", 350, "USD", "High quality 36cm long wand for brave wizards", hogwarts, magicWandFactory));
         productDataStoreJdbc.add(new Product("Magic Wand - model 3", 390, "USD", "High quality 39.8cm long wand for evil wizards", hogwarts, magicWandFactory));
         productDataStoreJdbc.add(new Product("Time-Turner Necklace", 44, "USD", "The Time-Turner is centred with a working miniature hourglass.", hogwarts, wizardTools));
@@ -107,18 +107,7 @@ public class Main {
         productDataStoreJdbc.add(new Product("Wizard Chess Set", 100, "USD", "Simple chess game with an epic twist.", hogwarts, wizardTools));
         productDataStoreJdbc.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
         productDataStoreJdbc.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
-        productDataStoreJdbc.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
-
-        //for database test purposes
-        /*try {
-            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO supplier (name, description) VALUES(?,?);");
-            ps.setString(1, "Magic Factory");
-            ps.setString(2, "Fascinating undefined things");
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }*/
-
+        productDataStoreJdbc.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));*/
 
     }
 
