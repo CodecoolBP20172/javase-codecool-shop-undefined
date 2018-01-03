@@ -1,6 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
