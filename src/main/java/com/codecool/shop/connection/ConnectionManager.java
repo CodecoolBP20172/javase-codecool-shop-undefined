@@ -1,4 +1,4 @@
-package com.codecool.shop;
+package com.codecool.shop.connection;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

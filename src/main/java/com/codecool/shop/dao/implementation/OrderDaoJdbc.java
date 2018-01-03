@@ -1,13 +1,13 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
 
 import java.sql.*;
 import java.util.List;
 
-import static com.codecool.shop.ConnectionManager.getConnection;
+import static com.codecool.shop.connection.ConnectionManager.getConnection;
 
 
 public class OrderDaoJdbc implements OrderDao {
