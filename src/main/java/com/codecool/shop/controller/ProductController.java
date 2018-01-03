@@ -57,6 +57,7 @@ public class ProductController {
         //test
         orderJdbc.add(order);
         System.out.println("test find: " + orderJdbc.find(2));
+        System.out.println(orderJdbc.getAll());
 
 
         Map params = new HashMap<>();

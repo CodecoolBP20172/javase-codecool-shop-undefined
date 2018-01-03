@@ -5,6 +5,7 @@ import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.Order;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.codecool.shop.connection.ConnectionManager.getConnection;
@@ -38,10 +39,9 @@ public class OrderDaoJdbc implements OrderDao {
 
     }
 
-    //sheit
     @Override
-    public Order find(int customer_id) {
-        String query = "SELECT * FROM orders WHERE customer_id ='" + customer_id + "';";
+    public Order find(int id) {
+        String query = "SELECT * FROM orders WHERE id ='" + id + "';";
 
         try (Connection connection = getConnection();
              Statement statement =connection.createStatement();
@@ -59,23 +59,26 @@ public class OrderDaoJdbc implements OrderDao {
         }
         return null;
     }
-
-    //sheit
+    
     @Override
     public List<Order> getAll() {
         String query = "SELECT * FROM orders;";
-        executeQuery(query);
-        return null;
-    }
+        List<Order> allOrder = new ArrayList<>();
 
-    private void executeQuery(String query) {
         try (Connection connection = getConnection();
              Statement statement =connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)
         ){
-            statement.execute(query);
+            while (resultSet.next()) {
+                Order result = new Order(resultSet.getInt("customer_id"));
+                allOrder.add(result);
+            }
+            return allOrder;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
+
 }
