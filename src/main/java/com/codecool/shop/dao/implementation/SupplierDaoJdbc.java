@@ -21,6 +21,7 @@ public class SupplierDaoJdbc implements SupplierDao{
     private SupplierDaoJdbc() {
     }
 
+
     public static SupplierDaoJdbc getInstance() {
         if (instance == null) {
             instance = new SupplierDaoJdbc();
@@ -37,10 +38,10 @@ public class SupplierDaoJdbc implements SupplierDao{
             ps.setString(2, supplier.getDescription());
             ps.execute();
 
-            ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) FROM supplier;");
+            ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM supplier;");
             ResultSet rs = ps.executeQuery();
             rs.next();
-            supplier.setId(rs.getInt(0));
+            supplier.setId(rs.getInt("id"));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,13 +60,15 @@ public class SupplierDaoJdbc implements SupplierDao{
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                name = rs.getString(1);
+                description = rs.getString(2);
 
-            rs.next();
-            name = rs.getString(1);
-            description = rs.getString(2);
-
-            supplier = new Supplier(name, description);
-            supplier.setId(id);
+                supplier = new Supplier(name, description);
+                supplier.setId(id);
+            } else {
+                return null;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,12 +81,13 @@ public class SupplierDaoJdbc implements SupplierDao{
     public void remove(int id) {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("DELETE FROM supplier WHERE id = ?;");
+            ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
+
 
     @Override
     public List<Supplier> getAll() {
@@ -97,11 +101,11 @@ public class SupplierDaoJdbc implements SupplierDao{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                name = rs.getString(1);
-                description = rs.getString(2);
+                name = rs.getString(2);
+                description = rs.getString(3);
 
                 supplier = new Supplier(name, description);
-                supplier.setId(rs.getInt(0));
+                supplier.setId(rs.getInt(1));
                 listOfSuppliers.add(supplier);
             }
 
