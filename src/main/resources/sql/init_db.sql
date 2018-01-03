@@ -5,8 +5,9 @@ CREATE TABLE products
   name varchar(40),
   default_price FLOAT,
   default_currency varchar(40),
-  supplier_id INT NOT NULL ,
-  product_category_id INT NOT NULL
+  supplier_id INT NOT NULL,
+  product_category_id INT NOT NULL,
+  description varchar(400)
 );
 
 DROP TABLE IF EXISTS product_category CASCADE;
@@ -14,7 +15,7 @@ CREATE TABLE product_category (
   id SERIAL PRIMARY KEY NOT NULL,
   name varchar(40),
   department varchar(40),
-  description varchar(40)
+  description varchar(400)
 );
 
 
@@ -23,7 +24,7 @@ CREATE TABLE supplier
 (
   id SERIAL PRIMARY KEY NOT NULL,
   name varchar(40),
-  description varchar(40)
+  description varchar(400)
 );
 
 
@@ -63,6 +64,7 @@ CREATE TABLE line_item
   product_id INT NOT NULL,
   quantity INT
 );
+
 
 
 
