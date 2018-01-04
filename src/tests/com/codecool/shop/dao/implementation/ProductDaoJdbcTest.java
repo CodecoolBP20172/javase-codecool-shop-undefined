@@ -339,5 +339,41 @@ class ProductDaoJdbcTest {
     @DisplayName("Tests getBy product category")
     void testGetByProductCategory() {
 
+        assertEquals(0, unit.getAll().size());
+
+        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
+        testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
+        Supplier testSupplier = new Supplier("Test", "Test");
+        testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
+        unit.add(product2);
+
+        int productCategoryId = product.getProductCategory().getId();
+        int productCategory2Id = product2.getProductCategory().getId();
+
+        assertEquals(2, unit.getAll().size());
+        boolean found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getProductCategory().getId() == productCategoryId && one.getId() == 1){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getProductCategory().getId() == productCategory2Id && one.getId() == 2){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
     }
 }
