@@ -8,6 +8,7 @@ import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,10 @@ public class ProductDaoJdbc implements ProductDao {
             ps.setInt(5, product.getProductCategory().getId());
             ps.setString(6, product.getDescription());
             ps.execute();
+            ps =(com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM products;");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            product.setId(rs.getInt("id"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,7 +55,36 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return DATA.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        Product product = null;
+        String name;
+        float defaultPrice;
+        String defaultCurrency;
+        Supplier supplier;
+        ProductCategory productCategory;
+        String description;
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM products WHERE id = ?;");
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                name = rs.getString(1);
+                defaultPrice = rs.getFloat(2);
+                defaultCurrency = rs.getString(3);
+                supplier = DATA.get(id-1).getSupplier();
+                productCategory = DATA.get(id-1).getProductCategory();
+                description = rs.getString(6);
+                product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
+                product.setId(id);
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
     }
 
     @Override
