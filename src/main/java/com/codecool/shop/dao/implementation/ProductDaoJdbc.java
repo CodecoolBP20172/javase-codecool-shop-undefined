@@ -69,12 +69,12 @@ public class ProductDaoJdbc implements ProductDao {
 
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                name = rs.getString(1);
-                defaultPrice = rs.getFloat(2);
-                defaultCurrency = rs.getString(3);
-                supplier = getSupplyer(rs.getInt(4));
-                productCategory = getProductCategory(rs.getInt(5));
-                description = rs.getString(6);
+                name = rs.getString(2);
+                defaultPrice = rs.getFloat(3);
+                defaultCurrency = rs.getString(4);
+                supplier = getSupplyer(rs.getInt(5));
+                productCategory = getProductCategory(rs.getInt(6));
+                description = rs.getString(7);
                 product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
                 product.setId(id);
             } else {
@@ -98,8 +98,8 @@ public class ProductDaoJdbc implements ProductDao {
 
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                name = rs.getString(1);
-                description = rs.getString(2);
+                name = rs.getString(2);
+                description = rs.getString(3);
 
                 supplier = new Supplier(name, description);
                 supplier.setId(supplyerId);
@@ -125,9 +125,9 @@ public class ProductDaoJdbc implements ProductDao {
 
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
-                name = rs.getString(1);
-                department = rs.getString(2);
-                description = rs.getString(3);
+                name = rs.getString(2);
+                department = rs.getString(3);
+                description = rs.getString(4);
 
                 productCategory = new ProductCategory(name, department, description);
                 productCategory.setId(productCategoryId);
@@ -171,12 +171,12 @@ public class ProductDaoJdbc implements ProductDao {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
-                name = rs.getString(1);
-                defaultPrice = rs.getFloat(2);
-                defaultCurrency = rs.getString(3);
-                supplier = getSupplyer(rs.getInt(4));
-                productCategory = getProductCategory(rs.getInt(5));
-                description = rs.getString(6);
+                name = rs.getString(2);
+                defaultPrice = rs.getFloat(3);
+                defaultCurrency = rs.getString(4);
+                supplier = getSupplyer(rs.getInt(5));
+                productCategory = getProductCategory(rs.getInt(6));
+                description = rs.getString(7);
                 product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
                 product.setId(rs.getInt(1));
 
