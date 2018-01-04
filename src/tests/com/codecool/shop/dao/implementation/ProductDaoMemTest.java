@@ -95,4 +95,40 @@ class ProductDaoMemTest {
         assertTrue(unit.getAll().contains(product));
         assertTrue(unit.getAll().contains(product2));
     }
+
+    @Test
+    @DisplayName("Tests getBy supplier")
+    void testGetBySupplier(){
+
+        assertEquals(0, unit.getAll().size());
+
+        Supplier testSupplier2 = new Supplier("Test name", "Test description");
+
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier2);
+        unit.add(product2);
+
+        assertEquals(2, unit.getAll().size());
+        assertTrue(unit.getBy(testSupplier).contains(product));
+        assertTrue(unit.getBy(testSupplier2).contains(product2));
+    }
+
+    @Test
+    @DisplayName("Tests getBy product category")
+    void testGetByProductCategory(){
+
+        assertEquals(0, unit.getAll().size());
+
+        ProductCategory testCategory2 = new ProductCategory("Test name", "Test department", "Test description");
+
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier);
+        unit.add(product2);
+
+        assertEquals(2, unit.getAll().size());
+        assertTrue(unit.getBy(testCategory).contains(product));
+        assertTrue(unit.getBy(testCategory2).contains(product2));
+    }
 }
