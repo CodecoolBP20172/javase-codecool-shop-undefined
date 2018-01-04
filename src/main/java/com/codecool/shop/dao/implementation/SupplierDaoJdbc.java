@@ -21,14 +21,12 @@ public class SupplierDaoJdbc implements SupplierDao{
     private SupplierDaoJdbc() {
     }
 
-
     public static SupplierDaoJdbc getInstance() {
         if (instance == null) {
             instance = new SupplierDaoJdbc();
         }
         return instance;
     }
-
 
     @Override
     public void add(Supplier supplier) {
@@ -37,17 +35,14 @@ public class SupplierDaoJdbc implements SupplierDao{
             ps.setString(1, supplier.getName());
             ps.setString(2, supplier.getDescription());
             ps.execute();
-
             ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM supplier;");
             ResultSet rs = ps.executeQuery();
             rs.next();
             supplier.setId(rs.getInt("id"));
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public Supplier find(int id) {
@@ -115,4 +110,3 @@ public class SupplierDaoJdbc implements SupplierDao{
         return listOfSuppliers;
     }
  }
-
