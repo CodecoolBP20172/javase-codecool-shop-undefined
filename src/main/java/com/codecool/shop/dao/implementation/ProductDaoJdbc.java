@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import com.codecool.shop.dao.implementation.SupplierDaoJdbc;
 import static com.codecool.shop.ConnectionManager.getConnection;
 
 public class ProductDaoJdbc implements ProductDao {
@@ -72,8 +72,8 @@ public class ProductDaoJdbc implements ProductDao {
                 name = rs.getString(1);
                 defaultPrice = rs.getFloat(2);
                 defaultCurrency = rs.getString(3);
-                supplier = DATA.get(id-1).getSupplier();
-                productCategory = DATA.get(id-1).getProductCategory();
+                supplier = getSupplyer(rs.getInt(4));
+                productCategory = getProductCategory(rs.getInt(5));
                 description = rs.getString(6);
                 product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
                 product.setId(id);
@@ -85,6 +85,60 @@ public class ProductDaoJdbc implements ProductDao {
             e.printStackTrace();
         }
         return product;
+    }
+
+    private Supplier getSupplyer(int supplyerId) {
+        Supplier supplier = null;
+        String name;
+        String description;
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM supplier WHERE id = ?;");
+            ps.setInt(1, supplyerId);
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                name = rs.getString(1);
+                description = rs.getString(2);
+
+                supplier = new Supplier(name, description);
+                supplier.setId(supplyerId);
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return supplier;
+    }
+
+    private ProductCategory getProductCategory(int productCategoryId) {
+        ProductCategory productCategory = null;
+        String name;
+        String department;
+        String description;
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM product_category WHERE id = ?;");
+            ps.setInt(1, productCategoryId);
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                name = rs.getString(1);
+                department = rs.getString(2);
+                description = rs.getString(3);
+
+                productCategory = new ProductCategory(name, department, description);
+                productCategory.setId(productCategoryId);
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productCategory;
     }
 
     @Override
@@ -120,8 +174,8 @@ public class ProductDaoJdbc implements ProductDao {
                 name = rs.getString(1);
                 defaultPrice = rs.getFloat(2);
                 defaultCurrency = rs.getString(3);
-                supplier = DATA.get(rs.getInt(1)-1).getSupplier();
-                productCategory = DATA.get(rs.getInt(1)-1).getProductCategory();
+                supplier = getSupplyer(rs.getInt(4));
+                productCategory = getProductCategory(rs.getInt(5));
                 description = rs.getString(6);
                 product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
                 product.setId(rs.getInt(1));
