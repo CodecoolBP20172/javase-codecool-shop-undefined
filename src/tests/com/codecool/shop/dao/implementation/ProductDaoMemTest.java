@@ -15,7 +15,11 @@ class ProductDaoMemTest {
     static ProductDao unit;
 
     private ProductCategory testCategory = new ProductCategory("Test name", "Test department", "Test description");
+    private ProductCategory testCategory2 = new ProductCategory("Test name", "Test department", "Test description");
     private Supplier testSupplier = new Supplier("Test name", "Test description");
+    private Supplier testSupplier2 = new Supplier("Test name", "Test description");
+    private Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+    private Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
 
     @BeforeEach
     public void init(){
@@ -26,9 +30,7 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests add method with one element")
     void testAdd(){
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-
         assertEquals(1, unit.getAll().size());
         assertTrue(unit.getAll().contains(product));
     }
@@ -36,9 +38,7 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests add method with two element")
     void testAdd2(){
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         //guarantee that the list contains only the added object --> size, content
@@ -53,9 +53,7 @@ class ProductDaoMemTest {
         //assert we get null when the array is empty
         assertEquals(null, unit.find(1));
 
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         int product2Id = product2.getId();
@@ -66,13 +64,10 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests remove method")
     void testRemove() {
-
         unit.remove(2);
         assertEquals(0, unit.getAll().size());
 
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         unit.remove(product.getId());
@@ -83,12 +78,9 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests getAll method")
     void testGetAll(){
-
         assertEquals(0, unit.getAll().size());
 
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         assertEquals(2, unit.getAll().size());
@@ -99,14 +91,9 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests getBy supplier")
     void testGetBySupplier(){
-
         assertEquals(0, unit.getAll().size());
 
-        Supplier testSupplier2 = new Supplier("Test name", "Test description");
-
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier2);
         unit.add(product2);
 
         assertEquals(2, unit.getAll().size());
@@ -117,14 +104,9 @@ class ProductDaoMemTest {
     @Test
     @DisplayName("Tests getBy product category")
     void testGetByProductCategory(){
-
         assertEquals(0, unit.getAll().size());
 
-        ProductCategory testCategory2 = new ProductCategory("Test name", "Test department", "Test description");
-
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier);
         unit.add(product2);
 
         assertEquals(2, unit.getAll().size());
