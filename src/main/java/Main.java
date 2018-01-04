@@ -6,6 +6,7 @@ import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.login.LoginController;
 import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
@@ -35,6 +36,21 @@ public class Main {
         get("/index", (Request req, Response res) -> {
            return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
         });
+
+        get("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( LoginController.renderLogin(req, res) );
+        });
+
+        get("/logout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( LoginController.renderLogout(req, res) );
+        });
+
+        post("/login_authenticate", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthenticate(req, res));
+        });
+
+
+
         post("/payment", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
         });
