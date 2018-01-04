@@ -40,7 +40,7 @@ class SupplierDaoMemTest {
         Supplier supplier2 = new Supplier("2TestAdd", "Second data to test add method");
         unit.add(supplier2);
 
-        //garantee that the list contains only the added object --> size, content
+        //guarantee that the list contains only the added object --> size, content
         assertEquals(2, unit.getAll().size());
         assertTrue(unit.getAll().contains(supplier));
         assertTrue(unit.getAll().contains(supplier2));
