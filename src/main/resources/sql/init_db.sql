@@ -33,9 +33,23 @@ CREATE TABLE orders
 (
   id SERIAL PRIMARY KEY NOT NULL,
   customer_id INT NOT NULL,
-  subtotal FLOAT
+  cart_id INT NOT FULL
 );
 
+DROP TABLE IF EXISTS carts CASCADE;
+CREATE TABLE carts
+(
+  id SERIAL PRIMARY KEY NOT NULL
+);
+
+DROP TABLE IF EXISTS line_item CASCADE;
+CREATE TABLE line_item
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  cart_id INT NOT NULL,
+  product_id INT NOT NULL,
+  quantity INT
+);
 
 DROP TABLE IF EXISTS customer CASCADE;
 CREATE TABLE customer
@@ -56,18 +70,6 @@ CREATE TABLE customer
 );
 
 
-DROP TABLE IF EXISTS line_item CASCADE;
-CREATE TABLE line_item
-(
-  id SERIAL PRIMARY KEY NOT NULL,
-  order_id INT NOT NULL,
-  product_id INT NOT NULL,
-  quantity INT
-);
-
-
-
-
 ALTER TABLE ONLY products
   ADD CONSTRAINT fk_product_category_id FOREIGN KEY (product_category_id) REFERENCES product_category(id);
 
@@ -81,5 +83,7 @@ ALTER TABLE ONLY line_item
   ADD CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id);
 
 ALTER TABLE ONLY line_item
-  ADD CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id);
+  ADD CONSTRAINT fk_order_id FOREIGN KEY (cart_id) REFERENCES carts(id);
 
+ALTER TABLE ONLY orders
+  ADD CONSTRAINT fk_order_id FOREIGN KEY (cart_id) REFERENCES carts(id);
