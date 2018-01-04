@@ -19,6 +19,13 @@ class ProductDaoJdbcTest {
 
     static ProductDao unit;
 
+    private ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
+    private ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+    private Supplier testSupplier = new Supplier("Test", "Test");
+    private Supplier testSupplier2 = new Supplier("Test", "Test");
+    private Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+    private Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
+
     @BeforeEach
     public void init(){
         unit = ProductDaoJdbc.getInstance();
@@ -90,9 +97,6 @@ class ProductDaoJdbcTest {
                     "  quantity INT\n" +
                     ");\n" +
                     "\n" +
-                    "\n" +
-                    "\n" +
-                    "\n" +
                     "ALTER TABLE ONLY products\n" +
                     "  ADD CONSTRAINT fk_product_category_id FOREIGN KEY (product_category_id) REFERENCES product_category(id);\n" +
                     "\n" +
@@ -116,26 +120,15 @@ class ProductDaoJdbcTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        setIds();
     }
 
     @Test
     @DisplayName("Tests add method with one element")
     void testAdd(){
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-
         int productId = product.getId();
-
         assertEquals(1, unit.getAll().size());
-
         boolean found = false;
         for (Product one : unit.getAll()) {
             if(one.getId() == productId){
@@ -149,17 +142,7 @@ class ProductDaoJdbcTest {
     @Test
     @DisplayName("Tests add method with two element")
     void testAdd2() {
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         int productId = product.getId();
@@ -190,17 +173,7 @@ class ProductDaoJdbcTest {
     void testFind() {
         //assert we get null when the array is empty
         assertEquals(null, unit.find(1));
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         int product2Id = product2.getId();
@@ -211,21 +184,9 @@ class ProductDaoJdbcTest {
     @Test
     @DisplayName("Tests remove method")
     void testRemove() {
-
         unit.remove(2);
         assertEquals(0, unit.getAll().size());
-
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         int productId = product.getId();
@@ -254,20 +215,8 @@ class ProductDaoJdbcTest {
     @Test
     @DisplayName("Tests getAll method")
     void testGetAll(){
-
         assertEquals(0, unit.getAll().size());
-
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product2);
 
         int productId = product.getId();
@@ -296,20 +245,8 @@ class ProductDaoJdbcTest {
     @Test
     @DisplayName("Tests getBy supplier")
     void testGetBySupplier() {
-
         assertEquals(0, unit.getAll().size());
-
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
         unit.add(product2);
 
         int supplierId = product.getSupplier().getId();
@@ -338,20 +275,8 @@ class ProductDaoJdbcTest {
     @Test
     @DisplayName("Tests getBy product category")
     void testGetByProductCategory() {
-
         assertEquals(0, unit.getAll().size());
-
-        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
-        testCategory.setId(1);
-        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
-        testCategory2.setId(2);
-        Supplier testSupplier = new Supplier("Test", "Test");
-        testSupplier.setId(1);
-        Supplier testSupplier2 = new Supplier("Test", "Test");
-        testSupplier2.setId(2);
-        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
-        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
         unit.add(product2);
 
         int productCategoryId = product.getProductCategory().getId();
@@ -375,5 +300,12 @@ class ProductDaoJdbcTest {
             }
         }
         assertTrue(found);
+    }
+
+    private void setIds() {
+        testCategory.setId(1);
+        testCategory2.setId(2);
+        testSupplier.setId(1);
+        testSupplier2.setId(2);
     }
 }
