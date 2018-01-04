@@ -89,7 +89,16 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public void remove(int id) {
+        //i might need to still include this line below aswell to remove product from the DATA arraylist too
         DATA.remove(find(id));
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("DELETE FROM products WHERE id = ?;");
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
