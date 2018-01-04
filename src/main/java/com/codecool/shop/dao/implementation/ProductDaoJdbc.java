@@ -145,6 +145,7 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return DATA.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+        List<Product> listOfProducts = getAll();
+        return listOfProducts.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
     }
 }
