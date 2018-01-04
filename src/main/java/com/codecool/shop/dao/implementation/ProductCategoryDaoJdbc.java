@@ -89,7 +89,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> listOfProductCategories = new ArrayList<>();
-        ProductCategory productCategory = null;
+        ProductCategory productCategory;
         String name;
         String department;
         String description;
