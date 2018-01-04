@@ -194,5 +194,80 @@ class ProductDaoJdbcTest {
         assertEquals(product2Id, (unit.find(product2Id)).getId());
     }
 
-    
+    @Test
+    @DisplayName("Tests remove method")
+    void testRemove() {
+
+        unit.remove(2);
+        assertEquals(0, unit.getAll().size());
+
+        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
+        testCategory.setId(1);
+        Supplier testSupplier = new Supplier("Test", "Test");
+        testSupplier.setId(1);
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product2);
+
+        int productId = product.getId();
+        int product2Id = product2.getId();
+
+        unit.remove(product.getId());
+        boolean found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getId() == productId){
+                found = true;
+                break;
+            }
+        }
+        assertFalse(found);
+
+        found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getId() == product2Id){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+    }
+
+    @Test
+    @DisplayName("Tests getAll method")
+    void testGetAll(){
+
+        assertEquals(0, unit.getAll().size());
+
+        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
+        testCategory.setId(1);
+        Supplier testSupplier = new Supplier("Test", "Test");
+        testSupplier.setId(1);
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product2);
+
+        int productId = product.getId();
+        int product2Id = product2.getId();
+
+        assertEquals(2, unit.getAll().size());
+        boolean found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getId() == productId){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getId() == product2Id){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+    }
 }

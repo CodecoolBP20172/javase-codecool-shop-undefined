@@ -248,5 +248,6 @@ class SupplierDaoJdbcTest {
                 break;
             }
         }
-        assertTrue(found);    }
+        assertTrue(found);
+    }
 }
