@@ -109,6 +109,8 @@ class ProductDaoJdbcTest {
                     "  ADD CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id);\n" +
                     "\n" +
                     "INSERT INTO supplier (name, description) VALUES ('Test', 'Test');\n" +
+                    "INSERT INTO supplier (name, description) VALUES ('Test', 'Test');\n" +
+                    "INSERT INTO product_category (name, department, description) VALUES ('Test', 'Test', 'Test');\n" +
                     "INSERT INTO product_category (name, department, description) VALUES ('Test', 'Test', 'Test');\n");
             ps.execute();
         } catch (SQLException e) {
@@ -121,8 +123,12 @@ class ProductDaoJdbcTest {
     void testAdd(){
         ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
         testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
         Supplier testSupplier = new Supplier("Test", "Test");
         testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
 
@@ -145,8 +151,12 @@ class ProductDaoJdbcTest {
     void testAdd2() {
         ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
         testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
         Supplier testSupplier = new Supplier("Test", "Test");
         testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
         Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
@@ -182,8 +192,12 @@ class ProductDaoJdbcTest {
         assertEquals(null, unit.find(1));
         ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
         testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
         Supplier testSupplier = new Supplier("Test", "Test");
         testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
         Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
@@ -203,8 +217,12 @@ class ProductDaoJdbcTest {
 
         ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
         testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
         Supplier testSupplier = new Supplier("Test", "Test");
         testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
         Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
@@ -241,8 +259,12 @@ class ProductDaoJdbcTest {
 
         ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
         testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
         Supplier testSupplier = new Supplier("Test", "Test");
         testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
         unit.add(product);
         Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
@@ -269,5 +291,53 @@ class ProductDaoJdbcTest {
             }
         }
         assertTrue(found);
+    }
+
+    @Test
+    @DisplayName("Tests getBy supplier")
+    void testGetBySupplier() {
+
+        assertEquals(0, unit.getAll().size());
+
+        ProductCategory testCategory = new ProductCategory("Test", "Test", "Test");
+        testCategory.setId(1);
+        ProductCategory testCategory2 = new ProductCategory("Test", "Test", "Test");
+        testCategory2.setId(2);
+        Supplier testSupplier = new Supplier("Test", "Test");
+        testSupplier.setId(1);
+        Supplier testSupplier2 = new Supplier("Test", "Test");
+        testSupplier2.setId(2);
+        Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);
+        unit.add(product);
+        Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
+        unit.add(product2);
+
+        int supplierId = product.getSupplier().getId();
+        int supplier2Id = product2.getSupplier().getId();
+
+        assertEquals(2, unit.getAll().size());
+        boolean found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getSupplier().getId() == supplierId && one.getId() == 1){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        found = false;
+        for (Product one : unit.getAll()) {
+            if(one.getSupplier().getId() == supplier2Id && one.getId() == 2){
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+    }
+
+    @Test
+    @DisplayName("Tests getBy product category")
+    void testGetByProductCategory() {
+
     }
 }
