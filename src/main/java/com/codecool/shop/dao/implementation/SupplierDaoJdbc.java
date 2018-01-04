@@ -1,17 +1,19 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
+import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierDaoJdbc implements SupplierDao {
+public class SupplierDaoJdbc implements SupplierDao{
 
-    private List<Supplier> DATA = new ArrayList<>();
     private static SupplierDaoJdbc instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -33,6 +35,10 @@ public class SupplierDaoJdbc implements SupplierDao {
             ps.setString(1, supplier.getName());
             ps.setString(2, supplier.getDescription());
             ps.execute();
+            ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM supplier;");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            supplier.setId(rs.getInt("id"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -40,16 +46,67 @@ public class SupplierDaoJdbc implements SupplierDao {
 
     @Override
     public Supplier find(int id) {
-        return DATA.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        Supplier supplier = null;
+        String name;
+        String description;
+
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT * FROM supplier WHERE id = ?;");
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                name = rs.getString(1);
+                description = rs.getString(2);
+
+                supplier = new Supplier(name, description);
+                supplier.setId(id);
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return supplier;
     }
+
 
     @Override
     public void remove(int id) {
-        DATA.remove(find(id));
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("DELETE FROM supplier WHERE id = ?;");
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public List<Supplier> getAll() {
-        return DATA;
+        List<Supplier> listOfSuppliers = new ArrayList<>();
+        Supplier supplier = null;
+        String name;
+        String description;
+
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT * FROM supplier");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                name = rs.getString(2);
+                description = rs.getString(3);
+
+                supplier = new Supplier(name, description);
+                supplier.setId(rs.getInt(1));
+                listOfSuppliers.add(supplier);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfSuppliers;
     }
-}
+ }
