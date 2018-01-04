@@ -67,7 +67,7 @@ class ProductDaoMemTest {
     @DisplayName("Tests remove method")
     void testRemove() {
 
-        unit.remove(2); //?
+        unit.remove(2);
         assertEquals(0, unit.getAll().size());
 
         Product product = new Product("TestAdd", 100, "USD", "Test description", testCategory, testSupplier);

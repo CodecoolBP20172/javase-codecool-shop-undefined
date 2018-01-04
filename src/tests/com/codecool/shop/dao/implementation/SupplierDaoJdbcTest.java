@@ -142,7 +142,7 @@ class SupplierDaoJdbcTest {
         Supplier supplier2 = new Supplier("2TestAdd", "Second data to test add method");
         unit.add(supplier2);
         int supplierId2 = supplier2.getId();
-        //garantee that the list contains only the added object --> size, content
+        //guarantee that the list contains only the added object --> size, content
         assertEquals(2, unit.getAll().size());
         boolean found = false;
         for (Supplier one : unit.getAll()) {
@@ -160,7 +160,8 @@ class SupplierDaoJdbcTest {
                 break;
             }
         }
-        assertTrue(found);    }
+        assertTrue(found);
+    }
 
 
     @Test
