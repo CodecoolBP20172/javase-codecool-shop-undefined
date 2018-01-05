@@ -5,10 +5,19 @@ public class Order {
     private int id;
     private Customer customer;
     private Cart cart;
+    private int customerId = 3;
 
     public Order(Customer customer, Cart cart) {
         this.customer = customer;
         this.cart = cart;
+    }
+
+    public Order(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public Integer getCustomerId() {
+        return customerId;
     }
 
     public int getId() {
