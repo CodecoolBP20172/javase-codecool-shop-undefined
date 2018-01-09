@@ -2,7 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.ConnectionManager;
 import com.codecool.shop.dao.CartDao;
-import com.codecool.shop.model.*;
+import com.codecool.shop.model.Cart;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,30 +46,6 @@ public class cartDaoJdbc implements CartDao {
 
     @Override
     public List<Cart> getCart() {
-        List<Cart> carts = new ArrayList<>();
-        Cart cart = null;
-        List<LineItem> CART = new ArrayList<>();
-        int id;
-        int customerId;
-
-        try {
-            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM carts");
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()){
-                id = rs.getInt(1);
-                customerId = 
-                product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
-                product.setId(rs.getInt(1));
-
-                supplier = new Supplier(name, description);
-                supplier.setId(rs.getInt(1));
-                listOfProducts.add(product);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listOfProducts;
+        return CARTS;
     }
 }
