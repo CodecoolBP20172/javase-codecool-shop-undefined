@@ -33,7 +33,7 @@ CREATE TABLE orders
 (
   id SERIAL PRIMARY KEY NOT NULL,
   customer_id INT NOT NULL,
-  cart_id INT NOT FULL
+  cart_id INT NOT NULL
 );
 
 DROP TABLE IF EXISTS carts CASCADE;
