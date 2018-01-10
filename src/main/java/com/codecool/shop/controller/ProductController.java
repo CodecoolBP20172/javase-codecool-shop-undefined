@@ -16,8 +16,8 @@ import java.util.Map;
 public class ProductController {
 
     public static ModelAndView renderProducts(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJdbc.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
 
         Map params = new HashMap<>();
         params.put("category", productCategoryDataStore.find(1));
@@ -31,14 +31,18 @@ public class ProductController {
         Map params = new HashMap<>();
         params.put("cart_list", parseJson(cartList));
         
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJdbc.getInstance();
+        Integer customerIdFromSession = 1;
 
         //create cart
-        CartDao cartMem = CartDaoMem.getInstance();
-        Cart cart = new Cart(1);
-        cartMem.add(cart);
+        CartDao cartJdbc = CartDaoJdbc.getInstance();
+        Cart cart = new Cart(customerIdFromSession);
+        cartJdbc.add(cart);
 
-        addToCartFromJson(cartMem, cart, productDataStore, cartList);
+        //create line items
+        LineItemDao lineItemJdbc = LineItemJdbc.getInstance();
+        addToCartFromJson(cartJdbc, cart, productDataStore, cartList);
+        lineItemJdbc.add(cart);
 
         return new ModelAndView(params, "product/checkout");
     }
@@ -70,7 +74,7 @@ public class ProductController {
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
-        CartDao cartMem = CartDaoMem.getInstance();
+        CartDao cartJdbc = CartDaoJdbc.getInstance();
         CustomerDao customerMem = CustomerDaoMem.getInstance();
         Customer customer = new Customer(
                 req.queryParams("firstname"),
@@ -90,7 +94,7 @@ public class ProductController {
 
         System.out.println(customerMem);
         System.out.println(customer);
-        params.put("sub_total", cartMem.getCart().get(0).getSubTotal());
+        params.put("sub_total", cartJdbc.getCart().get(0).getSubTotal());
         return new ModelAndView(params, "product/payment");
     }
 
@@ -100,14 +104,9 @@ public class ProductController {
         return new ModelAndView(params, "product/error");
     }
 
-    private static void addToCartFromJson(CartDao cartMem, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
+    private static void addToCartFromJson(CartDao cartJdbc, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
             cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
-            //test
-            /*System.out.println("Product: " + cartMem.getCart().get(0).getCART().get(i).getProduct().getName());
-            System.out.println("Quantity: " + cart.getCART().get(i).quantity);
-            System.out.println("Price: " + cart.getCART().get(i).price);
-            System.out.println("memory cart:" + cartMem.getCart().get(0).getCART().get(i));*/
         }
     }
 

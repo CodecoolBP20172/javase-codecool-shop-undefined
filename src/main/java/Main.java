@@ -24,7 +24,7 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-        populateData();
+        // populateData();
 
         // Always start with more specific routes
         get("/hello", (req, res) -> "Hello World");
@@ -58,11 +58,8 @@ public class Main {
     private static void populateData() {
 
         ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductDao productDataStoreJdbc = ProductDaoJdbc.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStoreJdbc = ProductCategoryDaoJdbc.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        SupplierDao supplierDataStoreJdbc = SupplierDaoJdbc.getInstance();
 
         //setting up a new supplier (memory)
         Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
@@ -72,17 +69,9 @@ public class Main {
         Supplier wizardTools = new Supplier("Wizard Tools", "Everyday tools for wizards");
         supplierDataStore.add(wizardTools);
 
-        //setting up a new supplier (jdbc)
-        /*supplierDataStoreJdbc.add(magicWandFactory);
-        supplierDataStoreJdbc.add(magicSweets);
-        supplierDataStoreJdbc.add(wizardTools);*/
-
         //setting up a new product category (memory)
         ProductCategory hogwarts = new ProductCategory("Hogwarts", "Magical items", "Items for wizards");
         productCategoryDataStore.add(hogwarts);
-
-        //setting up a new product category (jdbc)
-        /*productCategoryDataStoreJdbc.add(hogwarts);*/
 
         //setting up products and printing it (memory)
         productDataStore.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
@@ -94,17 +83,6 @@ public class Main {
         productDataStore.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
         productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
-
-        //setting up products and printing it (jdbc)
-        /*productDataStoreJdbc.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
-        productDataStoreJdbc.add(new Product("Magic Wand - model 2", 350, "USD", "High quality 36cm long wand for brave wizards", hogwarts, magicWandFactory));
-        productDataStoreJdbc.add(new Product("Magic Wand - model 3", 390, "USD", "High quality 39.8cm long wand for evil wizards", hogwarts, magicWandFactory));
-        productDataStoreJdbc.add(new Product("Time-Turner Necklace", 44, "USD", "The Time-Turner is centred with a working miniature hourglass.", hogwarts, wizardTools));
-        productDataStoreJdbc.add(new Product("Marauder's Map", 30, "USD", "With this item you'll always know where your friends are.", hogwarts, wizardTools));
-        productDataStoreJdbc.add(new Product("Wizard Chess Set", 100, "USD", "Simple chess game with an epic twist.", hogwarts, wizardTools));
-        productDataStoreJdbc.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
-        productDataStoreJdbc.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
-        productDataStoreJdbc.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));*/
 
     }
 

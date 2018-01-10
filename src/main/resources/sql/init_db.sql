@@ -33,13 +33,14 @@ CREATE TABLE orders
 (
   id SERIAL PRIMARY KEY NOT NULL,
   customer_id INT NOT NULL,
-  cart_id INT NOT FULL
+  cart_id INT NOT NULL
 );
 
 DROP TABLE IF EXISTS carts CASCADE;
 CREATE TABLE carts
 (
-  id SERIAL PRIMARY KEY NOT NULL
+  id SERIAL PRIMARY KEY NOT NULL,
+  customer_id INT NOT NULL
 );
 
 DROP TABLE IF EXISTS line_item CASCADE;
@@ -87,3 +88,6 @@ ALTER TABLE ONLY line_item
 
 ALTER TABLE ONLY orders
   ADD CONSTRAINT fk_order_id FOREIGN KEY (cart_id) REFERENCES carts(id);
+
+ALTER TABLE ONLY carts
+  ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);

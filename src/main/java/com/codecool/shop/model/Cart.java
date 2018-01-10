@@ -17,6 +17,10 @@ public class Cart {
         return id;
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
