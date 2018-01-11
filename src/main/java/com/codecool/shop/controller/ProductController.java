@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
 public class ProductController {
 
     public static ModelAndView renderProducts(Request req, Response res) {
@@ -49,15 +51,13 @@ public class ProductController {
 
     public static ModelAndView renderConfirmation(Request req, Response res) {
 
-        CartDao cartMem = CartDaoMem.getInstance();
-        OrderDao orderMem = OrderDaoMem.getInstance();
-        CustomerDao customerMem = CustomerDaoMem.getInstance();
-
-        //test
+        CartDao cartJdbc = CartDaoJdbc.getInstance();
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
+        CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
 
-        Order order = new Order(customerMem.getCUSTOMERS().get(customerMem.getCUSTOMERS().size()-1),cartMem.getCart().get(cartMem.getCart().size()-1));
-        orderMem.add(order);
+
+        Order order = new Order(customerJdbc.getCUSTOMERS().get(customerJdbc.getCUSTOMERS().size()-1),cartJdbc.getCart().get(cartJdbc.getCart().size()-1));
+        orderJdbc.add(order);
         //test
         orderJdbc.add(order);
         System.out.println("test find: " + orderJdbc.find(2));
@@ -65,10 +65,10 @@ public class ProductController {
 
 
         Map params = new HashMap<>();
-        params.put("sub_total", cartMem.getCart().get(cartMem.getCart().size()-1).getSubTotal());
+        params.put("sub_total", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getSubTotal());
         params.put("customer", order.getCustomer());
         //System.out.println(orderMem.getAll().get(0));
-        params.put("cart_products", cartMem.getCart().get(cartMem.getCart().size()-1).getCART());
+        params.put("cart_products", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getCART());
         return new ModelAndView(params, "product/confirmation");
     }
 
@@ -83,11 +83,11 @@ public class ProductController {
                 req.queryParams("email"),
                 req.queryParams("bcountry"),
                 req.queryParams("bcity"),
-                req.queryParams("bzip"),
+                parseInt(req.queryParams("bzip")),
                 req.queryParams("badress"),
                 req.queryParams("shcountry"),
                 req.queryParams("shcity"),
-                req.queryParams("shzip"),
+                parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
         customerMem.add(customer);
@@ -106,7 +106,7 @@ public class ProductController {
 
     private static void addToCartFromJson(CartDao cartJdbc, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
-            cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
+            cart.add(productDataStore.find(parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
         }
     }
 

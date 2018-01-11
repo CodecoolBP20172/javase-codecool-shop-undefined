@@ -10,12 +10,12 @@ public class Customer {
 
     private String billCountry;
     private String billCity;
-    private String billZip;
+    private Integer billZip;
     private String billAddress;
 
     private String shipCountry;
     private String shipCity;
-    private String shipZip;
+    private Integer shipZip;
     private String shipAddress;
 
     public Customer(
@@ -25,11 +25,11 @@ public class Customer {
             String email,
             String billCountry,
             String billCity,
-            String billZip,
+            Integer billZip,
             String billAddress,
             String shipCountry,
             String shipCity,
-            String shipZip,
+            Integer shipZip,
             String shipAddress
     ) {
         this.firstName = firstName;
@@ -102,12 +102,12 @@ public class Customer {
         this.billCity = billCity;
     }
 
-    public String getBillZip() {
+    public Integer getBillZip() {
         return billZip;
     }
 
-    public void setBillZip(String billZip) {
-        this.billZip = billZip;
+    public Integer getShipZip() {
+        return shipZip;
     }
 
     public String getBillAddress() {
@@ -134,13 +134,6 @@ public class Customer {
         this.shipCity = shipCity;
     }
 
-    public String getShipZip() {
-        return shipZip;
-    }
-
-    public void setShipZip(String shipZip) {
-        this.shipZip = shipZip;
-    }
 
     public String getShipAddress() {
         return shipAddress;
