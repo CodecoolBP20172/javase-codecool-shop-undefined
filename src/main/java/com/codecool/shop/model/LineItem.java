@@ -3,7 +3,7 @@ package com.codecool.shop.model;
 public class LineItem {
     public Product product;
     public int quantity;
-    public float price;
+    public double price;
 
     LineItem(Product product) {
         this.product = product;
@@ -26,7 +26,7 @@ public class LineItem {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

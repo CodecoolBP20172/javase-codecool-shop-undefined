@@ -5,7 +5,7 @@ public class Order {
     private int id;
     private Customer customer;
     private Cart cart;
-    private int customerId = 3;
+    private int customerId = 1;
 
     public Order(Customer customer, Cart cart) {
         this.customer = customer;
