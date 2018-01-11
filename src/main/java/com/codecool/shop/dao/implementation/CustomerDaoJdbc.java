@@ -64,7 +64,7 @@ public class CustomerDaoJdbc implements CustomerDao{
     @Override
     public List<Customer> getCUSTOMERS() {
 
-        String query = "SELECT * FROM customers;";
+        String query = "SELECT * FROM customer;";
         List<Customer> allCustomer = new ArrayList<>();
 
         try (Connection connection = getConnection();

@@ -26,6 +26,7 @@ public class OrderDaoJdbc implements OrderDao {
     @Override
     public void add(Order order) {
         int customer_id = order.getCustomerId();
+        System.out.println("CUSTOMER ID :" + customer_id);
         int cartId = order.getCart().getId();
 
         try {

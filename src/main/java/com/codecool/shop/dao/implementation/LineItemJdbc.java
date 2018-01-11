@@ -48,4 +48,9 @@ public class LineItemJdbc implements LineItemDao {
             }
         }
     }
+
+    @Override
+    public List<LineItem> getLineItemsByCustomer(Integer id) {
+        return null;
+    }
 }

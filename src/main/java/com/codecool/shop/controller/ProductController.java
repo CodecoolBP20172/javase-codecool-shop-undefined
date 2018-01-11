@@ -55,14 +55,8 @@ public class ProductController {
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
 
-
-        Order order = new Order(customerJdbc.getCUSTOMERS().get(customerJdbc.getCUSTOMERS().size()-1),cartJdbc.getCart().get(cartJdbc.getCart().size()-1));
+        Order order = new Order(customerJdbc.getCUSTOMERS().get(0),cartJdbc.getCart().get(cartJdbc.getCart().size()-1));
         orderJdbc.add(order);
-        //test
-        orderJdbc.add(order);
-        System.out.println("test find: " + orderJdbc.find(2));
-        System.out.println(orderJdbc.getAll());
-
 
         Map params = new HashMap<>();
         params.put("sub_total", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getSubTotal());
@@ -75,7 +69,7 @@ public class ProductController {
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
         CartDao cartJdbc = CartDaoJdbc.getInstance();
-        CustomerDao customerMem = CustomerDaoMem.getInstance();
+        CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
         Customer customer = new Customer(
                 req.queryParams("firstname"),
                 req.queryParams("lastname"),
@@ -90,11 +84,11 @@ public class ProductController {
                 parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
-        customerMem.add(customer);
+        customerJdbc.add(customer);
 
-        System.out.println(customerMem);
+        System.out.println(customerJdbc);
         System.out.println(customer);
-        params.put("sub_total", cartJdbc.getCart().get(0).getSubTotal());
+        params.put("sub_total", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getSubTotal());
         return new ModelAndView(params, "product/payment");
     }
 

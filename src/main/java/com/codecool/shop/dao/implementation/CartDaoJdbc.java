@@ -51,8 +51,9 @@ public class CartDaoJdbc implements CartDao {
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()) {
-                Cart result = new Cart(resultSet.getInt("id"));
+                Cart result = new Cart(resultSet.getInt("customer_id"));
                 allCarts.add(result);
+                result.setId(resultSet.getInt("id"));
             }
             return allCarts;
 
