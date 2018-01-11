@@ -198,6 +198,37 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return getAll().stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+        List<Product> listOfProducts = new ArrayList<>();
+        Product product = null;
+        String name;
+        String description;
+        Double defaultPrice;
+        String defaultCurrency;
+        Supplier supplier;
+
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT products.id, products.name, products.description, default_price, default_currency, supplier.name AS supplier_name, supplier.description AS  supplier_description FROM products\n" +
+                    "JOIN supplier ON products.supplier_id = supplier.id\n" +
+                    "WHERE product_category_id = 1;");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                name = rs.getString("name");
+                description = rs.getString("description");
+                defaultPrice = rs.getDouble("default_price");
+                defaultCurrency = rs.getString("default_currency");
+
+                supplier = new Supplier(rs.getString("supplier_name"), rs.getString("supplier_description"));
+
+                product = new Product(name, defaultPrice, defaultCurrency, description, productCategory, supplier);
+                product.setId(rs.getInt("id"));
+                listOfProducts.add(product);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfProducts;
     }
 }

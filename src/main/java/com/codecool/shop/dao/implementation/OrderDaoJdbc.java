@@ -26,12 +26,13 @@ public class OrderDaoJdbc implements OrderDao {
     @Override
     public void add(Order order) {
         int customer_id = order.getCustomerId();
-        double subtotal = order.getCart().getSubTotal();
+        System.out.println("CUSTOMER ID :" + customer_id);
+        int cartId = order.getCart().getId();
 
         try {
-            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO orders (customer_id, subtotal) VALUES(?,?);");
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO orders (customer_id, cart_id) VALUES(?,?);");
             ps.setInt(1, customer_id);
-            ps.setDouble(2, subtotal);
+            ps.setDouble(2, cartId);
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();

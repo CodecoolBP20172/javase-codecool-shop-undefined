@@ -17,6 +17,10 @@ public class Cart {
         return id;
     }
 
+    public int getCustomerId() {
+        return customerId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -27,6 +31,7 @@ public class Cart {
 
     public int getSubTotal() {
         int subTotal= 0;
+        System.out.println("cartsize:  " + CART.size());
         for (int i = 0; i < CART.size(); i++) {
             subTotal += CART.get(i).getPrice();
         }
