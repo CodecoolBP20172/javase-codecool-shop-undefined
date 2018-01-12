@@ -2,8 +2,11 @@ package com.codecool.shop.model;
 
 
 import java.lang.reflect.Field;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BaseModel {
+    Logger logger = LoggerFactory.getLogger(BaseModel.class);
 
     protected int id;
     //protected int cartId;
@@ -12,11 +15,13 @@ public class BaseModel {
 
     public BaseModel(String name) {
         this.name = name;
+        logger.info("Base model instance successfully created with name: {}", name);
     }
 
     public BaseModel(String name, String description) {
         this.name = name;
         this.description = description;
+        logger.info("Base model instance successfully created with name: {}, description: {}", name, description);
     }
 
 
@@ -64,10 +69,9 @@ public class BaseModel {
                     sb.append(field.getName() + ":" + value + ",");
                 }
             } catch (IllegalAccessException e) {
-
+                logger.error("Error while building string. Message: {}", e.getMessage());
             }
         }
         return sb.toString();
     }
-
 }
