@@ -5,6 +5,8 @@ import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoJdbc implements SupplierDao{
+
+    private Logger logger = LoggerFactory.getLogger(SupplierDaoJdbc.class);
+
 
     private static SupplierDaoJdbc instance = null;
 
@@ -35,12 +40,17 @@ public class SupplierDaoJdbc implements SupplierDao{
             ps.setString(1, supplier.getName());
             ps.setString(2, supplier.getDescription());
             ps.execute();
+            logger.info("New supplier: name={} added to supplier table in the database", supplier.getName());
+
             ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM supplier;");
             ResultSet rs = ps.executeQuery();
             rs.next();
             supplier.setId(rs.getInt("id"));
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while adding supplier with id={}, name={} to the database. Message: {}", supplier.getId(), supplier.getName(), e.getMessage());
+
+
         }
     }
 
@@ -67,6 +77,8 @@ public class SupplierDaoJdbc implements SupplierDao{
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while looking for supplier with id: {} in the database. Message: {}", id, e.getMessage());
+
         }
         return supplier;
     }
@@ -80,6 +92,8 @@ public class SupplierDaoJdbc implements SupplierDao{
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while removing supplier with id: {} from the database. Message: {}", id, e.getMessage());
+
         }
     }
 
@@ -106,6 +120,8 @@ public class SupplierDaoJdbc implements SupplierDao{
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while querying all supplier from the database. Message: {}", e.getMessage());
+
         }
         return listOfSuppliers;
     }

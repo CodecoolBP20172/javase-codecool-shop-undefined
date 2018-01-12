@@ -40,22 +40,22 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
         get("/index", (Request req, Response res) -> {
-           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
         });
         post("/payment", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res));
         });
 
         post("/checkout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderCheckout(req, res));
         });
 
         post("/confirmation", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res));
         });
 
         get("*", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderError(req, res) );
+            return new ThymeleafTemplateEngine().render(ProductController.renderError(req, res));
         });
 
         // Add this line to your project to enable the debug screen
@@ -64,12 +64,12 @@ public class Main {
 
     private static void populateData() {
 
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJdbc.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
 
         //setting up a new supplier (memory)
-        Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
+        /*Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
         supplierDataStore.add(magicWandFactory);
         Supplier magicSweets = new Supplier("Magic Sweets", "Tricky sweets for wizards");
         supplierDataStore.add(magicSweets);
@@ -92,7 +92,8 @@ public class Main {
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
 
     }
+    */
 
 
-
+    }
 }

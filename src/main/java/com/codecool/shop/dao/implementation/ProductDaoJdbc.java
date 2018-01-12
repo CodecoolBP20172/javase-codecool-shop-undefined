@@ -3,6 +3,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.ConnectionManager;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -14,9 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.codecool.shop.dao.implementation.SupplierDaoJdbc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static com.codecool.shop.ConnectionManager.getConnection;
 
 public class ProductDaoJdbc implements ProductDao {
+    private Logger logger = LoggerFactory.getLogger(ProductDaoJdbc.class);
+
+
 
     private List<Product> DATA = new ArrayList<>();
     private static ProductDaoJdbc instance = null;
@@ -44,12 +51,16 @@ public class ProductDaoJdbc implements ProductDao {
             ps.setInt(5, product.getProductCategory().getId());
             ps.setString(6, product.getDescription());
             ps.execute();
+            logger.info("New product: name={} added to products table in the database", product.getName());
+
             ps =(com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM products;");
             ResultSet rs = ps.executeQuery();
             rs.next();
             product.setId(rs.getInt("id"));
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while adding product to the database. Message: {}", e.getMessage());
+
         }
     }
 
@@ -83,6 +94,8 @@ public class ProductDaoJdbc implements ProductDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while looking for product with id: {} in the database. Message: {}", id, e.getMessage());
+
         }
         return product;
     }
@@ -152,6 +165,8 @@ public class ProductDaoJdbc implements ProductDao {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while removing product with id: {} from the database. Message: {}", id, e.getMessage());
+
         }
     }
 
@@ -187,6 +202,8 @@ public class ProductDaoJdbc implements ProductDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while querying all products from the database. Message: {}", e.getMessage());
+
         }
         return listOfProducts;
     }
@@ -228,6 +245,8 @@ public class ProductDaoJdbc implements ProductDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.error("Error while querying products by product category: name={} from the database. Message: {}", productCategory, e.getMessage());
+
         }
         return listOfProducts;
     }
