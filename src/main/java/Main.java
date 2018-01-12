@@ -14,6 +14,9 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -25,6 +28,10 @@ public class Main {
 
         // populate some data for the memory storage
         // populateData();
+
+        //logging test
+        Logger logger = LoggerFactory.getLogger(Main.class);
+        logger.info("Logging setup is working");
 
         // Always start with more specific routes
         get("/hello", (req, res) -> "Hello World");
