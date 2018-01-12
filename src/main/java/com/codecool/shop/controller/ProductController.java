@@ -54,22 +54,24 @@ public class ProductController {
         CartDao cartJdbc = CartDaoJdbc.getInstance();
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemJdbc.getInstance();
 
-        Order order = new Order(customerJdbc.getCUSTOMERS().get(0),cartJdbc.getCart().get(cartJdbc.getCart().size()-1));
+        Order order = new Order(customerJdbc.getCUSTOMERS().get(0),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
         orderJdbc.add(order);
 
         Map params = new HashMap<>();
-        params.put("sub_total", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getSubTotal());
+        params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         params.put("customer", order.getCustomer());
-        //System.out.println(orderMem.getAll().get(0));
-        params.put("cart_products", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getCART());
+        params.put("cart_products", cartJdbc.getActualUsersCart(1));
+
         return new ModelAndView(params, "product/confirmation");
     }
 
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
-        CartDao cartJdbc = CartDaoJdbc.getInstance();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemJdbc.getInstance();
+
         Customer customer = new Customer(
                 req.queryParams("firstname"),
                 req.queryParams("lastname"),
@@ -86,9 +88,7 @@ public class ProductController {
         );
         customerJdbc.add(customer);
 
-        System.out.println(customerJdbc);
-        System.out.println(customer);
-        params.put("sub_total", cartJdbc.getCart().get(cartJdbc.getCart().size()-1).getSubTotal());
+        params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         return new ModelAndView(params, "product/payment");
     }
 
