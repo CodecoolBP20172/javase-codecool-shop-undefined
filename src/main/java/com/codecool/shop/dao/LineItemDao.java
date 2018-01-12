@@ -8,5 +8,5 @@ import java.util.List;
 public interface LineItemDao {
 
     void add(Cart cart);
-    List<LineItem> getLineItemsByCustomer(Integer id);
+    Integer getLineItemsSubtotalByCustomer(Integer id);
 }
