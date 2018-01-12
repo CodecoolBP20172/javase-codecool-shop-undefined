@@ -5,6 +5,10 @@ import java.lang.reflect.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Product, ProductCategory and Supplier classes are extending BaseModel.
+ *
+ * @since 1.0
+ */
 public class BaseModel {
     private Logger logger = LoggerFactory.getLogger(BaseModel.class);
 

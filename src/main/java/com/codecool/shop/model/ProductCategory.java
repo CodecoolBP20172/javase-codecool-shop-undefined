@@ -2,6 +2,12 @@ package com.codecool.shop.model;
 
 import java.util.ArrayList;
 
+/** Represents a product category.
+ * The instance contains the department the product category belongs to
+ * and the list of products belonging to the product category.
+ *
+ * @since 1.0
+ */
 public class ProductCategory extends BaseModel {
     private String department;
     private ArrayList<Product> products;

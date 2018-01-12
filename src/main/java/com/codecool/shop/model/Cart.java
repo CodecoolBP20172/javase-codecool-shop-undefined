@@ -6,6 +6,13 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Represents a cart.
+ * A cart contains a list of lineItem-s which contain the ordered products,
+ * their quantities and price.
+ * The instance also contains a reference to the customer.
+ *
+ * @since 1.0
+ */
 public class Cart {
     private Logger logger = LoggerFactory.getLogger(Cart.class);
 

@@ -16,6 +16,9 @@ import java.util.Map;
 
 import static com.codecool.shop.connection.ConnectionManager.getConnection;
 
+/**
+ * {@inheritDoc}
+ */
 public class CartDaoJdbc implements CartDao {
     private Logger logger = LoggerFactory.getLogger(CartDaoJdbc.class);
     private static Logger staticLogger = LoggerFactory.getLogger(CartDaoJdbc.class);
