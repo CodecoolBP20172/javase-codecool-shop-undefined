@@ -6,6 +6,8 @@ import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoryDaoJdbc implements ProductCategoryDao {
+    private Logger logger = LoggerFactory.getLogger(ProductCategoryDaoJdbc.class);
 
     private List<ProductCategory> DATA = new ArrayList<>();
     private static ProductCategoryDaoJdbc instance = null;
@@ -38,8 +41,9 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             ps.setString(2, category.getDepartment());
             ps.setString(3, category.getDescription());
             ps.execute();
+            logger.debug("Product category {} successfully added to product_category table in the database", category.getName());
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error while adding product category to the database. Message: {}", e.getMessage());
         }
     }
 
@@ -59,15 +63,16 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
                 name = rs.getString(2);
                 department = rs.getString(3);
                 description = rs.getString(4);
-
+                logger.debug("Successfully found {} product_category in the database", name);
                 productCategory = new ProductCategory(name, department, description);
                 productCategory.setId(id);
             } else {
+                logger.debug("Product category is not in the database");
                 return null;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error while finding product category in the database. Message: {}", e.getMessage());
         }
         return productCategory;
     }
@@ -81,8 +86,9 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("DELETE FROM product_category WHERE id = ?;");
             ps.setInt(1, id);
             ps.execute();
+            logger.debug("Product category (id: {id}) successfully removed from the database", id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error while removing product category from the database. Message: {}", e.getMessage());
         }
     }
 
@@ -109,8 +115,9 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error while accessing database product_category table. Message: {}", e.getMessage());
         }
+        logger.info("Successfully returned all product categories from the database");
         return listOfProductCategories;
     }
 }

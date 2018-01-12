@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BaseModel {
-    Logger logger = LoggerFactory.getLogger(BaseModel.class);
+    private Logger logger = LoggerFactory.getLogger(BaseModel.class);
 
     protected int id;
     //protected int cartId;

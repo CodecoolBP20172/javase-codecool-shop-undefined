@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
-    Logger logger = LoggerFactory.getLogger(Cart.class);
+    private Logger logger = LoggerFactory.getLogger(Cart.class);
 
     private List<LineItem> CART = new ArrayList<>();
     private int id;
