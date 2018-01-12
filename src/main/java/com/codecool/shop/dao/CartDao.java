@@ -7,7 +7,8 @@ import com.codecool.shop.model.Product;
 import java.util.List;
 import java.util.Map;
 
-/** Data access object to maintain carts in the database.
+/**
+ * Data access object interface to maintain carts in the database.
  * @since 1.0
  */
 public interface CartDao {

@@ -38,6 +38,11 @@ public class CartDaoJdbc implements CartDao {
         return instance;
     }
 
+    /**
+     * Adds a new cart to the database.
+     *
+     * @param cart the cart to add.
+     */
     @Override
     public void add(Cart cart) {
         try {
@@ -54,6 +59,11 @@ public class CartDaoJdbc implements CartDao {
         }
     }
 
+    /**
+     * Returns all carts from the database as a list.
+     *
+     * @return List of all carts.
+     */
     @Override
     public List<Cart> getCarts() {
         String query = "SELECT * FROM carts;";
@@ -77,6 +87,13 @@ public class CartDaoJdbc implements CartDao {
         return null;
     }
 
+    /**
+     * Returns the cart information of the actual user
+     * by the user's id.
+     *
+     * @param id of the actual user.
+     * @return Map with the cart details of the actual user.
+     */
     @Override
     public List<Map> getActualUsersCart(int id) {
         List<Map> listOfProducts = new ArrayList<>();
@@ -92,19 +109,18 @@ public class CartDaoJdbc implements CartDao {
 
             while(rs.next()){
 
-                Map<String, String> productDeatils = new HashMap<>();
-                productDeatils.put("product_id", rs.getString("id"));
-                productDeatils.put("product_name", rs.getString("name"));
-                productDeatils.put("product_default_price", String.valueOf(rs.getInt("default_price")));
-                productDeatils.put("product_default_currency", rs.getString("default_currency"));
-                productDeatils.put("product_description", rs.getString("description"));
-                productDeatils.put("product_quantity", String.valueOf(rs.getInt("quantity")));
-                listOfProducts.add(productDeatils);
+                Map<String, String> productDetails = new HashMap<>();
+                productDetails.put("product_id", rs.getString("id"));
+                productDetails.put("product_name", rs.getString("name"));
+                productDetails.put("product_default_price", String.valueOf(rs.getInt("default_price")));
+                productDetails.put("product_default_currency", rs.getString("default_currency"));
+                productDetails.put("product_description", rs.getString("description"));
+                productDetails.put("product_quantity", String.valueOf(rs.getInt("quantity")));
+                listOfProducts.add(productDetails);
             }
         } catch (SQLException e) {
             logger.error("Error while reading user's cart information from the database. Message: {}", e.getMessage());
         }
         return listOfProducts;
     }
-
 }

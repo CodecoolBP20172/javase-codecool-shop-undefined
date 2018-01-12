@@ -4,7 +4,7 @@ import com.codecool.shop.model.ProductCategory;
 
 import java.util.List;
 
-/** Data access object to maintain product categories in the database.
+/** Data access object interface to maintain product categories in the database.
  * @since 1.0
  */
 public interface ProductCategoryDao {

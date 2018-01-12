@@ -5,7 +5,8 @@ import java.lang.reflect.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Product, ProductCategory and Supplier classes are extending BaseModel.
+/**
+ * Product, ProductCategory and Supplier classes are extending BaseModel.
  *
  * @since 1.0
  */
@@ -61,6 +62,11 @@ public class BaseModel {
         this.description = description;
     }
 
+    /**
+     * Builds a string from the instance variables of the instance.
+     *
+     * @return String with the information of the instance.
+     */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

@@ -36,6 +36,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         return instance;
     }
 
+    /**
+     * Adds a new product category to the database.
+     *
+     * @param category the category to add.
+     */
     @Override
     public void add(ProductCategory category) {
         try {
@@ -50,6 +55,12 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         }
     }
 
+    /**
+     * Finds product category by id.
+     *
+     * @param id the id of the product category.
+     * @return the product category.
+     */
     @Override
     public ProductCategory find(int id) {
         ProductCategory productCategory = null;
@@ -80,9 +91,14 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         return productCategory;
     }
 
+    /**
+     * Removes product category by id from the database.
+     *
+     * @param id the id of the product category to remove.
+     */
     @Override
     public void remove(int id) {
-        //i might need to still include this line below aswell to remove product from the DATA arraylist too
+        //i might need to still include this line below as well to remove product from the DATA arraylist too
         DATA.remove(find(id));
 
         try {
@@ -95,6 +111,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         }
     }
 
+    /**
+     * Returns all product categories from the database as a list.
+     *
+     * @return List of all product categories.
+     */
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> listOfProductCategories = new ArrayList<>();

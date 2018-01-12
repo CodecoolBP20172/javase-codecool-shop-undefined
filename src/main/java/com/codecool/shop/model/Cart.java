@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Represents a cart.
+/**
+ * Represents a cart.
  * A cart contains a list of lineItem-s which contain the ordered products,
  * their quantities and price.
  * The instance also contains a reference to the customer.
@@ -41,6 +42,11 @@ public class Cart {
         return CART;
     }
 
+    /**
+     * Returns an integer representing the subtotal of the order.
+     *
+     * @return int subtotal of the cart.
+     */
     public int getSubTotal() {
         int subTotal= 0;
         logger.info("Size of cart: {}", CART.size());
@@ -55,6 +61,14 @@ public class Cart {
         this.CART = CART;
     }
 
+    /**
+     * Creates a lineItem object containing the product,
+     * it's quantity and the price multiplied by the quantity
+     * and adds it to the cart of the customer.
+     *
+     * @param product the product to put into the cart.
+     * @param quantity the quantity of the product the customer put into the cart
+     */
     public void add(Product product, int quantity) {
         LineItem item = new LineItem(product);
         item.quantity = quantity;
