@@ -32,7 +32,7 @@ public class CartDaoJdbc implements CartDao {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO carts (customer_id) VALUES(?);");
             ps.setInt(1, cart.getCustomerId());
             ps.execute();
-            ps =(com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM carts;");
+            ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM carts;");
             ResultSet rs = ps.executeQuery();
             rs.next();
             cart.setId(rs.getInt("id"));
@@ -47,9 +47,9 @@ public class CartDaoJdbc implements CartDao {
         List<Cart> allCarts = new ArrayList<>();
 
         try (Connection connection = getConnection();
-             Statement statement =connection.createStatement();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)
-        ){
+        ) {
             while (resultSet.next()) {
                 Cart result = new Cart(resultSet.getInt("customer_id"));
                 allCarts.add(result);
@@ -62,3 +62,4 @@ public class CartDaoJdbc implements CartDao {
         }
         return null;
     }
+}
