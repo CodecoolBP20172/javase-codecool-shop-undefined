@@ -64,9 +64,9 @@ public class Main {
 
     private static void populateData() {
 
-        ProductDao productDataStore = ProductDaoJdbc.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
         //setting up a new supplier (memory)
         /*Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
