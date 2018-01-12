@@ -1,8 +1,14 @@
 package com.codecool.shop.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Currency;
 
 public class Product extends BaseModel {
+
+    Logger logger = LoggerFactory.getLogger(Product.class);
+
 
     private double defaultPrice;
     private Currency defaultCurrency;
@@ -15,7 +21,10 @@ public class Product extends BaseModel {
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
+        logger.info("New product instance created with id: {},", this.getId());
     }
+
+
 
     public double getDefaultPrice() {
         return defaultPrice;
@@ -23,6 +32,7 @@ public class Product extends BaseModel {
 
     public void setDefaultPrice(float defaultPrice) {
         this.defaultPrice = defaultPrice;
+        logger.info("New default price: {} has been set for product with id: {}", defaultPrice, this.getId());
     }
 
     public Currency getDefaultCurrency() {
@@ -31,6 +41,8 @@ public class Product extends BaseModel {
 
     public void setDefaultCurrency(Currency defaultCurrency) {
         this.defaultCurrency = defaultCurrency;
+        logger.info("New default currency: {} has been set for product with id: {}", defaultCurrency, this.getId());
+
     }
 
     public String getPriceWithoutCurrency() { return String.valueOf(this.defaultPrice);}
@@ -42,6 +54,8 @@ public class Product extends BaseModel {
     public void setPrice(double price, String currency) {
         this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance(currency);
+        logger.info("New price: {} {} has been set for product with id: {}", price, currency, this.getId());
+
     }
 
     public ProductCategory getProductCategory() {
@@ -51,6 +65,8 @@ public class Product extends BaseModel {
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
         this.productCategory.addProduct(this);
+        logger.info("New product category: {} has been set for product with id: {}", productCategory, this.getId());
+
     }
 
     public Supplier getSupplier() {
@@ -60,6 +76,8 @@ public class Product extends BaseModel {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
         this.supplier.addProduct(this);
+        logger.info("New supplier: {} has been set for product with id: {}", supplier, this.getId());
+
     }
 
     @Override
