@@ -2,11 +2,15 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.ConnectionManager;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Cart;
+import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.codecool.shop.connection.ConnectionManager.getConnection;
 
@@ -42,7 +46,7 @@ public class CartDaoJdbc implements CartDao {
     }
 
     @Override
-    public List<Cart> getCart() {
+    public List<Cart> getCarts() {
         String query = "SELECT * FROM carts;";
         List<Cart> allCarts = new ArrayList<>();
 
@@ -62,5 +66,34 @@ public class CartDaoJdbc implements CartDao {
         }
         return null;
     }
-    
+
+    @Override
+    public List<Map> getActualUsersCart(int id) {
+        List<Map> listOfProducts = new ArrayList<>();
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT products.id, products.name, default_price, default_currency, description, quantity FROM line_item\n" +
+                    "JOIN products ON (product_id=products.id)\n" +
+                    "JOIN carts ON (line_item.cart_id=carts.id)\n" +
+                    "WHERE carts.customer_id=? AND carts.id=(SELECT MAX(id) FROM carts WHERE customer_id=1);");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+
+                Map<String, String> productDeatils = new HashMap<>();
+                productDeatils.put("product_id", rs.getString("id"));
+                productDeatils.put("product_name", rs.getString("name"));
+                productDeatils.put("product_default_price", String.valueOf(rs.getInt("default_price")));
+                productDeatils.put("product_default_currency", rs.getString("default_currency"));
+                productDeatils.put("product_description", rs.getString("description"));
+                productDeatils.put("product_quantity", String.valueOf(rs.getInt("quantity")));
+                listOfProducts.add(productDeatils);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listOfProducts;
+    }
+
 }
