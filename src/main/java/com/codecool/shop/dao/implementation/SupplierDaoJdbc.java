@@ -14,6 +14,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/** SupplierDaoJdbc class which implements methods to handle suppliers in the database
+ * @author      Anikó Barát
+ * @version     1.0
+ * @since       1.0
+ */
 public class SupplierDaoJdbc implements SupplierDao{
 
     private Logger logger = LoggerFactory.getLogger(SupplierDaoJdbc.class);
@@ -21,11 +26,14 @@ public class SupplierDaoJdbc implements SupplierDao{
 
     private static SupplierDaoJdbc instance = null;
 
-    /* A private Constructor prevents any other class from instantiating.
+    /** A private Constructor prevents any other class from instantiating.
      */
     private SupplierDaoJdbc() {
     }
 
+    /** A static method which creates or return an instance
+     *@return  SupplierDaoJdbc instance
+     */
     public static SupplierDaoJdbc getInstance() {
         if (instance == null) {
             instance = new SupplierDaoJdbc();
@@ -33,6 +41,9 @@ public class SupplierDaoJdbc implements SupplierDao{
         return instance;
     }
 
+    /** Method to add new supplier to the database
+     *@param supplier
+     */
     @Override
     public void add(Supplier supplier) {
         try {
@@ -54,6 +65,10 @@ public class SupplierDaoJdbc implements SupplierDao{
         }
     }
 
+    /** Method to find supplier in the database by its id
+     *@param id
+     *@return Supplier
+     */
     @Override
     public Supplier find(int id) {
         Supplier supplier = null;
@@ -83,7 +98,11 @@ public class SupplierDaoJdbc implements SupplierDao{
         return supplier;
     }
 
-
+    /** Method to remove a supplier from the database by its id
+     *
+     *@param id
+     *
+     */
     @Override
     public void remove(int id) {
         try {
@@ -97,7 +116,11 @@ public class SupplierDaoJdbc implements SupplierDao{
         }
     }
 
-
+    /** Method to return all suppliers in a list
+     *
+     *@return List containing Supplier objects
+     *
+     */
     @Override
     public List<Supplier> getAll() {
         List<Supplier> listOfSuppliers = new ArrayList<>();

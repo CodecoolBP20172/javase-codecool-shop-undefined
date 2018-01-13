@@ -11,6 +11,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** ConnectionManager class which handles connection with the database
+ * @author      Anikó Barát
+ * @version     1.0
+ * @since       1.0
+ */
+
 public class ConnectionManager {
 
     private static String url = null;
@@ -20,7 +26,10 @@ public class ConnectionManager {
     private static Logger logger = LoggerFactory.getLogger(ConnectionManager.class);
 
 
-
+    /**
+     * Static constructor which reads connection data from a file
+     * @throws IOException
+     */
     static {
 
         try {
@@ -41,7 +50,10 @@ public class ConnectionManager {
         }
     }
 
-
+    /**
+     * Method through we can get a connection object to make connection with the database
+     * @return Connection instance
+     */
     public static Connection getConnection() {
         Connection con = null;
             try {

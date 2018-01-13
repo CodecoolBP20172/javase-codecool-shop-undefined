@@ -5,6 +5,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Currency;
 
+/** Product class which covers product related fields and methods.
+ * @author      Anikó Barát
+ * @version     1.0
+ * @since       1.0
+ */
+
 public class Product extends BaseModel {
 
     Logger logger = LoggerFactory.getLogger(Product.class);
@@ -15,7 +21,9 @@ public class Product extends BaseModel {
     private ProductCategory productCategory;
     private Supplier supplier;
 
-
+    /**
+     * Constructor of the product class, which sets the instance fields
+     */
     public Product(String name, double defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description);
         this.setPrice(defaultPrice, currencyString);
@@ -80,6 +88,12 @@ public class Product extends BaseModel {
 
     }
 
+    /**
+     * Builds a string from the instance variables of the product
+     * including id, name, default price, default currency, product category, supplier.
+     *
+     * @return String with the information about the product instance
+     */
     @Override
     public String toString() {
         return String.format("id: %1$d, " +
