@@ -30,12 +30,17 @@ public class CustomerDaoMem implements CustomerDao {
     }
 
     @Override
+    public void update(Customer customer) {
+
+    }
+
+    @Override
     public Customer find(int customerId) {
         return CUSTOMERS.stream().filter(t -> t.getId() == customerId).findFirst().orElse(null);
     }
 
     @Override
-    public List<Customer> getCUSTOMERS() {
+    public List<Customer> getCustomers() {
         return CUSTOMERS;
     }
 }

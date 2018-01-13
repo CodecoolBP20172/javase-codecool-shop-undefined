@@ -42,7 +42,7 @@ public class ProductController {
         cartJdbc.add(cart);
 
         //create line items
-        LineItemDao lineItemJdbc = LineItemJdbc.getInstance();
+        LineItemDao lineItemJdbc = LineItemDaoJdbc.getInstance();
         addToCartFromJson(cartJdbc, cart, productDataStore, cartList);
         lineItemJdbc.add(cart);
 
@@ -54,9 +54,9 @@ public class ProductController {
         CartDao cartJdbc = CartDaoJdbc.getInstance();
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
-        LineItemDao lineItemJdbc= LineItemJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();
 
-        Order order = new Order(customerJdbc.getCUSTOMERS().get(0),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
+        Order order = new Order(customerJdbc.find(1),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
         orderJdbc.add(order);
 
         Map params = new HashMap<>();
@@ -70,7 +70,7 @@ public class ProductController {
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
-        LineItemDao lineItemJdbc= LineItemJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();
 
         Customer customer = new Customer(
                 req.queryParams("firstname"),
@@ -86,7 +86,7 @@ public class ProductController {
                 parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
-        customerJdbc.add(customer);
+        customerJdbc.update(customer);
 
         params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         return new ModelAndView(params, "product/payment");
