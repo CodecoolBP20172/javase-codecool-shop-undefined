@@ -56,7 +56,7 @@ public class ProductController {
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
         LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();
 
-        Order order = new Order(customerJdbc.getCUSTOMERS().get(0),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
+        Order order = new Order(customerJdbc.find(1),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
         orderJdbc.add(order);
 
         Map params = new HashMap<>();
@@ -86,7 +86,7 @@ public class ProductController {
                 parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
-        customerJdbc.add(customer);
+        customerJdbc.update(customer);
 
         params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         return new ModelAndView(params, "product/payment");
