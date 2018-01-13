@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.codecool.shop.connection.ConnectionManager.getConnection;
 
+/**
+ * {@inheritDoc}
+ */
 public class CustomerDaoJdbc implements CustomerDao{
 
     private static CustomerDaoJdbc instance = null;
-    private Logger logger = LoggerFactory.getLogger(CartDaoJdbc.class);
+    private Logger logger = LoggerFactory.getLogger(CustomerDaoJdbc.class);
 
     /* A private Constructor prevents any other class from instantiating.
      */
@@ -32,6 +35,11 @@ public class CustomerDaoJdbc implements CustomerDao{
 
     }
 
+    /**
+     * Updates the customer details in the database.
+     *
+     * @param customer the customer to update.
+     */
     @Override
     public void update(Customer customer) {
 
@@ -63,6 +71,12 @@ public class CustomerDaoJdbc implements CustomerDao{
         }
     }
 
+    /**
+     * Returns a customer from the database by the customers's id.
+     *
+     * @param id the id to find the exact customer.
+     * @return Customer object.
+     */
     @Override
     public Customer find(int id) {
         try {
@@ -93,6 +107,11 @@ public class CustomerDaoJdbc implements CustomerDao{
         return null;
     }
 
+    /**
+     * Returns all customers from the database as a list.
+     *
+     * @return List of all customers.
+     */
     @Override
     public List<Customer> getCustomers() {
 

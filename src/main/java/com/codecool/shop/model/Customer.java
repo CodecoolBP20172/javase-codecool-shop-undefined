@@ -1,7 +1,11 @@
 package com.codecool.shop.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Customer {
 
+    private Logger logger = LoggerFactory.getLogger(Customer.class);
     protected int id;
     private String firstName;
     private String lastName;
@@ -44,6 +48,7 @@ public class Customer {
         this.shipCity = shipCity;
         this.shipZip = shipZip;
         this.shipAddress = shipAddress;
+        logger.info("Customer instance successfully created with name: {} {}", firstName, lastName);
     }
 
     public int getId() {
