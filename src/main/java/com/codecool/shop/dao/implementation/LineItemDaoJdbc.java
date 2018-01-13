@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 public class LineItemDaoJdbc implements LineItemDao {
 
     private static LineItemDaoJdbc instance = null;
@@ -28,6 +31,11 @@ public class LineItemDaoJdbc implements LineItemDao {
         return instance;
     }
 
+    /**
+     * Adds new line item(s) to the database.
+     *
+     * @param cart the cart containing the line item(s) to add.
+     */
     @Override
     public void add(Cart cart) {
         List<LineItem> lineItems = cart.getCART();
@@ -48,6 +56,12 @@ public class LineItemDaoJdbc implements LineItemDao {
         }
     }
 
+    /**
+     * Returns the current customer's subtotal of line items.
+     *
+     * @param id the id of the current user.
+     * @return Integer of subtotal.
+     */
     @Override
     public Integer getLineItemsSubtotalByCustomer(Integer id) {
 
