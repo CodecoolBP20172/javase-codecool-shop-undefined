@@ -29,8 +29,4 @@ public class LineItem {
     public double getPrice() {
         return price;
     }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
 }
