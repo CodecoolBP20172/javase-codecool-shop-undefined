@@ -16,7 +16,7 @@ import static com.codecool.shop.connection.ConnectionManager.getConnection;
 public class CustomerDaoJdbc implements CustomerDao{
 
     private static CustomerDaoJdbc instance = null;
-    private Logger logger = LoggerFactory.getLogger(CartDaoJdbc.class);
+    private Logger logger = LoggerFactory.getLogger(CustomerDaoJdbc.class);
 
     /* A private Constructor prevents any other class from instantiating.
      */

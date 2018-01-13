@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 public class Customer {
 
-    private Logger logger = LoggerFactory.getLogger(BaseModel.class);
+    private Logger logger = LoggerFactory.getLogger(Customer.class);
     protected int id;
     private String firstName;
     private String lastName;

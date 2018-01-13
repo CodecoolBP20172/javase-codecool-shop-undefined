@@ -17,7 +17,7 @@ import java.util.List;
 public class LineItemDaoJdbc implements LineItemDao {
 
     private static LineItemDaoJdbc instance = null;
-    private Logger logger = LoggerFactory.getLogger(CartDaoJdbc.class);
+    private Logger logger = LoggerFactory.getLogger(LineItemDaoJdbc.class);
 
     /* A private Constructor prevents any other class from instantiating.
      */
