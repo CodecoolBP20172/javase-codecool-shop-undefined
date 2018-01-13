@@ -6,6 +6,10 @@ import com.codecool.shop.model.ProductCategory;
 
 import java.util.List;
 
+/** Data access object interface to handle products
+ * @since 1.0
+ */
+
 public interface ProductDao {
 
     void add(Product product);

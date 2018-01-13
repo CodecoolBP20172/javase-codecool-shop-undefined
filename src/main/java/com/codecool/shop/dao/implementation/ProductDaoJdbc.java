@@ -20,6 +20,11 @@ import org.slf4j.LoggerFactory;
 
 import static com.codecool.shop.ConnectionManager.getConnection;
 
+/** ProductDaoJdbc class which implements methods to handle products in the database
+ * @author      Anikó Barát
+ * @version     1.0
+ * @since       1.0
+ */
 public class ProductDaoJdbc implements ProductDao {
     private Logger logger = LoggerFactory.getLogger(ProductDaoJdbc.class);
 
@@ -28,11 +33,14 @@ public class ProductDaoJdbc implements ProductDao {
     private List<Product> DATA = new ArrayList<>();
     private static ProductDaoJdbc instance = null;
 
-    /* A private Constructor prevents any other class from instantiating.
+    /** A private Constructor prevents any other class from instantiating.
      */
     private ProductDaoJdbc() {
     }
 
+    /** A static method which creates or return an instance
+     *@return ProductDaoJdbc instance
+     */
     public static ProductDaoJdbc getInstance() {
         if (instance == null) {
             instance = new ProductDaoJdbc();
@@ -40,6 +48,10 @@ public class ProductDaoJdbc implements ProductDao {
         return instance;
     }
 
+
+    /** Method to add new products to the database
+     *@param product
+     */
     @Override
     public void add(Product product) {
         try {
@@ -63,6 +75,11 @@ public class ProductDaoJdbc implements ProductDao {
 
         }
     }
+
+    /** Method to find product in the database by its id
+     *@param id
+     *@return Product
+     */
 
     @Override
     public Product find(int id) {
@@ -99,7 +116,10 @@ public class ProductDaoJdbc implements ProductDao {
         }
         return product;
     }
-
+    /** Method to get a supplier from the database by its id
+     *@param supplyerId
+     *@return Supplier instance
+     */
     private Supplier getSupplyer(int supplyerId) {
         Supplier supplier = null;
         String name;
@@ -125,6 +145,11 @@ public class ProductDaoJdbc implements ProductDao {
         }
         return supplier;
     }
+
+    /** Method to get a ProductCategory from the database by its id
+     *@param productCategoryId
+     *@return ProductCategory instance
+     */
 
     private ProductCategory getProductCategory(int productCategoryId) {
         ProductCategory productCategory = null;
@@ -154,6 +179,11 @@ public class ProductDaoJdbc implements ProductDao {
         return productCategory;
     }
 
+    /** Method to remove a product from the database by its id
+     *
+     *@param id
+     *
+     */
     @Override
     public void remove(int id) {
         //i might need to still include this line below aswell to remove product from the DATA arraylist too
@@ -170,6 +200,11 @@ public class ProductDaoJdbc implements ProductDao {
         }
     }
 
+    /** Method to return all products in a list
+     *
+     *@return List containing Product objects
+     *
+     */
     @Override
     public List<Product> getAll() {
         List<Product> listOfProducts = new ArrayList<>();
@@ -208,11 +243,23 @@ public class ProductDaoJdbc implements ProductDao {
         return listOfProducts;
     }
 
+    /** Method to return products in a list from the database by a supplier
+     *
+     *@param supplier
+     *@return List
+     *
+     */
     @Override
     public List<Product> getBy(Supplier supplier) {
         return getAll().stream().filter(t -> t.getSupplier().equals(supplier)).collect(Collectors.toList());
     }
 
+    /** Method to return products in a list from the database by a ProductCategory
+     *
+     *@param productCategory
+     *@return List
+     *
+     */
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> listOfProducts = new ArrayList<>();
