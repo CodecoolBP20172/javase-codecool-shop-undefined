@@ -1,10 +1,7 @@
 package com.codecool.shop.dao.implementation;
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.model.Cart;
-import com.codecool.shop.model.LineItem;
-import com.codecool.shop.model.Order;
-import com.codecool.shop.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.model.Customer;
 import org.slf4j.Logger;
