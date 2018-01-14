@@ -33,30 +33,23 @@ public class Main {
         Logger logger = LoggerFactory.getLogger(Main.class);
         logger.info("Logging setup is working");
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
-
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
-        get("/index", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res));
-        });
-        post("/payment", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res));
-        });
+        get("/index", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
-        post("/checkout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(ProductController.renderCheckout(req, res));
-        });
+        post("/payment", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res)));
 
-        post("/confirmation", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res));
-        });
+        post("/checkout", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderCheckout(req, res)));
 
-        get("*", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(ProductController.renderError(req, res));
-        });
+        post("/confirmation", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res)));
+
+        get("*", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
