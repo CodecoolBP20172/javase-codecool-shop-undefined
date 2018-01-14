@@ -1,9 +1,8 @@
 package com.codecool.shop.dao.implementation;
 
 
-import com.codecool.shop.ConnectionManager;
+import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -14,11 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.codecool.shop.dao.implementation.SupplierDaoJdbc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.codecool.shop.ConnectionManager.getConnection;
 
 /** ProductDaoJdbc class which implements methods to handle products in the database
  * @author      Anikó Barát
