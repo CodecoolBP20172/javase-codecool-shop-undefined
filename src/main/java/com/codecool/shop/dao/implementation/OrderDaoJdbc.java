@@ -17,7 +17,6 @@ import static com.codecool.shop.connection.ConnectionManager.getConnection;
  */
 public class OrderDaoJdbc implements OrderDao {
     private Logger logger = LoggerFactory.getLogger(OrderDaoJdbc.class);
-    private static Logger staticLogger = LoggerFactory.getLogger(OrderDaoJdbc.class);
 
     private static OrderDaoJdbc instance = null;
 

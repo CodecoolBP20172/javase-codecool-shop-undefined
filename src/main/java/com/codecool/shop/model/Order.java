@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Order {
     private Logger logger = LoggerFactory.getLogger(Order.class);
-    private static Logger staticLogger = LoggerFactory.getLogger(Order.class);
 
     private int id;
     private Customer customer;
