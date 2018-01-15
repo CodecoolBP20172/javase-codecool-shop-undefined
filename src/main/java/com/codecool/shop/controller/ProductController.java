@@ -3,14 +3,12 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.codecool.shop.utils.JsonDataController;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.lang.Integer.parseInt;
@@ -48,7 +46,7 @@ public class ProductController {
     public static ModelAndView renderCheckout(Request req, Response res) throws IOException {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
-        params.put("cart_list", parseJson(cartList));
+        params.put("cart_list", JsonDataController.parseJson(cartList));
         
         ProductDao productDataStore = ProductDaoJdbc.getInstance();
         Integer customerIdFromSession = 1;
@@ -60,7 +58,7 @@ public class ProductController {
 
         //create line items
         LineItemDao lineItemJdbc = LineItemDaoJdbc.getInstance();
-        addToCartFromJson(cart, productDataStore, cartList);
+        JsonDataController.addToCartFromJson(cart, productDataStore, cartList);
         lineItemJdbc.add(cart);
 
         return new ModelAndView(params, "product/checkout");
@@ -109,7 +107,7 @@ public class ProductController {
                 req.queryParams("bcountry"),
                 req.queryParams("bcity"),
                 parseInt(req.queryParams("bzip")),
-                req.queryParams("badress"),
+                req.queryParams("baddress"),
                 req.queryParams("shcountry"),
                 req.queryParams("shcity"),
                 parseInt(req.queryParams("shzip")),
@@ -132,44 +130,4 @@ public class ProductController {
         return new ModelAndView(params, "product/error");
     }
 
-    /**
-     * Stores cart data from parsed json.
-     *
-     * @param  cart the cart in which we will store the parsed data.
-     * @param  productDataStore from which we will find out which product to store.
-     * @param  cartList parsable json string
-     */
-    private static void addToCartFromJson(Cart cart, ProductDao productDataStore, String cartList) throws IOException {
-        for (int i=0; i < parseJson(cartList).size(); i++) {
-            cart.add(productDataStore.find(parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
-        }
-    }
-
-    /**
-     * Counts how there are from one product in the cart.
-     *
-     * @param  itemId the id of the product.
-     * @param  cartList json string of the cart to count from.
-     *
-     * @return either the products counted quantity if there are more or 1 if there aren't.
-     */
-    private static int quantity(int itemId, String cartList) throws IOException {
-        try {
-            return (int) parseJson(cartList).get(itemId).get("product_quantity");
-        } catch (Exception e) {
-            return 1;
-        }
-    }
-
-    /**
-     * Parses through a json string to make it into readable cart data.
-     *
-     * @param  json parsable json string.
-     *
-     * @return either the products counted quantity if there are more or 1 if there aren't.
-     */
-    private static List<Map<String, Object>> parseJson(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, new TypeReference<List<Map<String, Object>>>(){});
-    }
 }
