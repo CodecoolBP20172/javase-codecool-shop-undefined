@@ -3,21 +3,33 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.codecool.shop.utils.JsonDataController;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import static java.lang.Integer.parseInt;
+
+/**
+ * Responsible for creating instances and gathering data to fill the site with.
+ * Also gains useful formatted data from received json.
+ *
+ * @since 1.0
+ */
 public class ProductController {
 
+    /**
+     * Creates new product and product category instances.
+     * Also gathers all products from a specific product category.
+     *
+     * @return a ModelView with params of map of all products by a product category and viewName.
+     */
     public static ModelAndView renderProducts(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJdbc.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
 
         Map params = new HashMap<>();
         params.put("authentication", false);
@@ -26,53 +38,68 @@ public class ProductController {
         return new ModelAndView(params, "product/index");
     }
 
-
+    /**
+     * Creates new instance of ProductDao, CartDao and LineItemDao.
+     * Formats the receives data and stores it in the database.
+     *
+     * @return a ModelView with params of parsed json and viewName.
+     */
     public static ModelAndView renderCheckout(Request req, Response res) throws IOException {
         String cartList = req.queryParams("cart_list");
         Map params = new HashMap<>();
-        params.put("cart_list", parseJson(cartList));
+        params.put("cart_list", JsonDataController.parseJson(cartList));
         
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoJdbc.getInstance();
+        Integer customerIdFromSession = 1;
 
         //create cart
-        CartDao cartMem = CartDaoMem.getInstance();
-        Cart cart = new Cart(1);
-        cartMem.add(cart);
+        CartDao cartJdbc = CartDaoJdbc.getInstance();
+        Cart cart = new Cart(customerIdFromSession);
+        cartJdbc.add(cart);
 
-        addToCartFromJson(cartMem, cart, productDataStore, cartList);
+        //create line items
+        LineItemDao lineItemJdbc = LineItemDaoJdbc.getInstance();
+        JsonDataController.addToCartFromJson(cart, productDataStore, cartList);
+        lineItemJdbc.add(cart);
 
         return new ModelAndView(params, "product/checkout");
     }
 
+    /**
+     * Creates new instance of ProductDao, CartDao and LineItemDao.
+     * Formats the receives data and stores it in the database.
+     *
+     * @return a ModelView with params of parsed json and viewName.
+     */
     public static ModelAndView renderConfirmation(Request req, Response res) {
 
-        CartDao cartMem = CartDaoMem.getInstance();
-        OrderDao orderMem = OrderDaoMem.getInstance();
-        CustomerDao customerMem = CustomerDaoMem.getInstance();
-
-        //test
+        CartDao cartJdbc = CartDaoJdbc.getInstance();
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
+        CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();
 
-        Order order = new Order(customerMem.getCUSTOMERS().get(customerMem.getCUSTOMERS().size()-1),cartMem.getCart().get(cartMem.getCart().size()-1));
-        orderMem.add(order);
-        //test
+        Order order = new Order(customerJdbc.find(1),cartJdbc.getCarts().get(cartJdbc.getCarts().size()-1));
         orderJdbc.add(order);
-        System.out.println("test find: " + orderJdbc.find(2));
-        System.out.println(orderJdbc.getAll());
-
 
         Map params = new HashMap<>();
-        params.put("sub_total", cartMem.getCart().get(cartMem.getCart().size()-1).getSubTotal());
+        params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         params.put("customer", order.getCustomer());
-        //System.out.println(orderMem.getAll().get(0));
-        params.put("cart_products", cartMem.getCart().get(cartMem.getCart().size()-1).getCART());
+        params.put("cart_products", cartJdbc.getActualUsersCart(1));
+
         return new ModelAndView(params, "product/confirmation");
     }
 
+    /**
+     * Receives customer data and stores it in the database.
+     * Also gets data for the Customer and LineItems connected to this order to count subtotal price.
+     *
+     * @return a ModelView with params of the orders subtotal price and viewName.
+     */
     public static ModelAndView renderPayment(Request req, Response res) {
         Map params = new HashMap<>();
-        CartDao cartMem = CartDaoMem.getInstance();
-        CustomerDao customerMem = CustomerDaoMem.getInstance();
+        CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
+        LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();
+
         Customer customer = new Customer(
                 req.queryParams("firstname"),
                 req.queryParams("lastname"),
@@ -80,48 +107,28 @@ public class ProductController {
                 req.queryParams("email"),
                 req.queryParams("bcountry"),
                 req.queryParams("bcity"),
-                req.queryParams("bzip"),
-                req.queryParams("badress"),
+                parseInt(req.queryParams("bzip")),
+                req.queryParams("baddress"),
                 req.queryParams("shcountry"),
                 req.queryParams("shcity"),
-                req.queryParams("shzip"),
+                parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
-        customerMem.add(customer);
+        customerJdbc.update(customer);
 
-        System.out.println(customerMem);
-        System.out.println(customer);
-        params.put("sub_total", cartMem.getCart().get(0).getSubTotal());
+        params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(1));
         return new ModelAndView(params, "product/payment");
     }
 
+    /**
+     * Renders 404 error page.
+     *
+     * @return a ModelView with params of the error code and viewName.
+     */
     public static ModelAndView renderError(Request req, Response res) {
         Map params = new HashMap<>();
         params.put("error", 404);
         return new ModelAndView(params, "product/error");
     }
 
-    private static void addToCartFromJson(CartDao cartMem, Cart cart, ProductDao productDataStore, String cartList) throws IOException {
-        for (int i=0; i < parseJson(cartList).size(); i++) {
-            cart.add(productDataStore.find(Integer.parseInt((String) parseJson(cartList).get(i).get("product_id"))), quantity(i, cartList));
-            //test
-            /*System.out.println("Product: " + cartMem.getCart().get(0).getCART().get(i).getProduct().getName());
-            System.out.println("Quantity: " + cart.getCART().get(i).quantity);
-            System.out.println("Price: " + cart.getCART().get(i).price);
-            System.out.println("memory cart:" + cartMem.getCart().get(0).getCART().get(i));*/
-        }
-    }
-
-    private static int quantity(int i, String cartList) throws IOException {
-        try {
-            return (int) parseJson(cartList).get(i).get("product_quantity");
-        } catch (Exception e) {
-            return 1;
-        }
-    }
-
-    private static List<Map<String, Object>> parseJson(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(json, new TypeReference<List<Map<String, Object>>>(){});
-    }
 }

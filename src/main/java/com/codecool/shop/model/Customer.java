@@ -1,7 +1,11 @@
 package com.codecool.shop.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Customer {
 
+    private Logger logger = LoggerFactory.getLogger(Customer.class);
     protected int id;
     private String firstName;
     private String lastName;
@@ -10,12 +14,12 @@ public class Customer {
 
     private String billCountry;
     private String billCity;
-    private String billZip;
+    private Integer billZip;
     private String billAddress;
 
     private String shipCountry;
     private String shipCity;
-    private String shipZip;
+    private Integer shipZip;
     private String shipAddress;
 
     public Customer(
@@ -25,11 +29,11 @@ public class Customer {
             String email,
             String billCountry,
             String billCity,
-            String billZip,
+            Integer billZip,
             String billAddress,
             String shipCountry,
             String shipCity,
-            String shipZip,
+            Integer shipZip,
             String shipAddress
     ) {
         this.firstName = firstName;
@@ -44,6 +48,7 @@ public class Customer {
         this.shipCity = shipCity;
         this.shipZip = shipZip;
         this.shipAddress = shipAddress;
+        logger.info("Customer instance successfully created with name: {} {}", firstName, lastName);
     }
 
     public int getId() {
@@ -58,95 +63,47 @@ public class Customer {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getBillCountry() {
         return billCountry;
     }
 
-    public void setBillCountry(String billCountry) {
-        this.billCountry = billCountry;
-    }
-
     public String getBillCity() {
         return billCity;
     }
 
-    public void setBillCity(String billCity) {
-        this.billCity = billCity;
-    }
-
-    public String getBillZip() {
+    public Integer getBillZip() {
         return billZip;
     }
 
-    public void setBillZip(String billZip) {
-        this.billZip = billZip;
+    public Integer getShipZip() {
+        return shipZip;
     }
 
     public String getBillAddress() {
         return billAddress;
     }
 
-    public void setBillAddress(String billAddress) {
-        this.billAddress = billAddress;
-    }
-
     public String getShipCountry() {
         return shipCountry;
-    }
-
-    public void setShipCountry(String shipCountry) {
-        this.shipCountry = shipCountry;
     }
 
     public String getShipCity() {
         return shipCity;
     }
 
-    public void setShipCity(String shipCity) {
-        this.shipCity = shipCity;
-    }
-
-    public String getShipZip() {
-        return shipZip;
-    }
-
-    public void setShipZip(String shipZip) {
-        this.shipZip = shipZip;
-    }
-
     public String getShipAddress() {
         return shipAddress;
-    }
-
-    public void setShipAddress(String shipAddress) {
-        this.shipAddress = shipAddress;
     }
 }

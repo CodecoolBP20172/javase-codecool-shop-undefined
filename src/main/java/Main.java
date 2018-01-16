@@ -15,6 +15,9 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -25,47 +28,39 @@ public class Main {
         port(8888);
 
         // populate some data for the memory storage
-        populateData();
+        // populateData();
 
-        // Always start with more specific routes
-        get("/hello", (req, res) -> "Hello World");
+        //logging test
+        Logger logger = LoggerFactory.getLogger(Main.class);
+        logger.info("Logging setup is working");
 
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
-        get("/index", (Request req, Response res) -> {
-           return new ThymeleafTemplateEngine().render( ProductController.renderProducts(req, res) );
-        });
 
-        get("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( LoginController.renderLogin(req, res) );
-        });
+        get("/index", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
-        get("/logout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( LoginController.renderLogout(req, res) );
-        });
+        post("/payment", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res)));
 
-        post("/login_authenticate", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthenticate(req, res));
-        });
+        post("/checkout", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderCheckout(req, res)));
 
+        post("/confirmation", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res)));
 
+        get("/login", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLogin(req, res) ));
 
-        post("/payment", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderPayment(req, res) );
-        });
+        get("/logout", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLogout(req, res) ));
 
-        post("/checkout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderCheckout(req, res) );
-        });
+        post("/login_authenticate", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthenticate(req, res)));
 
-        post("/confirmation", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderConfirmation(req, res) );
-        });
-
-        get("*", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( ProductController.renderError(req, res) );
-        });
+        get("*", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
@@ -77,19 +72,19 @@ public class Main {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
-        //setting up a new supplier
-        Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
+        //setting up a new supplier (memory)
+        /*Supplier magicWandFactory = new Supplier("Magic Wand Factory", "Quality wands for good and evil wizards");
         supplierDataStore.add(magicWandFactory);
         Supplier magicSweets = new Supplier("Magic Sweets", "Tricky sweets for wizards");
         supplierDataStore.add(magicSweets);
         Supplier wizardTools = new Supplier("Wizard Tools", "Everyday tools for wizards");
         supplierDataStore.add(wizardTools);
 
-        //setting up a new product category
+        //setting up a new product category (memory)
         ProductCategory hogwarts = new ProductCategory("Hogwarts", "Magical items", "Items for wizards");
         productCategoryDataStore.add(hogwarts);
 
-        //setting up products and printing it
+        //setting up products and printing it (memory)
         productDataStore.add(new Product("Magic Wand - model 1", 300, "USD", "High quality 39.8cm long wand for great wizards", hogwarts, magicWandFactory));
         productDataStore.add(new Product("Magic Wand - model 2", 350, "USD", "High quality 36cm long wand for brave wizards", hogwarts, magicWandFactory));
         productDataStore.add(new Product("Magic Wand - model 3", 390, "USD", "High quality 39.8cm long wand for evil wizards", hogwarts, magicWandFactory));
@@ -100,20 +95,9 @@ public class Main {
         productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
 
-
-        //for database test purposes
-        try {
-            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO supplier (name, description) VALUES(?,?);");
-            ps.setString(1, "Magic Factory");
-            ps.setString(2, "Fascinating undefined things");
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    }
+    */
 
 
     }
-
-
-
 }
