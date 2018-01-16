@@ -32,7 +32,33 @@ public class CustomerDaoJdbc implements CustomerDao{
 
     @Override
     public void add(Customer customer) {
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO customer (" +
+                    "first_name, last_name, phone_number, email, bill_country, bill_city, bill_zip, bill_address, " +
+                    "ship_country, ship_city, ship_zip, ship_address) VALUES(" +
+                    "?,?,?,?,?,?,?,?,?,?,?,?);");
+            ps.setString(1, customer.getFirstName());
+            ps.setString(2, customer.getLastName());
+            ps.setString(3, customer.getPhoneNumber());
+            ps.setString(4, customer.getEmail());
+            ps.setString(5, customer.getBillCountry());
+            ps.setString(6, customer.getBillCity());
+            ps.setInt(7, customer.getBillZip());
+            ps.setString(8, customer.getBillAddress());
+            ps.setString(9, customer.getShipCountry());
+            ps.setString(10, customer.getShipCity());
+            ps.setInt(11, customer.getShipZip());
+            ps.setString(12, customer.getShipAddress());
 
+            ps.execute();
+
+            ps =(ConnectionManager.getConnection()).prepareStatement("SELECT MAX(id) as id FROM customer;");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            customer.setId(rs.getInt("id"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
