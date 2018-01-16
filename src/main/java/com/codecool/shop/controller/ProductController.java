@@ -130,4 +130,10 @@ public class ProductController {
         return new ModelAndView(params, "product/error");
     }
 
+    public static ModelAndView renderRegistration(Request req, Response res) {
+        Map params = new HashMap<>();
+
+        return new ModelAndView(params,"product/registration");
+    }
+
 }
