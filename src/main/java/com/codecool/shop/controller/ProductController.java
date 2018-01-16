@@ -20,7 +20,6 @@ import static java.lang.Integer.parseInt;
  * @since 1.0
  */
 public class ProductController {
-
     /**
      * Creates new product and product category instances.
      * Also gathers all products from a specific product category.
@@ -32,8 +31,8 @@ public class ProductController {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
 
         Map params = new HashMap<>();
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        params.put("category", null);
+        params.put("products", productDataStore.getAll());
         return new ModelAndView(params, "product/index");
     }
 
