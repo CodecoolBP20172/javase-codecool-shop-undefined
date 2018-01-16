@@ -48,8 +48,12 @@ public class Main {
         post("/confirmation", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res)));
 
+        post("/register", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderRegister(req, res)));
+
         get("/registration", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderRegistration(req, res)));
+                new ThymeleafTemplateEngine().render(ProductController.renderRegistrationPage(req, res)));
+
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));

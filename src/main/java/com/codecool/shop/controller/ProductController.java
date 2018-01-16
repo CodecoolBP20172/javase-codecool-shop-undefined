@@ -4,6 +4,7 @@ import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
 import com.codecool.shop.utils.JsonDataController;
+import org.mindrot.jbcrypt.BCrypt;
 import spark.Request;
 import spark.Response;
 import spark.ModelAndView;
@@ -130,9 +131,33 @@ public class ProductController {
         return new ModelAndView(params, "product/error");
     }
 
-    public static ModelAndView renderRegistration(Request req, Response res) {
+    public static ModelAndView renderRegistrationPage(Request req, Response res) {
         Map params = new HashMap<>();
 
+        return new ModelAndView(params,"product/registration");
+    }
+
+
+    public static ModelAndView renderRegister(Request req, Response res) {
+        Map params = new HashMap<>();
+        CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
+        String password = req.queryParams("user_password");
+        //saltolni hashelni itt:
+        password = BCrypt.hashpw(password, BCrypt.gensalt());
+
+
+
+        Customer customer = new Customer(
+                req.queryParams("user_name"),
+                req.queryParams("user_email"),
+                password);
+
+
+        customerJdbc.add(customer);
+
+
+
+        // ide egy redirect kéne
         return new ModelAndView(params,"product/registration");
     }
 

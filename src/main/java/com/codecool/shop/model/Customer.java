@@ -22,6 +22,8 @@ public class Customer {
     private Integer shipZip;
     private String shipAddress;
 
+    private String password;
+
     public Customer(
             String firstName,
             String lastName,
@@ -49,6 +51,22 @@ public class Customer {
         this.shipZip = shipZip;
         this.shipAddress = shipAddress;
         logger.info("Customer instance successfully created with name: {} {}", firstName, lastName);
+    }
+
+    public Customer(String firstName, String email, String password){
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.lastName = "";
+        this.phoneNumber = "";
+        this.billCountry = "";
+        this.billCity = "";
+        this.billZip = 0;
+        this.billAddress = "";
+        this.shipCountry = "";
+        this.shipCity = "";
+        this.shipZip = 0;
+        this.shipAddress = "";
     }
 
     public int getId() {

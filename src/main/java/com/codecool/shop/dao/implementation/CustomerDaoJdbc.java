@@ -30,6 +30,10 @@ public class CustomerDaoJdbc implements CustomerDao{
         return instance;
     }
 
+    /** Method to add new customer to the database
+     *@param customer
+     */
+
     @Override
     public void add(Customer customer) {
         try {
