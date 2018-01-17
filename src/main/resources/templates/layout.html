@@ -7,12 +7,12 @@
         <img src="/img/logo.png" class="img-responsive center" alt="Hogwarts Webshop" border="0"/>
     </center>
     <!-- IF CUSTOMER IS ANONYMOUS -->
-    <div th:if="${authentication}">
+    <div th:if="${isSession}">
         <div th:text="${name}">Hi, User</div>
-        <a href="/">LOGOUT</a>
+        <a href="/logout">LOGOUT</a>
     </div>
     <!-- ELSE -->
-    <div th:unless="${authentication}">
+    <div th:unless="${isSession}">
         <div>Welcome, Guest</div>
         <a href="/login">LOGIN</a>
     </div>
