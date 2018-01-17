@@ -72,7 +72,7 @@ public class ProductController {
             lineItemJdbc.add(cart);
             return new ModelAndView(params, "product/checkout");
         }
-        return new ModelAndView(params, "product/register");
+        return new ModelAndView(params, "product/login");
 
     }
 
