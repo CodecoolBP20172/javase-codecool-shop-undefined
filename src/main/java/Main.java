@@ -2,18 +2,13 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 
-import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.login.LoginController;
-import com.codecool.shop.model.*;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +52,7 @@ public class Main {
                 new ThymeleafTemplateEngine().render( LoginController.renderLogout(req, res) ));
 
         post("/login_authenticate", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthenticate(req, res)));
+                new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
