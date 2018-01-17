@@ -1,6 +1,5 @@
 package com.codecool.shop.model;
 
-import com.sun.org.apache.bcel.internal.util.BCELifier;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +22,17 @@ public class Customer {
     private String shipCity;
     private Integer shipZip;
     private String shipAddress;
-    //Generated salt and hashedpw for test purposes
-    private String salt = BCrypt.gensalt();
-    private String hashedPassword = BCrypt.hashpw("anyad", salt);
+    private String salt;
+    private String hashedPassword;
 
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public String getHashedPassword() {
-        return hashedPassword;
+    public Customer(int id, String firstName, String lastName, String email, String salt, String hashedPassword) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        //Generated salt and hashedpw for test purposes
+        this.salt = BCrypt.gensalt();
+        this.hashedPassword = BCrypt.hashpw("anyad", this.salt);
     }
 
     public Customer(
@@ -63,6 +62,14 @@ public class Customer {
         this.shipZip = shipZip;
         this.shipAddress = shipAddress;
         logger.info("Customer instance successfully created with name: {} {}", firstName, lastName);
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
     public int getId() {
