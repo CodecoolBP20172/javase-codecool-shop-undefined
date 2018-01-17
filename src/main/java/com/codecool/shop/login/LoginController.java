@@ -1,72 +1,58 @@
 package com.codecool.shop.login;
-//import app.user.*;
-//import app.util.*;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
+
+import com.codecool.shop.dao.CustomerDao;
+import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.model.Customer;
+import org.mindrot.jbcrypt.BCrypt;
 import spark.*;
 import java.util.*;
-//import static app.util.RequestUtil.*;
 
-
+import static com.codecool.shop.utils.RequestUtil.removeSessionAttribute;
+import static com.codecool.shop.utils.RequestUtil.setCustomerIdToSession;
 
 public class LoginController {
 
+    private static boolean wrongCredentials;
+
     public static ModelAndView renderLogin(Request req, Response res) {
         Map params = new HashMap<>();
-        params.put("wrongCredentials", false);
-        params.put("category", "cat");
-        params.put("products", "prod");
+        params.put("wrongCredentials", wrongCredentials);
         return new ModelAndView(params, "product/login");
     }
 
-    public static ModelAndView renderLoginAuthenticate(Request req, Response res) {
+    public static ModelAndView renderLoginAuthentication(Request req, Response res) {
 
-
-
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-
-
-
-        Map params = new HashMap<>();
-
-        if (authenticationSuccededCheck(req.queryParams("email"), req.queryParams("password"))){
-            params.put("authentication", true);
-            params.put("name", "Mate");
-            params.put("category", productCategoryDataStore.find(1));
-            params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-
-            req.session().attribute("currentUser", "Mate");
-            return new ModelAndView(params, "product/index");
+        if (authenticate(req.queryParams("email"), req.queryParams("password"), req)){
+            wrongCredentials = false;
+            res.redirect("/");
+            return null;
         }
-
-        params.put("wrongCredentials", true);
-        return new ModelAndView(params, "product/login");
+        wrongCredentials = true;
+        res.redirect("/login");
+        return null;
     }
 
     public static ModelAndView renderLogout(Request req, Response res) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-
-        Map params = new HashMap<>();
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        req.session().removeAttribute("currentUser");
-
-        return new ModelAndView(params, "product/index");
+        removeSessionAttribute(req);
+        res.redirect("/");
+        return null;
     }
 
-    public static Boolean authenticationSuccededCheck(String email, String password) {
-        Map<String, String > userInfo = new HashMap<>();
-        userInfo.put("email", "mate@gmail.com");
-        userInfo.put("password", "anyad");
-        if (userInfo.containsValue(email) && userInfo.containsValue(password)){
+    private static boolean authenticate(String email, String password, Request req) {
+        if (email.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+        CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
+        Customer customer = customerDataStore.getCustomerByEmail(email);
+        if (customer == null) {
+            return false;
+        }
+        String hashedPassword = BCrypt.hashpw(password, customer.getSalt());
+        if (hashedPassword.equals(customer.getHashedPassword())) {
+            setCustomerIdToSession(req, customer);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("Illegal argument!");
     }
-
 }
 
