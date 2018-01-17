@@ -81,25 +81,15 @@ public class CustomerDaoJdbc implements CustomerDao{
     public Customer find(int id) {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
-                    "SELECT * FROM customer WHERE id=?;");
+                    "SELECT customer.id, first_name, last_name, phone_number, email, bill_country, \n" +
+                            "bill_city, bill_zip, bill_address, ship_country, ship_city, ship_zip, ship_address \n" +
+                            "FROM customer JOIN address ON (customer_id=customer.id) \n" +
+                            "WHERE customer.id=?;");
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                Customer result = new Customer(rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("phone_number"),
-                        rs.getString("email"),
-                        rs.getString("bill_country"),
-                        rs.getString("bill_city"),
-                        rs.getInt("bill_zip"),
-                        rs.getString("bill_address"),
-                        rs.getString("ship_country"),
-                        rs.getString("ship_city"),
-                        rs.getInt("ship_zip"),
-                        rs.getString("ship_address"));
-                result.setId(rs.getInt("id"));
-                logger.debug("Customer successfully returned (id:{})", result.getId());
-                return result;
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()){
+                logger.info("Customer successfully returned");
+                return createNewCustomerFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             logger.error("Error while reading data from the database. Message: {}", e.getMessage());
@@ -115,7 +105,9 @@ public class CustomerDaoJdbc implements CustomerDao{
     @Override
     public List<Customer> getCustomers() {
 
-        String query = "SELECT * FROM customer;";
+        String query = "SELECT customer.id, first_name, last_name, phone_number, email, bill_country,\n" +
+                "bill_city, bill_zip, bill_address, ship_country, ship_city, ship_zip, ship_address\n" +
+                "FROM customer JOIN address ON (customer.id = customer_id);";
         List<Customer> allCustomer = new ArrayList<>();
 
         try (Connection connection = getConnection();
@@ -123,19 +115,7 @@ public class CustomerDaoJdbc implements CustomerDao{
              ResultSet resultSet = statement.executeQuery(query)
         ){
             while (resultSet.next()) {
-                Customer result = new Customer(resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getString("phone_number"),
-                        resultSet.getString("email"),
-                        resultSet.getString("bill_country"),
-                        resultSet.getString("bill_city"),
-                        resultSet.getInt("bill_zip"),
-                        resultSet.getString("bill_address"),
-                        resultSet.getString("ship_country"),
-                        resultSet.getString("ship_city"),
-                        resultSet.getInt("ship_zip"),
-                        resultSet.getString("ship_address"));
-                allCustomer.add(result);
+                allCustomer.add(createNewCustomerFromResultSet(resultSet));
             }
             logger.debug("ALl customers successfully returned (size:{})", allCustomer.size());
             return allCustomer;
@@ -150,23 +130,18 @@ public class CustomerDaoJdbc implements CustomerDao{
     public Customer getCustomerByEmail(String email) {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
-                    "SELECT * FROM customer WHERE email=?;");
+                    "SELECT id, first_name, last_name, email, salt, hashed_password FROM customer\n" +
+                            "WHERE email=?;");
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             if (rs.next()){
-                Customer result = new Customer(rs.getString("first_name"),
+                Customer result = new Customer(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
                         rs.getString("last_name"),
-                        rs.getString("phone_number"),
                         rs.getString("email"),
-                        rs.getString("bill_country"),
-                        rs.getString("bill_city"),
-                        rs.getInt("bill_zip"),
-                        rs.getString("bill_address"),
-                        rs.getString("ship_country"),
-                        rs.getString("ship_city"),
-                        rs.getInt("ship_zip"),
-                        rs.getString("ship_address"));
-                result.setId(rs.getInt("id"));
+                        rs.getString("salt"),
+                        rs.getString("hashed_password"));
                 logger.debug("Customer successfully returned (id:{})", result.getId());
                 return result;
             }
@@ -192,5 +167,22 @@ public class CustomerDaoJdbc implements CustomerDao{
             logger.error("Error while reading data from the database. Message: {}", e.getMessage());
         }
         return null;
+    }
+
+    private Customer createNewCustomerFromResultSet(ResultSet resultSet) throws SQLException {
+        Customer result = new Customer(resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getString("phone_number"),
+                resultSet.getString("email"),
+                resultSet.getString("bill_country"),
+                resultSet.getString("bill_city"),
+                resultSet.getInt("bill_zip"),
+                resultSet.getString("bill_address"),
+                resultSet.getString("ship_country"),
+                resultSet.getString("ship_city"),
+                resultSet.getInt("ship_zip"),
+                resultSet.getString("ship_address"));
+        result.setId(resultSet.getInt("id"));
+        return result;
     }
 }
