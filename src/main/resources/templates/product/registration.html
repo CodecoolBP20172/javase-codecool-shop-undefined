@@ -26,18 +26,18 @@
         <label for="mail1">Email:</label>
         <input type="email" id="mail1" name="user_email1" required="required"/>
 
-        <label for="mail2">Email:</label>
+        <label for="mail2">Confirm email:</label>
         <input type="email" id="mail2" name="user_email2" required="required"/>
 
 
         <label for="password1">Password:</label>
         <input type="password" id="password1" name="user_password1" required="required"/>
 
-        <label for="password2">Password:</label>
+        <label for="password2">Confirm password:</label>
         <input type="password" id="password2" name="user_password2" required="required"/>
     </fieldset>
 
-    <button type="submit">Sign Up</button>
+    <button type="submit" th:disabled="!false">Sign Up</button>
 </form>
 </body>
 </html>
