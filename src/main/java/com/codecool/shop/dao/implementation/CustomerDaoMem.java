@@ -40,6 +40,16 @@ public class CustomerDaoMem implements CustomerDao {
     }
 
     @Override
+    public Customer getCustomerByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public String getActualCustomerName(Integer id) {
+        return null;
+    }
+
+    @Override
     public List<Customer> getCustomers() {
         return CUSTOMERS;
     }
