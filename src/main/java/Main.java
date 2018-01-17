@@ -4,6 +4,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.controller.RegistrationController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.*;
@@ -49,10 +50,10 @@ public class Main {
                 new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res)));
 
         post("/register", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderRegister(req, res)));
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegister(req, res)));
 
         get("/registration", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderRegistrationPage(req, res)));
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegistrationPage(req, res)));
 
 
         get("*", (Request req, Response res) ->
