@@ -171,7 +171,56 @@ public class CustomerDaoJdbc implements CustomerDao{
         return null;
     }
 
-    public  boolean doesCustomerExist(String email){
+    @Override
+    public Customer getCustomerByEmail(String email) {
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
+                    "SELECT * FROM customer WHERE email=?;");
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                Customer result = new Customer(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("bill_country"),
+                        rs.getString("bill_city"),
+                        rs.getInt("bill_zip"),
+                        rs.getString("bill_address"),
+                        rs.getString("ship_country"),
+                        rs.getString("ship_city"),
+                        rs.getInt("ship_zip"),
+                        rs.getString("ship_address"));
+                result.setId(rs.getInt("id"));
+                logger.debug("Customer successfully returned (id:{})", result.getId());
+                return result;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+        }
+        return null;
+    }
+    @Override
+    public String getActualCustomerName(Integer id) {
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
+                    "SELECT first_name FROM customer WHERE id=?;");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                String name = rs.getString("first_name");
+                logger.debug("Customer name ({}) successfully returned", name);
+                return name;
+            }
+        } catch (SQLException e) {
+            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+        }
+        return null;
+    }
+
+
+
+    public Boolean doesCustomerExist(String email){
             CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
             Customer customer = customerDataStore.getCustomerByEmail(email);
             if(customer == null){

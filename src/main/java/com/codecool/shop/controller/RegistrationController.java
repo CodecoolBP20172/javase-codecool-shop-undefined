@@ -71,15 +71,15 @@ public class RegistrationController {
 
 
         CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
-        if((customerDataStore.doesCustomerExist(email1) == true){
+        if(customerDataStore.doesCustomerExist(email1) == true){
             return false;}
         if((!email1.equals(email2)) || (!password1.equals(password2))){
             return false;}
-        if()
 
 
 
-        throw new IllegalArgumentException("Illegal argument!");
+       // throw new IllegalArgumentException("Illegal argument!");
+        return true;
     }
 
 

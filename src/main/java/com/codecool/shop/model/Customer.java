@@ -1,5 +1,6 @@
 package com.codecool.shop.model;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +68,15 @@ public class Customer {
         this.shipCity = "";
         this.shipZip = 0;
         this.shipAddress = "";
+    }
+
+    private String salt = BCrypt.gensalt();
+    private String hashedPassword = BCrypt.hashpw("anyad", salt);
+    public String getSalt() {
+        return salt;
+    }
+    public String getHashedPassword() {
+        return hashedPassword;
     }
 
     public int getId() {
