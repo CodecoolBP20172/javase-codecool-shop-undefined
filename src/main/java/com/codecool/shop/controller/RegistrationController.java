@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationController {
+    private static boolean isFieldValid;
+    public static boolean authentication = false;
 
     public static ModelAndView renderRegistrationPage(Request req, Response res) {
         Map params = new HashMap<>();
@@ -25,15 +27,14 @@ public class RegistrationController {
         Map params = new HashMap<>();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
 
-        /*boolean isFieldMatching = false;
 
-        if((req.queryParams("email1").equals(req.queryParams("email2")))){
+        /*if((req.queryParams("email1").equals(req.queryParams("email2")))){
             isFieldMatching = true;
-        } else { isFieldMatching = false;}
+        } else { isFieldValid = false;}
 
         if((req.queryParams("password1").equals(req.queryParams("password2")))){
-            isFieldMatching = true;
-        } else { isFieldMatching = false;}
+            isFieldValid = true;
+        } else { isFieldValid = false;}
 
         */
 
@@ -58,6 +59,27 @@ public class RegistrationController {
         return null;
 
         //return new ModelAndView(params,"product/registration");
+    }
+
+    private static boolean authenticate(Request req) {
+        String firstName = req.queryParams("first_name");
+        String lastName = req.queryParams("last_name");
+        String email1 = req.queryParams("user_email1");
+        String email2 = req.queryParams("user_email2");
+        String password1 = req.queryParams("user_password1");
+        String password2 = req.queryParams("user_password2");
+
+
+        CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
+        if((customerDataStore.doesCustomerExist(email1) == true){
+            return false;}
+        if((!email1.equals(email2)) || (!password1.equals(password2))){
+            return false;}
+        if()
+
+
+
+        throw new IllegalArgumentException("Illegal argument!");
     }
 
 
