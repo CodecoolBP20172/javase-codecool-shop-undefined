@@ -26,6 +26,22 @@ public class Customer {
     //Generated salt and hashedpw for test purposes
     private String salt = BCrypt.gensalt();
     private String hashedPassword = BCrypt.hashpw("anyad", salt);
+    
+    public Customer(String firstName, String email, String password){
+        this.firstName = firstName;
+        this.email = email;
+        hashedPassword = password;
+        this.lastName = "";
+        this.phoneNumber = "";
+        this.billCountry = "";
+        this.billCity = "";
+        this.billZip = 0;
+        this.billAddress = "";
+        this.shipCountry = "";
+        this.shipCity = "";
+        this.shipZip = 0;
+        this.shipAddress = "";
+    }
 
 
     public String getSalt() {
