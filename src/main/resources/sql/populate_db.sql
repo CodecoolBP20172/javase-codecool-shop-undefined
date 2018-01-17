@@ -31,7 +31,3 @@ INSERT INTO products (name, default_price, default_currency, supplier_id, produc
 INSERT INTO products (name, default_price, default_currency, supplier_id, product_category_id, description) VALUES ('Exploding Bon-Bons', 8, 'USD', 3, 1, 'White chocolate with an orange and pineapple flavour truffle center.');
 INSERT INTO products (name, default_price, default_currency, supplier_id, product_category_id, description) VALUES ('Every Flavoured Beans', 9, 'USD', 3, 1, 'Up to 20 flavours that range from delicious to disgusting.');
 INSERT INTO products (name, default_price, default_currency, supplier_id, product_category_id, description) VALUES ('Chocolate Frog', 8, 'USD', 3, 1, 'A delicious frog shaped confection of solid milk chocolate.');
-
--- User data
-
-INSERT INTO customer (first_name, last_name, phone_number, email, bill_country, bill_city, bill_zip, bill_address, ship_country, ship_city, ship_zip, ship_address) VALUES ('Béla', 'Takács', '06201234567', 'b_bela@citromail.hu', 'Hungary', 'Gyulafirátót', 5336, 'A utca 2.', 'Hungary', 'Gyulafirátót', 5336, 'A utca 2.')

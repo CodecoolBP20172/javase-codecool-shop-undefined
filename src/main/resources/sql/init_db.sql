@@ -60,6 +60,15 @@ CREATE TABLE customer
   last_name varchar(40),
   phone_number varchar(40),
   email varchar(40),
+  salt VARCHAR(40),
+  hashed_password VARCHAR(40)
+);
+
+DROP TABLE IF EXISTS address CASCADE;
+CREATE TABLE address
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  customer_id INT NOT NULL,
   bill_country varchar(40),
   bill_city varchar(40),
   bill_zip INT,
@@ -90,4 +99,7 @@ ALTER TABLE ONLY orders
   ADD CONSTRAINT fk_order_id FOREIGN KEY (cart_id) REFERENCES carts(id);
 
 ALTER TABLE ONLY carts
+  ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);
+
+ALTER TABLE ONLY address
   ADD CONSTRAINT fk_customer_id FOREIGN KEY (customer_id) REFERENCES customer(id);
