@@ -41,12 +41,13 @@
                         <fieldset>
                             <legend>LOGIN info:</legend>
                             <div th:if="${wrongCredentials}">
-                                <div>Wrong credentials, try again</div>
+                                <div>Login Failed:</div>
+                                <div>Wrong credentials or missing access rights to application</div>
                             </div>
                             E-mail:<br/>
                             <input type="email" name="email" required="required"/><br/><br/>
                             Password:<br/>
-                            <input type="text" name="password" required="required"/><br/><br/>
+                            <input type="password" name="password" required="required"/><br/><br/>
                             <input type="submit" class="btn btn-info sc-cart-checkout" name="login" value="login" />
                         </fieldset>
                     </form>
