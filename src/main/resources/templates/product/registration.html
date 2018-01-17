@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Registration</title>
+    <link rel="stylesheet" href="css/normalize.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div class="jumbotron text-center">
+    <center>
+        <img src="/img/logo.png" class="img-responsive center" alt="Hogwarts Webshop" border="0" />
+    </center>
+</div>
+<form action="/register" method="post">
+    <h1>Register</h1>
+    <fieldset>
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="first_name" required="required" />
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="last_name" required="required" />
+
+        <label for="mail1">Email:</label>
+        <input type="email" id="mail1" name="user_email1" required="required"/>
+
+        <label for="mail2">Email:</label>
+        <input type="email" id="mail2" name="user_email2" required="required"/>
+
+
+        <label for="password1">Password:</label>
+        <input type="password" id="password1" name="user_password1" required="required"/>
+
+        <label for="password2">Password:</label>
+        <input type="password" id="password2" name="user_password2" required="required"/>
+    </fieldset>
+
+    <button type="submit">Sign Up</button>
+</form>
+</body>
+</html>
