@@ -13,6 +13,8 @@ public interface CustomerDao {
     void add(Customer customer);
     void update(Customer customer);
     Customer find(int id);
+    Customer getCustomerByEmail(String email);
+    public String getActualCustomerName(Integer id);
 
     List<Customer> getCustomers();
 }
