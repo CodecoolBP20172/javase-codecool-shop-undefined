@@ -61,7 +61,7 @@ CREATE TABLE customer
   phone_number varchar(40),
   email varchar(40),
   salt VARCHAR(40),
-  hash VARCHAR(40)
+  hashed_password VARCHAR(40)
 );
 
 DROP TABLE IF EXISTS address CASCADE;
