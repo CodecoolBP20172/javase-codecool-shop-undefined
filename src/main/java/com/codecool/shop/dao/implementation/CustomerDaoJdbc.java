@@ -32,7 +32,25 @@ public class CustomerDaoJdbc implements CustomerDao{
 
     @Override
     public void add(Customer customer) {
-
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
+                    "INSERT INTO customer (first_name, last_name, phone_number, email, hash_code, salt) VALUES (?, ?, ?, ?, ?, ?)");
+            ps.setString(1, customer.getFirstName());
+            ps.setString(2, customer.getLastName());
+            ps.setString(3, customer.getPhoneNumber());
+            ps.setString(4, customer.getEmail());
+            ps.setString(5, "hashString");
+            ps.setString(6, "saltString");
+            ps.execute();
+            ps =(ConnectionManager.getConnection()).prepareStatement(
+                    "SELECT MAX(id) as id FROM customer_id_seq;");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            customer.setId(rs.getInt("id"));
+            logger.debug("Customer (id: {}) successfully added to customers table in the database", customer.getId());
+        } catch (SQLException e) {
+            logger.error("Error while adding customer to the database. Message: {}", e.getMessage());
+        }
     }
 
     /**
@@ -192,5 +210,16 @@ public class CustomerDaoJdbc implements CustomerDao{
             logger.error("Error while reading data from the database. Message: {}", e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public Boolean doesCustomerExist(String email){
+        CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
+        Customer customer = customerDataStore.getCustomerByEmail(email);
+        if(customer == null){
+            return false;
+        } else {
+            return true;}
+
     }
 }

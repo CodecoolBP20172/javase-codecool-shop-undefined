@@ -15,6 +15,7 @@ public interface CustomerDao {
     Customer find(int id);
     Customer getCustomerByEmail(String email);
     public String getActualCustomerName(Integer id);
+    public Boolean doesCustomerExist(String email);
 
     List<Customer> getCustomers();
 }
