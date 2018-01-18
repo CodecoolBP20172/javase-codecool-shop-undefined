@@ -8,6 +8,7 @@ import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.exception.DaoConnectionException;
 import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.login.LoginController;
+import com.codecool.shop.register.RegistrationController;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -59,6 +60,12 @@ public class Main {
 
         post("/login_authenticate", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
+
+        post("/register", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegister(req, res)));
+
+        get("/registration", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegistrationPage(req, res)));
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(404, errorTitle404, errorMessage404, req, res)));
