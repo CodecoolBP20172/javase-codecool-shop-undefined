@@ -22,17 +22,41 @@ public class Customer {
     private String shipCity;
     private Integer shipZip;
     private String shipAddress;
+
     private String salt;
     private String hashedPassword;
+    
+    public Customer(String firstName, String email, String password){
+        this.firstName = firstName;
+        this.email = email;
+        hashedPassword = password;
+        this.lastName = "";
+        this.phoneNumber = "";
+        this.billCountry = "";
+        this.billCity = "";
+        this.billZip = 0;
+        this.billAddress = "";
+        this.shipCountry = "";
+        this.shipCity = "";
+        this.shipZip = 0;
+        this.shipAddress = "";
+    }
+
+    public Customer(String firstName, String lastName, String email, String salt, String hashedPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.salt = salt;
+        this.hashedPassword = hashedPassword;
+    }
 
     public Customer(int id, String firstName, String lastName, String email, String salt, String hashedPassword) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        //Generated salt and hashedpw for test purposes
-        this.salt = BCrypt.gensalt();
-        this.hashedPassword = BCrypt.hashpw("anyad", this.salt);
+        this.salt = salt;
+        this.hashedPassword = hashedPassword;
     }
 
     public Customer(

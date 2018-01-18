@@ -33,8 +33,27 @@ public class CustomerDaoJdbc implements CustomerDao{
     }
 
     @Override
-    public void add(Customer customer) {
-
+    public void add(Customer customer) throws DaoException {
+        try {
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
+                    "INSERT INTO customer (first_name, last_name, phone_number, email, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?)");
+            ps.setString(1, customer.getFirstName());
+            ps.setString(2, customer.getLastName());
+            //phone number is lastname now
+            ps.setString(3, customer.getLastName());
+            ps.setString(4, customer.getEmail());
+            ps.setString(5, customer.getHashedPassword());
+            ps.setString(6, customer.getSalt());
+            ps.execute();
+            ps =(ConnectionManager.getConnection()).prepareStatement(
+                    "SELECT MAX(id) as id FROM customer_id_seq;");
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            customer.setId(rs.getInt("id"));
+            logger.debug("Customer (id: {}) successfully added to customers table in the database", customer.getId());
+        } catch (SQLException e) {
+            logger.error("Error while adding customer to the database. Message: {}", e.getMessage());
+        }
     }
 
     /**
@@ -47,19 +66,17 @@ public class CustomerDaoJdbc implements CustomerDao{
 
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
-                    "UPDATE customer SET first_name=?, last_name=?, phone_number=?, email=?, bill_country=?, bill_city=?, bill_zip=?, bill_address=?, ship_country=?, ship_city=?, ship_zip=?, ship_address=? WHERE id=1;");
-            ps.setString(1, customer.getFirstName());
-            ps.setString(2, customer.getLastName());
-            ps.setString(3, customer.getPhoneNumber());
-            ps.setString(4, customer.getEmail());
-            ps.setString(5, customer.getBillCountry());
-            ps.setString(6, customer.getBillCity());
-            ps.setInt(7, customer.getBillZip());
-            ps.setString(8, customer.getBillAddress());
-            ps.setString(9, customer.getShipCountry());
-            ps.setString(10, customer.getShipCity());
-            ps.setInt(11, customer.getShipZip());
-            ps.setString(12, customer.getShipAddress());
+                    "UPDATE address SET customer_id=?, bill_country=?, bill_city=?, bill_zip=?, bill_address=?, ship_country=?, ship_city=?, ship_zip=?, ship_address=? WHERE customer_id=?;");
+            ps.setInt(1,customer.getId());
+            ps.setString(2, customer.getBillCountry());
+            ps.setString(3, customer.getBillCity());
+            ps.setInt(4, customer.getBillZip());
+            ps.setString(5, customer.getBillAddress());
+            ps.setString(6, customer.getShipCountry());
+            ps.setString(7, customer.getShipCity());
+            ps.setInt(8, customer.getShipZip());
+            ps.setString(9, customer.getShipAddress());
+            ps.setInt(10,customer.getId());
 
             ps.execute();
             ps =(ConnectionManager.getConnection()).prepareStatement(
@@ -168,6 +185,17 @@ public class CustomerDaoJdbc implements CustomerDao{
             throw new DaoException(e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public Boolean doesCustomerExist(String email) throws DaoException {
+        CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
+        Customer customer = customerDataStore.getCustomerByEmail(email);
+        if (customer == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private Customer createNewCustomerFromResultSet(ResultSet resultSet) throws SQLException {

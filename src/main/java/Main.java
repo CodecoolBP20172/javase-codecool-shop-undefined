@@ -9,6 +9,7 @@ import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.exception.DaoConnectionException;
 import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.login.LoginController;
+import com.codecool.shop.register.RegistrationController;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -40,7 +41,6 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
-
         get("/index", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
@@ -67,6 +67,12 @@ public class Main {
 
         get("/product_category/:name", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(SortingController.renderProductCategory(req, res)));
+
+        post("/register", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegister(req, res)));
+
+        get("/registration", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(RegistrationController.renderRegistrationPage(req, res)));
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(404, errorTitle404, errorMessage404, req, res)));

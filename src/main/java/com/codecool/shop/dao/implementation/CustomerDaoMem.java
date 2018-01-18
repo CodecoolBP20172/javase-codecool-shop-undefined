@@ -50,6 +50,11 @@ public class CustomerDaoMem implements CustomerDao {
     }
 
     @Override
+    public Boolean doesCustomerExist(String email) {
+        return null;
+    }
+
+    @Override
     public List<Customer> getCustomers() {
         return CUSTOMERS;
     }
