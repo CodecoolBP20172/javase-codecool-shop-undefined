@@ -38,6 +38,9 @@ public class Main {
         get("/index", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
+        get("/all-products", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(SortingController.renderAllProductCategory(req, res)));
+
         post("/payment", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res)));
 
