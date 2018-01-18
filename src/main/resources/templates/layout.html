@@ -6,23 +6,24 @@
     <center>
         <img src="/img/logo.png" class="img-responsive center" alt="Hogwarts Webshop" border="0"/>
     </center>
-    <!-- IF CUSTOMER IS ANONYMOUS -->
-    <div th:if="${isSession}">
-        <div th:text="${name}">Hi, User</div>
-        <a href="/logout">LOGOUT</a>
+    <div th:if="${error!=500}" class="user">
+        <!-- IF CUSTOMER IS ANONYMOUS -->
+        <div th:if="${isSession}">
+            <div th:text="${name}">Hi, User</div>
+            <a href="/logout">LOGOUT</a>
+        </div>
+        <!-- ELSE -->
+        <div th:unless="${isSession}">
+            <div>Welcome, Guest</div>
+            <a href="/login">LOGIN</a>
+        </div>
     </div>
-    <!-- ELSE -->
-    <div th:unless="${isSession}">
-        <div>Welcome, Guest</div>
-        <a href="/login">LOGIN</a>
-    </div>
-
 </div>
 
 <div th:fragment="footer">
     <div class="panel panel-default footer">
-        <div class="panel-body">
-            &copy; 2017 Team Undefined Budapest
+        <div align="center" class="panel-body">
+            &copy; 2018 Team Undefined Budapest
         </div>
     </div>
 </div>

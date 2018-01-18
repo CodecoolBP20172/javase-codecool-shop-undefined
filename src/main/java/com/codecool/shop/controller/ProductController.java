@@ -141,10 +141,11 @@ public class ProductController {
      *
      * @return a ModelView with params of the error code and viewName.
      */
-    public static ModelAndView renderError(int statusCode, String message, Request req, Response res) {
+    public static ModelAndView renderError(int statusCode, String title, String message, Request req, Response res) {
         Map params = new HashMap<>();
         params.put("error", statusCode);
         params.put("message", message);
+        params.put("title", title);
         return new ModelAndView(params, "product/error");
     }
 

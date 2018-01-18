@@ -30,15 +30,20 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="error-template">
-                    <h1>
-                        Oops!</h1>
-                    <h2 th:text="${error}">Error code</h2>
-                    <div class="error-details" th:text="${message}">
-                        Error message
+                    <h1 th:text="${error}">Error code</h1>
+                    <h2 th:text="${title}">Error title</h2>
+                    <p class="error-details" th:text="${message}">Error message</p>
+                    <div class="error-image">
+                        <img th:if="${error==500}" src="/img/500.png" alt="Mountain View" width="500"></img>
+                        <img th:if="${error!=500}" src="/img/404.jpg" alt="Mountain View" width="250"></img>
                     </div>
                     <div class="error-actions">
-                        <a href="/" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                            Take Me Home </a><a href="/" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                        <a th:if="${error!=500}" href="/" class="btn btn-primary btn-lg">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Take Me Home </a>
+                        <a th:if="${error!=500}" href="/" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            Contact Support </a>
                     </div>
                 </div>
             </div>
