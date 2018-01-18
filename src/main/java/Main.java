@@ -3,6 +3,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.controller.SortingController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.exception.DaoConnectionException;
@@ -40,8 +41,12 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
+
         get("/index", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
+
+        get("/all-products", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(SortingController.renderAllProductCategory(req, res)));
 
         post("/payment", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderPayment(req, res)));
@@ -61,12 +66,15 @@ public class Main {
         post("/login_authenticate", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
 
+        get("/product_category/:name", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(SortingController.renderProductCategory(req, res)));
+
         post("/register", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(RegistrationController.renderRegister(req, res)));
 
         get("/registration", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(RegistrationController.renderRegistrationPage(req, res)));
-
+      
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(404, errorTitle404, errorMessage404, req, res)));
         exception(DaoConnectionException.class, (exception, req, res) -> {

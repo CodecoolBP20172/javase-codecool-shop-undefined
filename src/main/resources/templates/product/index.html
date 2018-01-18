@@ -36,9 +36,26 @@
 <section class="container">
     <div class="row">
         <div class="col-md-9">
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort to Product Category
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <div th:each="prodCat,iterStat : ${productCategories}">
+                        <a class="dropdown-item" th:href="@{~/product_category/{prodCat}(prodCat=${prodCat})}" th:text="${prodCat}">Action</a>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/all-products">All Products</a>
+                </div>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong th:text="${category.name}">Category Title</strong>
+                    <div th:if="${category != null}">
+                        <strong th:text="${category.name}">CN</strong>
+                    </div>
+                    <div th:unless="${category != null}">
+                        <strong>All Products</strong>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="row" >

@@ -264,7 +264,8 @@ public class ProductDaoJdbc implements ProductDao {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT products.id, products.name, products.description, default_price, default_currency, supplier.name AS supplier_name, supplier.description AS  supplier_description FROM products\n" +
                     "JOIN supplier ON products.supplier_id = supplier.id\n" +
-                    "WHERE product_category_id = 1;");
+                    "WHERE product_category_id = ?;");
+            ps.setInt(1,productCategory.getId());
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
