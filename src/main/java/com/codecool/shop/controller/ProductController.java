@@ -34,6 +34,7 @@ public class ProductController {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
         Integer customerId = getCustomerIdFromSession(req);
         Integer productCategoryId = getProductCategoryIdFromSession(req);
+        System.out.println("categoryid" + productCategoryId);
 
         Map params = new HashMap<>();
         params.put("isSession", customerId);
@@ -46,8 +47,9 @@ public class ProductController {
             params.put("category", null);
             params.put("products", productDataStore.getAll());
         } else {
-            params.put("category", productCategoryDataStore.find(getProductCategoryIdFromSession(req)));
-            params.put("products", productDataStore.getBy(productCategoryDataStore.find(getProductCategoryIdFromSession(req))));
+            params.put("category", productCategoryDataStore.find(productCategoryId));
+            params.put("products", productDataStore.getBy(productCategoryDataStore.find(productCategoryId)));
+            System.out.println(params);
         }
         return new ModelAndView(params, "product/index");
     }
