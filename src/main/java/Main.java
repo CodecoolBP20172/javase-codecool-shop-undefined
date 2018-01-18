@@ -3,6 +3,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.controller.SortingController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.login.LoginController;
@@ -33,8 +34,6 @@ public class Main {
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
 
-        get("/index", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
         get("/index", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
@@ -56,6 +55,9 @@ public class Main {
 
         post("/login_authenticate", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
+
+        get("/product_category/:name", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(SortingController.renderProductCategory(req, res)));
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));

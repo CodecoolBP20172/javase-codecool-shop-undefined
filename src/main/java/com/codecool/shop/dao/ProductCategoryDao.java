@@ -15,4 +15,7 @@ public interface ProductCategoryDao {
 
     List<ProductCategory> getAll();
 
+    List<String> getAllNames();
+
+    Integer getIdByName(String name);
 }

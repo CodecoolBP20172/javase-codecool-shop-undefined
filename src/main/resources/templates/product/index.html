@@ -41,14 +41,14 @@
                     Sort to Product Category
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <div th:each="prodCat,iterStat : ${productCategories}">
+                        <a class="dropdown-item" th:href="@{~/product_category/{prodCat}(prodCat=${prodCat})}" th:text="${prodCat}">Action</a>
+                    </div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong th:if="${category != null} ? ${category.name} : 'All products'">All Products</strong>
+                    <strong th:if="${category != null} ? ${category.getName()} : 'All products'">All Products</strong>
                 </div>
                 <div class="panel-body">
                     <div class="row" >

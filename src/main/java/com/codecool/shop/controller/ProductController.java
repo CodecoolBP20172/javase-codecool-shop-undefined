@@ -37,6 +37,8 @@ public class ProductController {
 
         Map params = new HashMap<>();
         params.put("isSession", customerId);
+        params.put("productCategories", productCategoryDataStore.getAllNames());
+
         if (customerId != null) {
             params.put("name", customerData.getActualCustomerName(customerId));
         }
@@ -44,8 +46,8 @@ public class ProductController {
             params.put("category", null);
             params.put("products", productDataStore.getAll());
         } else {
-            params.put("category", productCategoryDataStore.find(1));
-            params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+            params.put("category", productCategoryDataStore.find(getProductCategoryIdFromSession(req)));
+            params.put("products", productDataStore.getBy(productCategoryDataStore.find(getProductCategoryIdFromSession(req))));
         }
         return new ModelAndView(params, "product/index");
     }

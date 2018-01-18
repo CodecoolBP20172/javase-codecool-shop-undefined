@@ -145,12 +145,40 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
 
     @Override
     public List<String> getAllNames() {
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
-        List<String> listOfNames = new ArrayList<>();
-        for(ProductCategory productCategory : productCategoryDataStore.getAll()) {
-            listOfNames.add(productCategory.getName());
+        List<String> listOfProductCategories = new ArrayList<>();
+        String name;
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT name FROM product_category");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                name = rs.getString("name");
+                listOfProductCategories.add(name);
+            }
+
+        } catch (SQLException e) {
         }
-        return listOfNames;
+        return listOfProductCategories;
     }
+
+    @Override
+    public Integer getIdByName(String prodCatName) {
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT id FROM product_category WHERE name = ?");
+            ps.setString(1, prodCatName);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+
 
 }
