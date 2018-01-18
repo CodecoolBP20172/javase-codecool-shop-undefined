@@ -1,5 +1,7 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.ProductCategory;
 
 import java.util.List;
@@ -9,11 +11,11 @@ import java.util.List;
  */
 public interface ProductCategoryDao {
 
-    void add(ProductCategory category);
-    ProductCategory find(int id);
-    void remove(int id);
+    void add(ProductCategory category) throws DaoConnectionException, DaoException;
+    ProductCategory find(int id) throws DaoConnectionException, DaoException;
+    void remove(int id) throws DaoException;
 
-    List<ProductCategory> getAll();
+    List<ProductCategory> getAll() throws DaoConnectionException, DaoException;
 
     List<String> getAllNames();
 

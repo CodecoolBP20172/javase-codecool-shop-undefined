@@ -6,6 +6,8 @@ import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.controller.SortingController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.login.LoginController;
 import spark.Request;
 import spark.Response;
@@ -25,6 +27,10 @@ public class Main {
 
         // populate some data for the memory storage
         // populateData();
+        String errorTitle404 = "Oops!";
+        String errorMessage404 = "Page not found.";
+        String errorTitle500 = "Our website is not available at the moment";
+        String errorMessage500 = "We are working on the problem. Please come back later.";
 
         //logging test
         Logger logger = LoggerFactory.getLogger(Main.class);
@@ -63,7 +69,11 @@ public class Main {
                 new ThymeleafTemplateEngine().render(SortingController.renderProductCategory(req, res)));
 
         get("*", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
+                new ThymeleafTemplateEngine().render(ProductController.renderError(404, errorTitle404, errorMessage404, req, res)));
+        exception(DaoConnectionException.class, (exception, req, res) -> {
+            res.status(500);
+            res.body(new ThymeleafTemplateEngine().render(ProductController.renderError(500, errorTitle500, errorMessage500,req, res)));
+        });
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
@@ -97,7 +107,6 @@ public class Main {
         productDataStore.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
         productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
-
     }
     */
 

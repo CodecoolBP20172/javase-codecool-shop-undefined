@@ -2,6 +2,7 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.exception.DaoConnectionException;
 import com.codecool.shop.model.ProductCategory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -142,6 +143,8 @@ class ProductCategoryDaoJdbcTest {
 );
             ps.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (DaoConnectionException e) {
             e.printStackTrace();
         }
     }

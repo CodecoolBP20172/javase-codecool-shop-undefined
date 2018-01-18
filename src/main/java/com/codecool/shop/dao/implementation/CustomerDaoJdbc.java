@@ -2,6 +2,8 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.CustomerDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class CustomerDaoJdbc implements CustomerDao{
      * @param customer the customer to update.
      */
     @Override
-    public void update(Customer customer) {
+    public void update(Customer customer) throws DaoException {
 
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
@@ -67,7 +69,7 @@ public class CustomerDaoJdbc implements CustomerDao{
             customer.setId(rs.getInt("id"));
             logger.debug("Customer (id: {}) successfully added to customers table in the database", customer.getId());
         } catch (SQLException e) {
-            logger.error("Error while adding customer to the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
     }
 
@@ -78,7 +80,7 @@ public class CustomerDaoJdbc implements CustomerDao{
      * @return Customer object.
      */
     @Override
-    public Customer find(int id) {
+    public Customer find(int id) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
                     "SELECT customer.id, first_name, last_name, phone_number, email, bill_country, \n" +
@@ -92,7 +94,7 @@ public class CustomerDaoJdbc implements CustomerDao{
                 return createNewCustomerFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return null;
     }
@@ -103,7 +105,7 @@ public class CustomerDaoJdbc implements CustomerDao{
      * @return List of all customers.
      */
     @Override
-    public List<Customer> getCustomers() {
+    public List<Customer> getCustomers() throws DaoException {
 
         String query = "SELECT customer.id, first_name, last_name, phone_number, email, bill_country,\n" +
                 "bill_city, bill_zip, bill_address, ship_country, ship_city, ship_zip, ship_address\n" +
@@ -121,13 +123,12 @@ public class CustomerDaoJdbc implements CustomerDao{
             return allCustomer;
 
         } catch (SQLException e) {
-            logger.error("Error while reading data of customers table from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
-        return null;
     }
 
     @Override
-    public Customer getCustomerByEmail(String email) {
+    public Customer getCustomerByEmail(String email) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
                     "SELECT id, first_name, last_name, email, salt, hashed_password FROM customer\n" +
@@ -146,13 +147,13 @@ public class CustomerDaoJdbc implements CustomerDao{
                 return result;
             }
         } catch (SQLException e) {
-            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return null;
     }
 
     @Override
-    public String getActualCustomerName(Integer id) {
+    public String getActualCustomerName(Integer id) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
                     "SELECT first_name FROM customer WHERE id=?;");
@@ -164,7 +165,7 @@ public class CustomerDaoJdbc implements CustomerDao{
                 return name;
             }
         } catch (SQLException e) {
-            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return null;
     }

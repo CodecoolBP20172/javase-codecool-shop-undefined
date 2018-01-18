@@ -2,6 +2,8 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Supplier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +19,7 @@ class SupplierDaoJdbcTest {
     static SupplierDao unit;
 
     @BeforeEach
-    public void init(){
+    public void init() throws DaoException {
         unit = SupplierDaoJdbc.getInstance();
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("DROP TABLE IF EXISTS products CASCADE;\n" +
@@ -114,7 +116,7 @@ class SupplierDaoJdbcTest {
 
     @Test
     @DisplayName("Tests add method with one element")
-    void testAdd(){
+    void testAdd() throws DaoException {
         Supplier supplier = new Supplier("TestAdd", "Data to test add method");
         unit.add(supplier);
         int supplierId = supplier.getId();
@@ -134,7 +136,7 @@ class SupplierDaoJdbcTest {
 
     @Test
     @DisplayName("Tests add method with two element")
-    void testAdd2(){
+    void testAdd2() throws DaoException {
         Supplier supplier = new Supplier("TestAdd", "Data to test add method");
         unit.add(supplier);
         int supplierId = supplier.getId();
@@ -166,7 +168,7 @@ class SupplierDaoJdbcTest {
 
     @Test
     @DisplayName("Tests find method")
-    void testFind() {
+    void testFind() throws DaoException {
         //assert we get null when the array is empty
         assertEquals(null, unit.find(1));
 
@@ -184,7 +186,7 @@ class SupplierDaoJdbcTest {
 
     @Test
     @DisplayName("Tests remove method")
-    void testRemove() {
+    void testRemove() throws DaoException {
 
         unit.remove(2);
         assertEquals(0, unit.getAll().size());
@@ -219,7 +221,7 @@ class SupplierDaoJdbcTest {
 
     @Test
     @DisplayName("Tests getAll method")
-    void testGetAll(){
+    void testGetAll() throws DaoException {
 
         assertEquals(0, unit.getAll().size());
 

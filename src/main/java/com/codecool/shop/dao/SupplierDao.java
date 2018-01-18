@@ -1,5 +1,7 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Supplier;
 
 import java.util.List;
@@ -8,9 +10,9 @@ import java.util.List;
  */
 public interface SupplierDao {
 
-    void add(Supplier supplier);
-    Supplier find(int id);
-    void remove(int id);
+    void add(Supplier supplier) throws DaoConnectionException, DaoException;
+    Supplier find(int id) throws DaoConnectionException, DaoException;
+    void remove(int id) throws DaoConnectionException, DaoException;
 
-    List<Supplier> getAll();
+    List<Supplier> getAll() throws DaoConnectionException, DaoException;
 }
