@@ -3,6 +3,8 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -27,7 +29,7 @@ class ProductDaoJdbcTest {
     private Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
 
     @BeforeEach
-    public void init(){
+    public void init() throws DaoException {
         unit = ProductDaoJdbc.getInstance();
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("DROP TABLE IF EXISTS products CASCADE;\n" +
@@ -125,7 +127,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests add method with one element")
-    void testAdd(){
+    void testAdd() throws DaoException {
         unit.add(product);
         int productId = product.getId();
         assertEquals(1, unit.getAll().size());
@@ -141,7 +143,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests add method with two element")
-    void testAdd2() {
+    void testAdd2() throws DaoException {
         unit.add(product);
         unit.add(product2);
 
@@ -170,7 +172,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests find method")
-    void testFind() {
+    void testFind() throws DaoException {
         //assert we get null when the array is empty
         assertEquals(null, unit.find(1));
         unit.add(product);
@@ -183,7 +185,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests remove method")
-    void testRemove() {
+    void testRemove() throws DaoException {
         unit.remove(2);
         assertEquals(0, unit.getAll().size());
         unit.add(product);
@@ -214,7 +216,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests getAll method")
-    void testGetAll(){
+    void testGetAll() throws DaoException {
         assertEquals(0, unit.getAll().size());
         unit.add(product);
         unit.add(product2);
@@ -244,7 +246,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests getBy supplier")
-    void testGetBySupplier() {
+    void testGetBySupplier() throws DaoException {
         assertEquals(0, unit.getAll().size());
         unit.add(product);
         unit.add(product2);
@@ -274,7 +276,7 @@ class ProductDaoJdbcTest {
 
     @Test
     @DisplayName("Tests getBy product category")
-    void testGetByProductCategory() {
+    void testGetByProductCategory() throws DaoException {
         assertEquals(0, unit.getAll().size());
         unit.add(product);
         unit.add(product2);

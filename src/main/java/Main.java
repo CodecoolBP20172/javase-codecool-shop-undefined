@@ -5,6 +5,8 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.login.LoginController;
 import spark.Request;
 import spark.Response;
@@ -56,6 +58,11 @@ public class Main {
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
+        exception(DaoConnectionException.class, (exception, req, res) -> {
+            // Handle exception here
+            res.status(500);
+            res.body(new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
+        });
 
         // Add this line to your project to enable the debug screen
         enableDebugScreen();
@@ -89,7 +96,6 @@ public class Main {
         productDataStore.add(new Product("Exploding Bon Bons", 8, "USD", "White chocolate with an Orange & Pineapple flavour truffle centre.", hogwarts, magicSweets));
         productDataStore.add(new Product("Every Flavour Beans", 9, "USD", "Up to 20 flavours that range from delicious to disgusting.", hogwarts, magicSweets));
         productDataStore.add(new Product("Chocolate Frog", 8, "USD", "A delicious frog shaped confection of solid milk chocolate.", hogwarts, magicSweets));
-
     }
     */
 

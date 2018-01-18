@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.*;
 import com.codecool.shop.utils.JsonDataController;
 import spark.Request;
@@ -28,7 +29,7 @@ public class ProductController {
      *
      * @return a ModelView with params of map of all products by a product category and viewName.
      */
-    public static ModelAndView renderProducts(Request req, Response res) {
+    public static ModelAndView renderProducts(Request req, Response res) throws DaoException {
         CustomerDao customerData = CustomerDaoJdbc.getInstance();
         ProductDao productDataStore = ProductDaoJdbc.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
@@ -50,7 +51,7 @@ public class ProductController {
      *
      * @return a ModelView with params of parsed json and viewName.
      */
-    public static ModelAndView renderCheckout(Request req, Response res) throws IOException {
+    public static ModelAndView renderCheckout(Request req, Response res) throws IOException, DaoException {
 
         ProductDao productDataStore = ProductDaoJdbc.getInstance();
         CustomerDao customerDataStore = CustomerDaoJdbc.getInstance();
@@ -82,7 +83,7 @@ public class ProductController {
      *
      * @return a ModelView with params of parsed json and viewName.
      */
-    public static ModelAndView renderConfirmation(Request req, Response res) {
+    public static ModelAndView renderConfirmation(Request req, Response res) throws DaoException {
 
         CartDao cartJdbc = CartDaoJdbc.getInstance();
         OrderDao orderJdbc = OrderDaoJdbc.getInstance();
@@ -109,7 +110,7 @@ public class ProductController {
      *
      * @return a ModelView with params of the orders subtotal price and viewName.
      */
-    public static ModelAndView renderPayment(Request req, Response res) {
+    public static ModelAndView renderPayment(Request req, Response res) throws DaoException {
         Map params = new HashMap<>();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
         LineItemDao lineItemJdbc= LineItemDaoJdbc.getInstance();

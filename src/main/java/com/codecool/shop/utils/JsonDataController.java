@@ -1,6 +1,7 @@
 package com.codecool.shop.utils;
 
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Cart;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +21,7 @@ public class JsonDataController {
      * @param  productDataStore from which we will find out which product to store.
      * @param  cartList parsable json string
      */
-    public static void addToCartFromJson(Cart cart, ProductDao productDataStore, String cartList) throws IOException {
+    public static void addToCartFromJson(Cart cart, ProductDao productDataStore, String cartList) throws IOException, DaoException {
         for (int i=0; i < parseJson(cartList).size(); i++) {
             cart.add(productDataStore.find(parseInt((String) parseJson(cartList).get(i).get("product_id"))), getQuantityFromJson(i, cartList));
         }
