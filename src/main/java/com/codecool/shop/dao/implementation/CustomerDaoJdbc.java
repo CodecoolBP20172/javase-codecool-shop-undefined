@@ -36,13 +36,14 @@ public class CustomerDaoJdbc implements CustomerDao{
     public void add(Customer customer) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement(
-                    "INSERT INTO customer (first_name, last_name, phone_number, email, hash_code, salt) VALUES (?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO customer (first_name, last_name, phone_number, email, hashed_password, salt) VALUES (?, ?, ?, ?, ?, ?)");
             ps.setString(1, customer.getFirstName());
             ps.setString(2, customer.getLastName());
-            ps.setString(3, customer.getPhoneNumber());
+            //phone number is lastname now
+            ps.setString(3, customer.getLastName());
             ps.setString(4, customer.getEmail());
-            ps.setString(5, "hashString");
-            ps.setString(6, "saltString");
+            ps.setString(5, customer.getHashedPassword());
+            ps.setString(6, customer.getSalt());
             ps.execute();
             ps =(ConnectionManager.getConnection()).prepareStatement(
                     "SELECT MAX(id) as id FROM customer_id_seq;");

@@ -25,23 +25,19 @@ public class RegistrationController {
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
 
         String password = req.queryParams("user_password1");
-        //saltolni hashelni itt:
-        password = BCrypt.hashpw(password, BCrypt.gensalt());
-
-
+        String salt = BCrypt.gensalt();
+        String hashedPassword = BCrypt.hashpw(password, salt);
 
         Customer customer = new Customer(
-                req.queryParams("user_name"),
+                req.queryParams("first_name"),
+                req.queryParams("last_name"),
                 req.queryParams("user_email1"),
-                password);
-
+                salt,
+                hashedPassword);
 
         customerJdbc.add(customer);
 
-
-
-        // ide egy redirect kéne
-        res.redirect("/");
+        res.redirect("/login");
         return null;
 
         //return new ModelAndView(params,"product/registration");

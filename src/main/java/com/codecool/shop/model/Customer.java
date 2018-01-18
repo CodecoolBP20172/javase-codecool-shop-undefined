@@ -42,14 +42,20 @@ public class Customer {
         this.shipAddress = "";
     }
 
-    public Customer(int id, String firstName, String lastName, String email, String salt, String hashedPassword) {
-        this.id = id;
+    public Customer(String firstName, String lastName, String email, String salt, String hashedPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        //Generated salt and hashedpw for test purposes
-        this.salt = BCrypt.gensalt();
-        this.hashedPassword = BCrypt.hashpw("anyad", this.salt);
+        this.salt = salt;
+        this.hashedPassword = hashedPassword;
+    }
+
+    public Customer(int id, String firstName, String lastName, String email, String salt, String hashedPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.salt = salt;
+        this.hashedPassword = hashedPassword;
     }
 
     public Customer(
