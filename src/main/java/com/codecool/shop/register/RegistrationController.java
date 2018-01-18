@@ -2,6 +2,7 @@ package com.codecool.shop.register;
 
 import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.dao.implementation.CustomerDaoJdbc;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Customer;
 import org.mindrot.jbcrypt.BCrypt;
 import spark.ModelAndView;
@@ -22,7 +23,7 @@ public class RegistrationController {
     }
 
 
-    public static ModelAndView renderRegister(Request req, Response res) {
+    public static ModelAndView renderRegister(Request req, Response res) throws DaoException {
         Map params = new HashMap<>();
         CustomerDao customerJdbc = CustomerDaoJdbc.getInstance();
 
@@ -60,7 +61,7 @@ public class RegistrationController {
         //return new ModelAndView(params,"product/registration");
     }
 
-    private static boolean authenticate(Request req) {
+    private static boolean authenticate(Request req) throws DaoException {
         String firstName = req.queryParams("first_name");
         String lastName = req.queryParams("last_name");
         String email1 = req.queryParams("user_email1");

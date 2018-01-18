@@ -1,5 +1,7 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Order;
 
 import java.util.List;
@@ -9,8 +11,8 @@ import java.util.List;
  * @since 1.0
  */
 public interface OrderDao {
-    void add(Order product);
-    Order find(int id);
+    void add(Order product) throws DaoConnectionException, DaoException;
+    Order find(int id) throws DaoConnectionException, DaoException;
 
-    List<Order> getAll();
+    List<Order> getAll() throws DaoConnectionException, DaoException;
 }

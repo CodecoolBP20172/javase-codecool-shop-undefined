@@ -1,6 +1,8 @@
 package com.codecool.shop.dao.implementation;
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.CartDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Cart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class CartDaoJdbc implements CartDao {
      * @param cart the cart to add.
      */
     @Override
-    public void add(Cart cart) {
+    public void add(Cart cart) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO carts (customer_id) VALUES(?);");
             ps.setInt(1, cart.getCustomerId());
@@ -52,7 +54,7 @@ public class CartDaoJdbc implements CartDao {
             cart.setId(rs.getInt("id"));
             logger.debug("Cart (id: {}) successfully added to carts table in the database", cart.getId());
         } catch (SQLException e) {
-            logger.error("Error while adding cart to the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
     }
 
@@ -62,7 +64,7 @@ public class CartDaoJdbc implements CartDao {
      * @return List of all carts.
      */
     @Override
-    public List<Cart> getCarts() {
+    public List<Cart> getCarts() throws DaoException {
         String query = "SELECT * FROM carts;";
         List<Cart> allCarts = new ArrayList<>();
 
@@ -79,9 +81,8 @@ public class CartDaoJdbc implements CartDao {
             return allCarts;
 
         } catch (SQLException e) {
-            logger.error("Error while reading data of carts table from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
-        return null;
     }
 
     /**
@@ -92,7 +93,7 @@ public class CartDaoJdbc implements CartDao {
      * @return Map with the cart details of the actual user.
      */
     @Override
-    public List<Map> getActualUsersCart(int id) {
+    public List<Map> getActualUsersCart(int id) throws DaoException  {
         List<Map> listOfProducts = new ArrayList<>();
         try {
             PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement(
@@ -116,7 +117,7 @@ public class CartDaoJdbc implements CartDao {
                 listOfProducts.add(productDetails);
             }
         } catch (SQLException e) {
-            logger.error("Error while reading user's cart information from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return listOfProducts;
     }

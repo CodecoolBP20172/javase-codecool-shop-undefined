@@ -2,6 +2,7 @@ package com.codecool.shop.login;
 
 import com.codecool.shop.dao.CustomerDao;
 import com.codecool.shop.dao.implementation.*;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Customer;
 import org.mindrot.jbcrypt.BCrypt;
 import spark.*;
@@ -20,7 +21,7 @@ public class LoginController {
         return new ModelAndView(params, "product/login");
     }
 
-    public static ModelAndView renderLoginAuthentication(Request req, Response res) {
+    public static ModelAndView renderLoginAuthentication(Request req, Response res) throws DaoException {
 
         if (authenticate(req.queryParams("email"), req.queryParams("password"), req)){
             wrongCredentials = false;
@@ -38,7 +39,7 @@ public class LoginController {
         return null;
     }
 
-    private static boolean authenticate(String email, String password, Request req) {
+    private static boolean authenticate(String email, String password, Request req) throws DaoException {
         if (email.isEmpty() || password.isEmpty()) {
             return false;
         }
