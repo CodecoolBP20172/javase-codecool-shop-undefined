@@ -130,6 +130,7 @@ public class ProductController {
                 parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
+        customer.setId(customerJdbc.getCustomers().size());
         customerJdbc.update(customer);
         params.put("name", customerJdbc.getActualCustomerName(customerId));
         params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(customerId));
