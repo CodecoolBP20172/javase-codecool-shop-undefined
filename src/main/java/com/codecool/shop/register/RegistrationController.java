@@ -14,12 +14,8 @@ import java.util.Map;
 
 public class RegistrationController {
 
-    private static boolean invalidFields;
-    public static boolean authentication = false;
-
     public static ModelAndView renderRegistrationPage(Request req, Response res) {
         Map params = new HashMap<>();
-        params.put("invalidFields", invalidFields);
         return new ModelAndView(params,"product/registration");
     }
 
@@ -62,30 +58,15 @@ public class RegistrationController {
         String password2 = req.queryParams("user_password2");
 
         //firstName is given
-        if(firstName.length()<1) {
-            invalidFields = true;
-            return false;
-        }
+        if(firstName.length()<1) { return false; }
         //lastName is given
-        if(lastName.length()<1) {
-            invalidFields = true;
-            return false;
-        }
+        if(lastName.length()<1) { return false; }
         //check if email is in the database already
-        if(customerDataStore.doesCustomerExist(email1)){
-            invalidFields = true;
-            return false;
-        }
+        if(customerDataStore.doesCustomerExist(email1)){ return false; }
         //check if the two email fields match
-        if(!email1.equals(email2)) {
-            invalidFields = true;
-            return false;
-        }
+        if(!email1.equals(email2)) { return false; }
         //check if the two password fields match
-        if(!password1.equals(password2)) {
-            invalidFields = true;
-            return false;
-        }
+        if(!password1.equals(password2)) { return false; }
         return true;
     }
 
