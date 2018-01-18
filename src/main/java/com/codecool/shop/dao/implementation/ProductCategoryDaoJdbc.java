@@ -166,6 +166,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     public Integer getIdByName(String prodCatName) {
 
         try {
+            System.out.println("rdxxxxxxxxxxucxjiodrcxijkjjbdfhjdfkgfsdjfdsh" + prodCatName);
             PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT id FROM product_category WHERE name = ?");
             ps.setString(1, prodCatName);
             ResultSet rs = ps.executeQuery();
