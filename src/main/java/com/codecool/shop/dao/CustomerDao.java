@@ -12,11 +12,12 @@ import java.util.List;
  * @since 1.0
  */
 public interface CustomerDao {
-    void add(Customer customer);
-    void update(Customer customer) throws DaoException;
-    Customer find(int id) throws DaoConnectionException, DaoException;
-    Customer getCustomerByEmail(String email) throws DaoConnectionException, DaoException;
-    public String getActualCustomerName(Integer id) throws DaoConnectionException, DaoException;
 
-    List<Customer> getCustomers() throws DaoConnectionException, DaoException;
+    void add(Customer customer) throws DaoException;
+    void update(Customer customer) throws DaoException;
+    Customer find(int id) throws DaoException;
+    Customer getCustomerByEmail(String email) throws DaoException;
+    public String getActualCustomerName(Integer id) throws DaoException;
+    public Boolean doesCustomerExist(String email) throws DaoException;
+    List<Customer> getCustomers() throws DaoException;
 }

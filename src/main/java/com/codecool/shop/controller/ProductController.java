@@ -72,6 +72,7 @@ public class ProductController {
         params.put("cart_list", JsonDataController.parseJson(cartList));
         //create cart
         CartDao cartJdbc = CartDaoJdbc.getInstance();
+        params.put("isSession", customerId);
         if (customerId != null) {
             params.put("name", customerDataStore.getActualCustomerName(customerId));
             Cart cart = new Cart(customerId);
@@ -106,6 +107,7 @@ public class ProductController {
         orderJdbc.add(order);
 
         Map params = new HashMap<>();
+        params.put("isSession", customerId);
         params.put("name", customerJdbc.getActualCustomerName(customerId));
         params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(customerId));
         params.put("customer", order.getCustomer());
@@ -140,7 +142,9 @@ public class ProductController {
                 parseInt(req.queryParams("shzip")),
                 req.queryParams("shaddress")
         );
+        customer.setId(customerJdbc.getCustomers().size());
         customerJdbc.update(customer);
+        params.put("isSession", customerId);
         params.put("name", customerJdbc.getActualCustomerName(customerId));
         params.put("sub_total", lineItemJdbc.getLineItemsSubtotalByCustomer(customerId));
         return new ModelAndView(params, "product/payment");
