@@ -26,6 +26,8 @@ public class Main {
 
         // populate some data for the memory storage
         // populateData();
+        String errorMessage404 = "Oops! Page not found.";
+        String errorMessage500 = "Something went wrong. Please come back later.";
 
         //logging test
         Logger logger = LoggerFactory.getLogger(Main.class);
@@ -57,11 +59,11 @@ public class Main {
                 new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
 
         get("*", (Request req, Response res) ->
-                new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
+                new ThymeleafTemplateEngine().render(ProductController.renderError(404, errorMessage404, req, res)));
         exception(DaoConnectionException.class, (exception, req, res) -> {
             // Handle exception here
             res.status(500);
-            res.body(new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
+            res.body(new ThymeleafTemplateEngine().render(ProductController.renderError(500, errorMessage500,req, res)));
         });
 
         // Add this line to your project to enable the debug screen
