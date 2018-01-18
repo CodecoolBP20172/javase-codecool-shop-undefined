@@ -142,4 +142,15 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         logger.info("Successfully returned all product categories from the database");
         return listOfProductCategories;
     }
+
+    @Override
+    public List<String> getAllNames() {
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
+        List<String> listOfNames = new ArrayList<>();
+        for(ProductCategory productCategory : productCategoryDataStore.getAll()) {
+            listOfNames.add(productCategory.getName());
+        }
+        return listOfNames;
+    }
+
 }

@@ -2,17 +2,13 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 
-import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.*;
 import com.codecool.shop.dao.implementation.*;
-import com.codecool.shop.model.*;
+import com.codecool.shop.login.LoginController;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +32,10 @@ public class Main {
         // Always add generic routes to the end
         get("/", ProductController::renderProducts, new ThymeleafTemplateEngine());
         // Equivalent with above
+
+        get("/index", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
+
         get("/index", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderProducts(req, res)));
 
@@ -47,6 +47,15 @@ public class Main {
 
         post("/confirmation", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderConfirmation(req, res)));
+
+        get("/login", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLogin(req, res) ));
+
+        get("/logout", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLogout(req, res) ));
+
+        post("/login_authenticate", (Request req, Response res) ->
+                new ThymeleafTemplateEngine().render( LoginController.renderLoginAuthentication(req, res)));
 
         get("*", (Request req, Response res) ->
                 new ThymeleafTemplateEngine().render(ProductController.renderError(req, res)));
