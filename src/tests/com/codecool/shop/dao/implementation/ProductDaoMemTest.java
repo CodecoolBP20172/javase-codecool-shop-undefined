@@ -1,6 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -22,14 +23,14 @@ class ProductDaoMemTest {
     private Product product2 = new Product("TestAdd", 100, "USD", "Test description", testCategory2, testSupplier2);
 
     @BeforeEach
-    public void init(){
+    public void init() throws DaoException {
         unit = ProductDaoMem.getInstance();
         unit.getAll().clear();
     }
 
     @Test
     @DisplayName("Tests add method with one element")
-    void testAdd(){
+    void testAdd() throws DaoException {
         unit.add(product);
         assertEquals(1, unit.getAll().size());
         assertTrue(unit.getAll().contains(product));
@@ -37,7 +38,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests add method with two element")
-    void testAdd2(){
+    void testAdd2() throws DaoException {
         unit.add(product);
         unit.add(product2);
 
@@ -49,7 +50,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests find method")
-    void testFind() {
+    void testFind() throws DaoException {
         //assert we get null when the array is empty
         assertEquals(null, unit.find(1));
 
@@ -63,7 +64,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests remove method")
-    void testRemove() {
+    void testRemove() throws DaoException {
         unit.remove(2);
         assertEquals(0, unit.getAll().size());
 
@@ -77,7 +78,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests getAll method")
-    void testGetAll(){
+    void testGetAll() throws DaoException {
         assertEquals(0, unit.getAll().size());
 
         unit.add(product);
@@ -90,7 +91,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests getBy supplier")
-    void testGetBySupplier(){
+    void testGetBySupplier() throws DaoException {
         assertEquals(0, unit.getAll().size());
 
         unit.add(product);
@@ -103,7 +104,7 @@ class ProductDaoMemTest {
 
     @Test
     @DisplayName("Tests getBy product category")
-    void testGetByProductCategory(){
+    void testGetByProductCategory() throws DaoException {
         assertEquals(0, unit.getAll().size());
 
         unit.add(product);

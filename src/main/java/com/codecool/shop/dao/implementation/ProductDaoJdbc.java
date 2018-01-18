@@ -3,6 +3,8 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -49,7 +51,7 @@ public class ProductDaoJdbc implements ProductDao {
      *@param product
      */
     @Override
-    public void add(Product product) {
+    public void add(Product product) throws DaoException {
         try {
             PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("INSERT INTO products (name, default_price, default_currency, supplier_id, product_category_id, description) VALUES(?,?,?,?,?,?);");
             ps.setString(1, product.getName());
@@ -66,9 +68,7 @@ public class ProductDaoJdbc implements ProductDao {
             rs.next();
             product.setId(rs.getInt("id"));
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error while adding product to the database. Message: {}", e.getMessage());
-
+            throw new DaoException(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class ProductDaoJdbc implements ProductDao {
      */
 
     @Override
-    public Product find(int id) {
+    public Product find(int id) throws DaoException {
         Product product = null;
         String name;
         float defaultPrice;
@@ -106,9 +106,7 @@ public class ProductDaoJdbc implements ProductDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error while looking for product with id: {} in the database. Message: {}", id, e.getMessage());
-
+            throw new DaoException(e.getMessage());
         }
         return product;
     }
@@ -116,13 +114,13 @@ public class ProductDaoJdbc implements ProductDao {
      *@param supplyerId
      *@return Supplier instance
      */
-    private Supplier getSupplyer(int supplyerId) {
+    private Supplier getSupplyer(int supplyerId) throws DaoException {
         Supplier supplier = null;
         String name;
         String description;
 
         try {
-            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM supplier WHERE id = ?;");
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT * FROM supplier WHERE id = ?;");
             ps.setInt(1, supplyerId);
 
             ResultSet rs = ps.executeQuery();
@@ -137,7 +135,7 @@ public class ProductDaoJdbc implements ProductDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e.getMessage());
         }
         return supplier;
     }
@@ -147,14 +145,14 @@ public class ProductDaoJdbc implements ProductDao {
      *@return ProductCategory instance
      */
 
-    private ProductCategory getProductCategory(int productCategoryId) {
+    private ProductCategory getProductCategory(int productCategoryId) throws DaoException {
         ProductCategory productCategory = null;
         String name;
         String department;
         String description;
 
         try {
-            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM product_category WHERE id = ?;");
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT * FROM product_category WHERE id = ?;");
             ps.setInt(1, productCategoryId);
 
             ResultSet rs = ps.executeQuery();
@@ -170,7 +168,7 @@ public class ProductDaoJdbc implements ProductDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException(e.getMessage());
         }
         return productCategory;
     }
@@ -181,7 +179,7 @@ public class ProductDaoJdbc implements ProductDao {
      *
      */
     @Override
-    public void remove(int id) {
+    public void remove(int id) throws DaoException {
         //i might need to still include this line below aswell to remove product from the DATA arraylist too
         DATA.remove(find(id));
 
@@ -190,9 +188,7 @@ public class ProductDaoJdbc implements ProductDao {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error while removing product with id: {} from the database. Message: {}", id, e.getMessage());
-
+            throw new DaoException(e.getMessage());
         }
     }
 
@@ -202,7 +198,7 @@ public class ProductDaoJdbc implements ProductDao {
      *
      */
     @Override
-    public List<Product> getAll() {
+    public List<Product> getAll() throws DaoException {
         List<Product> listOfProducts = new ArrayList<>();
         Product product = null;
         String name;
@@ -213,7 +209,7 @@ public class ProductDaoJdbc implements ProductDao {
         String description;
 
         try {
-            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT * FROM products");
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT * FROM products");
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
@@ -232,9 +228,7 @@ public class ProductDaoJdbc implements ProductDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error while querying all products from the database. Message: {}", e.getMessage());
-
+            throw new DaoException(e.getMessage());
         }
         return listOfProducts;
     }
@@ -246,7 +240,7 @@ public class ProductDaoJdbc implements ProductDao {
      *
      */
     @Override
-    public List<Product> getBy(Supplier supplier) {
+    public List<Product> getBy(Supplier supplier) throws DaoException {
         return getAll().stream().filter(t -> t.getSupplier().equals(supplier)).collect(Collectors.toList());
     }
 
@@ -257,7 +251,7 @@ public class ProductDaoJdbc implements ProductDao {
      *
      */
     @Override
-    public List<Product> getBy(ProductCategory productCategory) {
+    public List<Product> getBy(ProductCategory productCategory) throws DaoException {
         List<Product> listOfProducts = new ArrayList<>();
         Product product = null;
         String name;
@@ -268,7 +262,7 @@ public class ProductDaoJdbc implements ProductDao {
 
 
         try {
-            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT products.id, products.name, products.description, default_price, default_currency, supplier.name AS supplier_name, supplier.description AS  supplier_description FROM products\n" +
+            PreparedStatement ps = (ConnectionManager.getConnection()).prepareStatement("SELECT products.id, products.name, products.description, default_price, default_currency, supplier.name AS supplier_name, supplier.description AS  supplier_description FROM products\n" +
                     "JOIN supplier ON products.supplier_id = supplier.id\n" +
                     "WHERE product_category_id = 1;");
             ResultSet rs = ps.executeQuery();
@@ -287,9 +281,7 @@ public class ProductDaoJdbc implements ProductDao {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error while querying products by product category: name={} from the database. Message: {}", productCategory, e.getMessage());
-
+            throw new DaoException(e.getMessage());
         }
         return listOfProducts;
     }

@@ -2,6 +2,8 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.LineItemDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Cart;
 import com.codecool.shop.model.LineItem;
 import org.slf4j.Logger;
@@ -37,7 +39,7 @@ public class LineItemDaoJdbc implements LineItemDao {
      * @param cart the cart containing the line item(s) to add.
      */
     @Override
-    public void add(Cart cart) {
+    public void add(Cart cart) throws DaoException {
         List<LineItem> lineItems = cart.getCART();
         Integer cartId = cart.getId();
         for(LineItem lineItem: lineItems) {
@@ -51,7 +53,7 @@ public class LineItemDaoJdbc implements LineItemDao {
                 ps.setInt(3, quantity);
                 ps.execute();
             } catch (SQLException e) {
-                logger.error("Error while adding line item to the database. Message: {}", e.getMessage());
+                throw new DaoException(e.getMessage());
             }
         }
     }
@@ -63,7 +65,7 @@ public class LineItemDaoJdbc implements LineItemDao {
      * @return Integer of subtotal.
      */
     @Override
-    public Integer getLineItemsSubtotalByCustomer(Integer id) {
+    public Integer getLineItemsSubtotalByCustomer(Integer id) throws DaoException {
 
         int subtotal = 0;
 
@@ -82,7 +84,7 @@ public class LineItemDaoJdbc implements LineItemDao {
             }
             logger.debug("Line items subtotal successfully returned ({})", subtotal);
         } catch (SQLException e) {
-            logger.error("Error while reading data from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
         return subtotal;
     }

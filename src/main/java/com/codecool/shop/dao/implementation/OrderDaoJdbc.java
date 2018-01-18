@@ -2,6 +2,8 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.connection.ConnectionManager;
 import com.codecool.shop.dao.OrderDao;
+import com.codecool.shop.exception.DaoConnectionException;
+import com.codecool.shop.exception.DaoException;
 import com.codecool.shop.model.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +35,7 @@ public class OrderDaoJdbc implements OrderDao {
      * @param order the order to add.
      */
     @Override
-    public void add(Order order) {
+    public void add(Order order) throws DaoException {
         int customer_id = order.getCustomerId();
         System.out.println("CUSTOMER ID :" + customer_id);
         int cartId = order.getCart().getId();
@@ -45,7 +47,7 @@ public class OrderDaoJdbc implements OrderDao {
             ps.execute();
             logger.debug("Order (id: {}) successfully added to orders table in the database", order.getId());
         } catch (SQLException e) {
-            logger.error("Error while adding order to the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
 
     }
@@ -57,7 +59,7 @@ public class OrderDaoJdbc implements OrderDao {
      * @return an order with the param user id reference.
      */
     @Override
-    public Order find(int id) {
+    public Order find(int id) throws DaoException {
         String query = "SELECT * FROM orders WHERE id ='" + id + "';";
 
         try (Connection connection = getConnection();
@@ -73,9 +75,8 @@ public class OrderDaoJdbc implements OrderDao {
             }
 
         } catch (SQLException e) {
-            logger.error("Error while searching for order in the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
-        return null;
     }
 
     /**
@@ -84,7 +85,7 @@ public class OrderDaoJdbc implements OrderDao {
      * @return List of all orders.
      */
     @Override
-    public List<Order> getAll() {
+    public List<Order> getAll() throws DaoException {
         String query = "SELECT * FROM orders;";
         List<Order> allOrder = new ArrayList<>();
 
@@ -100,9 +101,7 @@ public class OrderDaoJdbc implements OrderDao {
             return allOrder;
 
         } catch (SQLException e) {
-            logger.error("Error while reading order data from the database. Message: {}", e.getMessage());
+            throw new DaoException(e.getMessage());
         }
-        return null;
     }
-
 }

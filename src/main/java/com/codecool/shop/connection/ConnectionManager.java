@@ -1,5 +1,6 @@
 package com.codecool.shop.connection;
 
+import com.codecool.shop.exception.DaoConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,14 +54,11 @@ public class ConnectionManager {
      * Method through we can get a connection object to make connection with the database
      * @return Connection instance
      */
-    public static Connection getConnection() {
-        Connection con = null;
-            try {
-                con = DriverManager.getConnection(url, user, password);
-            } catch (SQLException ex) {
-                // log an exception. fro example:
-                logger.error("Failed to create database connection", ex);
-            }         // log an exception. for example:
-        return con;
+    public static Connection getConnection() throws DaoConnectionException {
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException ex) {
+            throw new DaoConnectionException(ex.getMessage());
+        }
     }
 }
