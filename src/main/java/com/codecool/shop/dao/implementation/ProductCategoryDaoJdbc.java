@@ -146,7 +146,7 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     }
 
     @Override
-    public List<String> getAllNames() {
+    public List<String> getAllNames() throws DaoException {
         List<String> listOfProductCategories = new ArrayList<>();
         String name;
 
@@ -165,10 +165,9 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     }
 
     @Override
-    public Integer getIdByName(String prodCatName) {
+    public Integer getIdByName(String prodCatName) throws DaoException {
 
         try {
-            System.out.println("rdxxxxxxxxxxucxjiodrcxijkjjbdfhjdfkgfsdjfdsh" + prodCatName);
             PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT id FROM product_category WHERE name = ?");
             ps.setString(1, prodCatName);
             ResultSet rs = ps.executeQuery();
