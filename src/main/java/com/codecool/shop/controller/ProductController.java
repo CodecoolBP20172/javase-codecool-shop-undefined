@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.codecool.shop.utils.RequestUtil.getCustomerIdFromSession;
+import static com.codecool.shop.utils.RequestUtil.getProductCategoryIdFromSession;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -22,7 +23,6 @@ import static java.lang.Integer.parseInt;
  * @since 1.0
  */
 public class ProductController {
-
     /**
      * Creates new product and product category instances.
      * Also gathers all products from a specific product category.
@@ -34,14 +34,24 @@ public class ProductController {
         ProductDao productDataStore = ProductDaoJdbc.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
         Integer customerId = getCustomerIdFromSession(req);
+        Integer productCategoryId = getProductCategoryIdFromSession(req);
+        System.out.println("categoryid" + productCategoryId);
 
         Map params = new HashMap<>();
         params.put("isSession", customerId);
+        params.put("productCategories", productCategoryDataStore.getAllNames());
+
         if (customerId != null) {
             params.put("name", customerData.getActualCustomerName(customerId));
         }
-        params.put("category", productCategoryDataStore.find(1));
-        params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        if(productCategoryId == null) {
+            params.put("category", null);
+            params.put("products", productDataStore.getAll());
+        } else {
+            params.put("category", productCategoryDataStore.find(productCategoryId));
+            params.put("products", productDataStore.getBy(productCategoryDataStore.find(productCategoryId)));
+            System.out.println(params);
+        }
         return new ModelAndView(params, "product/index");
     }
 

@@ -144,4 +144,43 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
         logger.info("Successfully returned all product categories from the database");
         return listOfProductCategories;
     }
+
+    @Override
+    public List<String> getAllNames() throws DaoException {
+        List<String> listOfProductCategories = new ArrayList<>();
+        String name;
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT name FROM product_category");
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                name = rs.getString("name");
+                listOfProductCategories.add(name);
+            }
+
+        } catch (SQLException e) {
+        }
+        return listOfProductCategories;
+    }
+
+    @Override
+    public Integer getIdByName(String prodCatName) throws DaoException {
+
+        try {
+            PreparedStatement ps = (com.codecool.shop.connection.ConnectionManager.getConnection()).prepareStatement("SELECT id FROM product_category WHERE name = ?");
+            ps.setString(1, prodCatName);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt("id");
+            }
+
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+
+
 }

@@ -17,4 +17,7 @@ public interface ProductCategoryDao {
 
     List<ProductCategory> getAll() throws DaoConnectionException, DaoException;
 
+    List<String> getAllNames() throws DaoConnectionException, DaoException;
+
+    Integer getIdByName(String name) throws DaoConnectionException, DaoException;
 }
