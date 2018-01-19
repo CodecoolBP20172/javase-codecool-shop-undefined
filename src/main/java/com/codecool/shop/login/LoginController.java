@@ -53,7 +53,7 @@ public class LoginController {
             setCustomerIdToSession(req, customer);
             return true;
         }
-        throw new IllegalArgumentException("Illegal argument!");
+        return false;
     }
 }
 
